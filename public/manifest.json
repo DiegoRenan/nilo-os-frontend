@@ -1,0 +1,8 @@
+{
+  "short_name": "Nilo Os",
+  "name": "Nilo Tickets",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

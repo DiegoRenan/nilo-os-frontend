@@ -1,0 +1,6 @@
+aside.logo {
+  background-color: var(--bg-color);
+  display: inline;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,14 @@
+.menu a {
+  display: block;
+  text-decoration: none;
+  padding: 2px;
+}
+
+.menu a:hover {
+  font-weight: bold;
+}
+
+nav.menu {
+  padding-top: 30px;
+  padding-left: 30px;
+}

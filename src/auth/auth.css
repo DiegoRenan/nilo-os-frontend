@@ -1,0 +1,25 @@
+.login-container {
+  background: #6C7A89;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center
+}
+
+.card {
+  background-color: #fafafa;
+}
+
+.card-body {
+  height: 60vh;
+}
+
+.login-box button {
+  margin-left: 0px;
+}
+
+.login-box a:hover {
+  cursor: pointer;
+}
