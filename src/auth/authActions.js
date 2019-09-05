@@ -22,9 +22,9 @@ function submit(values, path) {
       })
       .catch(e => {
         console.log(e)
-        e.response.data.errors.forEach(
-          error => toastr.error('erro', error)
-        );
+        // e.response.data.errors.forEach(
+        //   error => toastr.error('erro', error)
+        // );
       })
   }
 }

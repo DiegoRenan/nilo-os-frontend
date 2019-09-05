@@ -14,6 +14,7 @@ class CompanyUpdate extends Component {
   
   componentWillMount() {
     this.props.getCompany(this.props.match.params.id)
+    console.log(this.props)
   }
   
   render() {

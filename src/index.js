@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 
 import * as serviceWorker from './serviceWorker'
- 
+
 import AuthOrApp from './main/AuthOrApp'
 import store from './store'
 

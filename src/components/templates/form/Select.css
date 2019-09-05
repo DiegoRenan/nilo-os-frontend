@@ -1,0 +1,7 @@
+.select {
+  font-family: 'RobotoMonoLight', monospace;
+  color: var(--font-color) !important;
+  width: 100%;
+  height: 2.3rem;
+  border-radius: 0% !important;
+}
