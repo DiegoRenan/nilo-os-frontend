@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { add, getEmployee, update } from './employeesActions'
+import { loadCompanies } from '../company/companiesActions'
 import Input from '../../templates/form/Input'
 import Select from '../../templates/form/Select'
 import Grid from '../../templates/Grid';
@@ -19,6 +20,14 @@ class EmployeeForm extends Component {
     if (this.props.employeeId){
       this.props.getEmployee(this.props.employeeId)
     }
+    this.props.loadCompanies()
+  }
+
+  companiesOptions(companies) {
+    console.log(companies)
+    return companies.map(company => (
+      <option value={company.id}>{company.attributes.name}</option>
+    ))
   }
 
   employeeObj(values){
@@ -37,7 +46,7 @@ class EmployeeForm extends Component {
           district: values.district || '',
           city: values.city || '',
           uf: values.uf || '',
-          company_id: "c1ab5ce7-ee85-41cb-9124-f32658babc9d"
+          company_id: values.companies || ''
         }
       }
     }
@@ -46,17 +55,18 @@ class EmployeeForm extends Component {
 
   onSubmit(values) {
     const obj = this.employeeObj(values)
+    console.log(obj)
     if (this.props.employeeId) {
       this.props.update(obj, this.props)
     }else{
-      this.props.add(obj)
+      this.props.add(obj, this.props)
     }  
   }
 
 
   render() {
 
-    const { handleSubmit, pristine, reset, submitting } = this.props
+    const { handleSubmit, pristine, reset, submitting, companies } = this.props
 
     return (
       
@@ -72,15 +82,22 @@ class EmployeeForm extends Component {
               </Grid>
 
               <Grid cols="12 4 4 4">
-                CPF*: <Field component={Input} type="number" name="cpf" validate={[ required]}/>
+                CPF*: <Field component={Input} type="number" name="cpf" validate={[required]}/>
               </Grid>
 
             </div>
 
             <div className="row mb-3">
 
-              <Grid cols="12 8 8 8">
-                E-mail*: <Field component={Input} type="email" name="email" validate={[ required]}/>
+              <Grid cols="12 4 4 4">
+                E-mail*: <Field component={Input} type="email" name="email" validate={[required]}/>
+              </Grid>
+
+              <Grid cols="12 4 4 4">
+                Empresa*: <Field component={Select} name="companies" validate={[required]}>
+                            <option>Selecione uma Empresa</option>
+                            {this.companiesOptions(companies)}
+                          </Field>
               </Grid>
 
               <Grid cols="12 4 4 4">
@@ -179,11 +196,16 @@ class EmployeeForm extends Component {
 
 EmployeeForm = reduxForm({ form: 'employeeForm', enableReinitialize: true })(EmployeeForm)
 
-const mapDispatchToProps = dispatch => bindActionCreators({ add, getEmployee, update }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ add, 
+                                                            getEmployee, 
+                                                            update,
+                                                            loadCompanies
+                                                           }, dispatch)
 
 EmployeeForm = connect(
   state => ({
-    initialValues: state.employeeState.employee
+    initialValues: state.employeeState.employee,
+    companies: state.employeeState.companies
   }),
   mapDispatchToProps
 )(EmployeeForm)

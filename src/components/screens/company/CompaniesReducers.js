@@ -4,7 +4,7 @@ import { LOAD_COMPANIES,
          GET_COMPANY, 
          COMPANY_UPDATED } from '../../../actions/actionTypes'
 
-const INITIAL_STATE = { companies: [] }
+const INITIAL_STATE = { companies: [], company: '' }
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {

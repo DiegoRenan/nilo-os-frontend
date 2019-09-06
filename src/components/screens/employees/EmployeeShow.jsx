@@ -4,21 +4,22 @@ import { bindActionCreators } from 'redux'
 
 
 import Main from '../../templates/Main'
-import { getEmployee } from './employeesActions'
+import { getEmployee, getEmployeeCompany } from './employeesActions'
 import ShowGridList from '../../templates/ShowGridList'
 
 class EmployeeShow extends Component {
 
   componentWillMount() {
     this.props.getEmployee(this.props.match.params.id)
-
+    this.props.getEmployeeCompany(this.props.match.params.id)
   }
 
   render() {
     const obj = this.props.employee || []
+    const company = this.props.company || []
+
     return (
       <Main title="Colaborador" >
-        {console.log(obj.name)}
         <div className="display-4">Colaborador</div>
         <div className="employee">
 
@@ -28,9 +29,11 @@ class EmployeeShow extends Component {
           <ShowGridList label="Email"
             value={obj.email} />
 
-
           <ShowGridList label="Nascimento"
             value={obj.born} />
+
+          <ShowGridList label="Empresa"
+            value={company.name} />
 
           <ShowGridList label="CPF"
             value={obj.cpf} />
@@ -59,6 +62,11 @@ class EmployeeShow extends Component {
   }
 }
 
-const mapStateToProps = state => ({ employee: state.employeeState.employee })
-const mapDispatchToProps = dispatch => bindActionCreators({ getEmployee }, dispatch)
+const mapStateToProps = state => ({
+  employee: state.employeeState.employee,
+  companyLink: state.employeeState.companyLink,
+  company: state.employeeState.company
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({ getEmployee, getEmployeeCompany }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeeShow)

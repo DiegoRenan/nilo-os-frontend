@@ -20,5 +20,6 @@ export default {
   addEmployee: (data) => url.post("/v1/employees", data ),
   getEmployee: (id) => url.get(`/v1/employees/${id}`),
   updateEmployee: (data) => url.put(`/v1/employees/${data.data.id}`, data ),
-  getEmployee: (id) => url.get(`/v1/employees/${id}`)
+  getEmployee: (id) => url.get(`/v1/employees/${id}`),
+  getEmployeeCompany: (employeeId) => url.get(`/v1/employees/${employeeId}/company`)
 }

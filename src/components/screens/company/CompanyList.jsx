@@ -21,8 +21,8 @@ class CompanyList extends Component {
     let companies = this.props.companies || []
     return companies.map(company => (
       <tr key={company.id}>
-        <td><Link to={`company/`+company.id}> {company.attributes.name} </Link></td>
-        <td> <Link to={`company/edit/`+company.id}> <Icon icon='edit' /> </Link> </td>
+        <td><Link to={`show_company/`+company.id}> {company.attributes.name} </Link></td>
+        <td> <Link to={`edit_company/`+company.id}> <Icon icon='edit' /> </Link> </td>
         <td> <Link to="#" onClick={() =>  this.props.remove(company.id)} ><Icon icon='trash' /> </Link> </td>
       </tr>
     ))

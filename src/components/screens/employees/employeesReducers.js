@@ -3,10 +3,12 @@ import {
   EMPLOYEE_CHANGED,
   EMPLOYEE_ADDED,
   GET_EMPLOYEE,
-  EMPLOYEE_UPDATED
+  EMPLOYEE_UPDATED,
+  LOAD_COMPANIES,
+  GET_EMPLOYEE_COMPANY
 } from '../../../actions/actionTypes'
 
-const INITIAL_STATE = { employees: [] }
+const INITIAL_STATE = { employees: [], employee: [], companies: [] }
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -20,7 +22,14 @@ export default (state = INITIAL_STATE, action) => {
     case EMPLOYEE_UPDATED:
       return { ...state, employee: '' }
     case GET_EMPLOYEE:
-      return { ...state, employee: action.payload.data.data[0].attributes}
+      let companyLink = action.payload.data.data[0].relationships.company.links.related 
+      return { ...state, employee: action.payload.data.data[0].attributes, 
+                         companyLink: companyLink}
+    case LOAD_COMPANIES:
+      let companies = action.payload.data || []
+      return { ...state, companies: companies.data}
+    case GET_EMPLOYEE_COMPANY:
+      return { ...state, company: action.payload.data.data.attributes}
     default:
       return state
   }

@@ -69,7 +69,7 @@ export const update = (company, ownProps) => async(dispatch) => {
   )
   hiddenAlert(dispatch)
   
-  ownProps.history.push(`/company/${response.data.data.id}`)
+  ownProps.history.push(`/show_company/${response.data.data.id}`)
 }
 
 // get a Company

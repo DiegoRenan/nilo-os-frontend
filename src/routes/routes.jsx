@@ -19,13 +19,13 @@ export default props => (
       <Route path='/closedtickets' component={ClosedTickets} />
 
       <Route path='/companies' component={Company} />
-      <Route path='/company/edit/:id' component={CompanyEdit} />
-      <Route path='/company/:id' component={CompanyShow} />
+      <Route path='/edit_company/:id' component={CompanyEdit} />
+      <Route path='/show_company/:id' component={CompanyShow} />
 
       <Route path='/employees' component={Employees} />
-      <Route path='/employee/new' component={EmployeeNew} />
-      <Route path='/employee/edit/:id' component={EmployeeEdit} />
-      <Route path='/employee/:id' component={EmployeeShow} />
+      <Route path='/new_employee' component={EmployeeNew} />
+      <Route path='/edit_employee/:id' component={EmployeeEdit} />
+      <Route path='/show_employee/:id' component={EmployeeShow} />
 
       <Redirect from='*' to='/tickets' />
     </Switch>

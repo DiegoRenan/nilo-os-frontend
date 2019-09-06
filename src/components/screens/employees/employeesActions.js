@@ -3,11 +3,13 @@ import {
   EMPLOYEE_CHANGED,
   EMPLOYEE_ADDED,
   EMPLOYEE_UPDATED,
-  GET_EMPLOYEE
+  GET_EMPLOYEE,
+  GET_EMPLOYEE_COMPANY
 } from '../../../actions/actionTypes'
 
 import alert from '../../../actions/alert'
 import api from '../../../services/api'
+import { async } from 'q';
 
 // //show/hidden Alerts
 const hiddenAlert = (dispatch) => {
@@ -35,7 +37,7 @@ export const changeEmployee = event => {
 }
 
 // create a Employee
-export const add = (employee) => async (dispatch) => {
+export const add = (employee, ownProps) => async (dispatch) => {
   let response = await api.addEmployee(employee)
   dispatch({
     type: EMPLOYEE_ADDED, payload: response
@@ -54,6 +56,8 @@ export const add = (employee) => async (dispatch) => {
   )
 
   hiddenAlert(dispatch)
+
+  ownProps.history.push(`/show_employee/${response.data.data.id}`)
 }
 
 // // update a Company
@@ -72,7 +76,15 @@ export const update = (employee, ownProps) => async (dispatch) => {
   )
   hiddenAlert(dispatch)
 
-  ownProps.history.push(`/employee/${response.data.data.id}`)
+  ownProps.history.push(`/show_employee/${response.data.data.id}`)
+}
+
+// get a employee's company
+export const getEmployeeCompany = (employeeId) => async (dispatch) => {
+  let response = await api.getEmployeeCompany(employeeId)
+  dispatch({
+    type: GET_EMPLOYEE_COMPANY, payload: response
+  })
 }
 
 // get a Company
