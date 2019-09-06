@@ -20,8 +20,8 @@ class EmployeeList extends Component {
     let employees = this.props.employees || []
     return employees.map(employee => (
       <tr key={employee.id}>
-        <td><Link to={`show_employee/`+employee.id}> {employee.attributes.name} </Link></td>
-        <td> <Link to={`edit_employee/`+employee.id}> <Icon icon='edit' /> </Link> </td>
+        <td><Link to={`employee/`+employee.id}> {employee.attributes.name} </Link></td>
+        <td> <Link to={`employee/edit/`+employee.id}> <Icon icon='edit' /> </Link> </td>
         <td> <Link to="#" onClick={() =>  this.props.remove(employee.id)} ><Icon icon='trash' /> </Link> </td>
       </tr>
     ))

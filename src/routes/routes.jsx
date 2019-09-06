@@ -5,7 +5,7 @@ import Home from '../components/screens/home/Home'
 import MyTickets from '../components/screens/myTickets/MyTickets'
 import ClosedTickets from '../components/screens/closedTickets/ClosedTickets'
 import Company from '../components/screens/company/Company'
-import CompanyUpdate from '../components/screens/company/CompanyUpdate'
+import CompanyEdit from '../components/screens/company/CompanyEdit'
 import CompanyShow from '../components/screens/company/CompanyShow'
 import Employees from '../components/screens/employees/Employee'
 import EmployeeNew from '../components/screens/employees/EmployeeNew'
@@ -19,13 +19,13 @@ export default props => (
       <Route path='/closedtickets' component={ClosedTickets} />
 
       <Route path='/companies' component={Company} />
-      <Route path='/companyUpdate/:id' component={CompanyUpdate} />
-      <Route path='/companyShow/:id' component={CompanyShow} />
+      <Route path='/company/edit/:id' component={CompanyEdit} />
+      <Route path='/company/:id' component={CompanyShow} />
 
       <Route path='/employees' component={Employees} />
-      <Route path='/new_employee' component={EmployeeNew} />
-      <Route path='/edit_employee/:id' component={EmployeeEdit} />
-      <Route path='/show_employee/:id' component={EmployeeShow} />
+      <Route path='/employee/new' component={EmployeeNew} />
+      <Route path='/employee/edit/:id' component={EmployeeEdit} />
+      <Route path='/employee/:id' component={EmployeeShow} />
 
       <Redirect from='*' to='/tickets' />
     </Switch>

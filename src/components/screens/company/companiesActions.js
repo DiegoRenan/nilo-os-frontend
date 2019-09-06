@@ -69,15 +69,16 @@ export const update = (company, ownProps) => async(dispatch) => {
   )
   hiddenAlert(dispatch)
   
-  ownProps.history.push(`/companyShow/${response.data.data.id}`)
+  ownProps.history.push(`/company/${response.data.data.id}`)
 }
 
 // get a Company
-export const getCompany = (company_id) => {
-  return{ 
+export const getCompany = (company_id) => async(dispatch) => {
+  let response = await api.getCompany(company_id)
+  dispatch( { 
     type: GET_COMPANY,
-    payload: api.getCompany(company_id)
-  }
+    payload: response
+  })
 }
 
 // delete a Company

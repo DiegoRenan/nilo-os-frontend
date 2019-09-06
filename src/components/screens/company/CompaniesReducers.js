@@ -18,7 +18,7 @@ export default (state = INITIAL_STATE, action) => {
     case COMPANY_UPDATED:
       return { ...state, company: '' }
     case GET_COMPANY:
-      return { ...state, company: action.payload.data.data.attributes.name, id: action.payload.data.data.id }
+        return { ...state, company: action.payload.data.data.attributes }
     default:
       return state
   }

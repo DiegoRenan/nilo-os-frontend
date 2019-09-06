@@ -36,9 +36,7 @@ export const changeEmployee = event => {
 
 // create a Employee
 export const add = (employee) => async (dispatch) => {
-  console.log("Add: " + employee)
   let response = await api.addEmployee(employee)
-  console.log(response)
   dispatch({
     type: EMPLOYEE_ADDED, payload: response
   })
@@ -74,7 +72,7 @@ export const update = (employee, ownProps) => async (dispatch) => {
   )
   hiddenAlert(dispatch)
 
-  ownProps.history.push(`/show_employee/${response.data.data.id}`)
+  ownProps.history.push(`/employee/${response.data.data.id}`)
 }
 
 // get a Company

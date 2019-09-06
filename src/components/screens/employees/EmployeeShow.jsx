@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 
 
 import Main from '../../templates/Main'
-import Grid from '../../templates/Grid'
 import { getEmployee } from './employeesActions'
 import ShowGridList from '../../templates/ShowGridList'
 
