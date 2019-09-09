@@ -1,20 +1,15 @@
-import { LOAD_COMPANIES, 
-         COMPANY_CHANGED, 
-         COMPANY_ADDED , 
-         COMPANY_UPDATED, 
-         GET_COMPANY}  from '../../../actions/actionTypes'
+import {
+  LOAD_COMPANIES,
+  COMPANY_CHANGED,
+  COMPANY_ADDED,
+  COMPANY_UPDATED,
+  GET_COMPANY
+} from '../../../actions/actionTypes'
 
-import alert from '../../../actions/alert'
+import { toast } from 'react-toastify'
+import { notifyError, notifySuccess } from '../../../const/const'
 import api from '../../../services/api'
 
-//show/hidden Alerts
-const hiddenAlert = (dispatch) => {
-  setTimeout(() => {
-    dispatch(
-      alert({hidden: 'hidden' })
-    )
-  }, 5000);
-}
 
 // Load Companies
 export const loadCompanies = () => {
@@ -33,56 +28,58 @@ export const changeCompany = event => {
 }
 
 // create a Company
-export const add = (company) => async(dispatch) => {
-  let response = await api.addCompany( company )
+export const add = (company) => async (dispatch) => {
+  let response = await api.addCompany(company)
+
   dispatch({
-    type: COMPANY_ADDED, payload: response 
+    type: COMPANY_ADDED, payload: response
   })
+
   dispatch(
     loadCompanies()
   )
-  
+
   let status, statusText
   response.status === 201 && response.statusText === "Created" ? status = "success" : status = "error"
   status === "success" ? statusText = "Salvo" : statusText = "Error"
 
-  dispatch(
-    alert({ http_code: status, message: statusText, hidden: '' })
-  )
+  if (status === "success")
+    notifySuccess("Salvo")
+  else
+    notifyError("Erro ao salvar")
 
-  hiddenAlert(dispatch)
 }
 
 // update a Company
-export const update = (company, ownProps) => async(dispatch) => {
-  let response = await api.updateCompany( company )
+export const update = (company, ownProps) => async (dispatch) => {
+  let response = await api.updateCompany(company)
   dispatch({
-    type: COMPANY_UPDATED, payload: response 
+    type: COMPANY_UPDATED, payload: response
   })
-  
+
   let status, statusText
   response.status === 200 && response.statusText === "OK" ? status = "success" : status = "error"
   status === "success" ? statusText = "Salvo" : statusText = "Error"
 
-  dispatch(
-    alert({ http_code: status, message: statusText, hidden: '' })
-  )
-  hiddenAlert(dispatch)
-  
+  if (status === "success")
+    notifySuccess("Atualizado")
+  else
+    notifyError("Erro ao atualizar")
+
   ownProps.history.push(`/show_company/${response.data.data.id}`)
 }
 
 // get a Company
-export const getCompany = (company_id) => async(dispatch) => {
+export const getCompany = (company_id) => async (dispatch) => {
   let response = await api.getCompany(company_id)
-  dispatch( { 
+  dispatch({
     type: GET_COMPANY,
     payload: response
   })
 }
 
 // delete a Company
-export const remove = (company_id) => async(dispatch) => {
+export const remove = (company_id) => async (dispatch) => {
   let response = await api.deleteCompany(company_id)
   dispatch(
     loadCompanies()
@@ -92,9 +89,9 @@ export const remove = (company_id) => async(dispatch) => {
   response.status === 204 && response.statusText === "No Content" ? status = "success" : status = "error"
   status === "success" ? statusText = "Deletado" : statusText = "Error"
 
-  dispatch(
-    alert({ http_code: status, message: statusText, hidden: '' })
-  )
+  if (status === "success")
+    notifySuccess("Removido")
+  else
+    notifyError("Erro ao remover")
 
-  hiddenAlert(dispatch)
 }

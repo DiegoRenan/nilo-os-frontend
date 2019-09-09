@@ -1,7 +1,7 @@
-import { toastr } from 'react-redux-toastr'
-import { USER_FETCHED, TOKEN_VALIDATED } from '../actions/actionTypes';
+import { USER_FETCHED, TOKEN_VALIDATED } from '../actions/actionTypes'
 
 import { url } from '../services/api'
+import { notifyError, notifySuccess } from '../const/const'
 
 export function signin(values) {
   return submit(values, 'auth/sign_in')
@@ -12,7 +12,6 @@ export function signup(values) {
 }
 
 function submit(values, path) {
-  console.log("Values" + values )
   return dispatch => {
     url.post(path, values)
       .then(resp => {
@@ -21,10 +20,9 @@ function submit(values, path) {
         ])
       })
       .catch(e => {
-        console.log(e)
-        // e.response.data.errors.forEach(
-        //   error => toastr.error('erro', error)
-        // );
+        e.response.data.errors.forEach(
+          error => notifyError(error)
+        );
       })
   }
 }
