@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { required, email, confirmation } from 'redux-form-validators'
 
 import { add, getEmployee, update } from './employeesActions'
 import { loadCompanies } from '../company/companiesActions'
 import Input from '../../templates/form/Input'
 import Select from '../../templates/form/Select'
-import Grid from '../../templates/Grid';
-
-const required = value => value ? undefined : 'Required'
+import Grid from '../../templates/Grid'
+import If from '../../templates/If'
 
 class EmployeeForm extends Component {
   constructor(props) {
@@ -24,7 +24,6 @@ class EmployeeForm extends Component {
   }
 
   companiesOptions(companies) {
-    console.log(companies)
     return companies.map(company => (
       <option value={company.id}>{company.attributes.name}</option>
     ))
@@ -46,6 +45,8 @@ class EmployeeForm extends Component {
           district: values.district || '',
           city: values.city || '',
           uf: values.uf || '',
+          password: values.password || '',
+          password_confirm: values.password_confirm || '',
           company_id: values.companies || ''
         }
       }
@@ -55,18 +56,25 @@ class EmployeeForm extends Component {
 
   onSubmit(values) {
     const obj = this.employeeObj(values)
-    console.log(obj)
     if (this.props.employeeId) {
       this.props.update(obj, this.props)
     }else{
-      this.props.add(obj, this.props)
+      console.log(obj)
+      //this.props.add(obj, this.props)
     }  
   }
 
 
   render() {
 
-    const { handleSubmit, pristine, reset, submitting, companies } = this.props
+    const { handleSubmit, 
+            pristine, 
+            reset, 
+            submitting, 
+            companies,
+            error,
+            warning,
+            touch } = this.props
 
     return (
       
@@ -78,11 +86,11 @@ class EmployeeForm extends Component {
             <div className="row mb-3">
 
               <Grid cols="12 8 8 8">
-                Nome*: <Field component={Input} type="text" name="name" validate={[ required]} />
+                Nome*: <Field component={Input} type="text" name="name" validate={[ required() ]} />
               </Grid>
 
               <Grid cols="12 4 4 4">
-                CPF*: <Field component={Input} type="number" name="cpf" validate={[required]}/>
+                CPF*: <Field component={Input} type="number" name="cpf" validate={[ required() ]}/>
               </Grid>
 
             </div>
@@ -90,11 +98,11 @@ class EmployeeForm extends Component {
             <div className="row mb-3">
 
               <Grid cols="12 4 4 4">
-                E-mail*: <Field component={Input} type="email" name="email" validate={[required]}/>
+                E-mail*: <Field component={Input} type="email" name="email" validate={[ required(), email() ]}/>
               </Grid>
 
               <Grid cols="12 4 4 4">
-                Empresa*: <Field component={Select} name="companies" validate={[required]}>
+                Empresa*: <Field component={Select} name="companies" validate={[ required() ]}>
                             <option>Selecione uma Empresa</option>
                             {this.companiesOptions(companies)}
                           </Field>
@@ -141,7 +149,7 @@ class EmployeeForm extends Component {
 
               <Grid cols="12 4 4 4">
                 Estado: <Field component={Select} name="uf" >
-                  <option>Selecione um Estado</option>
+                  <option value={undefined}>Selecione um Estado</option>
                   <option value="AC">Acre</option>
                   <option value="AL">Alagoas</option>
                   <option value="AP">Amapá</option>
@@ -174,6 +182,23 @@ class EmployeeForm extends Component {
 
             </div>
 
+            <If test={!this.props.employeeId } >
+              <div className="row mb-3">
+
+                <Grid cols="12 8 8 8">
+                  Senha: <Field component={Input} type="password" name="password" />
+                </Grid>
+
+                <Grid cols="12 8 8 8">
+                  Confirmar Senha: <Field component={Input} 
+                                          type="password" 
+                                          name="password_confirm"
+                                          validate={confirmation({ field: 'password' })} />
+                </Grid>
+
+              </div>
+            </If>
+
             <button type="submit"
                     className="btn btn-primary btn-flat ml-auto m-2"
                     disabled={submitting} >
@@ -194,7 +219,7 @@ class EmployeeForm extends Component {
   }
 }
 
-EmployeeForm = reduxForm({ form: 'employeeForm', enableReinitialize: true })(EmployeeForm)
+EmployeeForm = reduxForm({ form: 'employeeForm', required, enableReinitialize: true })(EmployeeForm)
 
 const mapDispatchToProps = dispatch => bindActionCreators({ add, 
                                                             getEmployee, 

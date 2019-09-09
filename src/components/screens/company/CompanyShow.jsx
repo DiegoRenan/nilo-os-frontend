@@ -10,7 +10,6 @@ import { getCompany } from './companiesActions'
 class CompanyShow extends Component {
 
   componentWillMount() {
-    console.log(this.props.match.params.id)
     this.props.getCompany(this.props.match.params.id)
   }
   
