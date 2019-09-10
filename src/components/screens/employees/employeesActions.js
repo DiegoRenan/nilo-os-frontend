@@ -9,7 +9,8 @@ import {
 
 import alert from '../../../actions/alert'
 import api from '../../../services/api'
-import { async } from 'q';
+import { notifyError, notifySuccess } from '../../../const/const'
+import { signup } from '../../../auth/authActions'
 
 // //show/hidden Alerts
 const hiddenAlert = (dispatch) => {
@@ -38,29 +39,24 @@ export const changeEmployee = event => {
 
 // create a Employee
 export const add = (employee, ownProps) => async (dispatch) => {
-  let response = await api.addEmployee(employee)
-  dispatch({
-    type: EMPLOYEE_ADDED, payload: response
-  })
+  api.addEmployee(employee)
+    .then(response => {
 
-  dispatch(
-    loadEmployees()
-  )
-
-  let status, statusText
-  response.status === 201 && response.statusText === "Created" ? status = "success" : status = "error"
-  status === "success" ? statusText = "Salvo" : statusText = "Error"
-
-  dispatch(
-    alert({ http_code: status, message: statusText, hidden: '' })
-  )
-
-  hiddenAlert(dispatch)
-
-  ownProps.history.push(`/show_employee/${response.data.data.id}`)
+      dispatch({
+        type: EMPLOYEE_ADDED, payload: response
+      })
+      notifySuccess("Colaborador criado com sucesso!")
+      ownProps.history.push(`/show_employee/${response.data.data.id}`)
+    })
+    .catch(e => {
+      console.log(e.response)
+      e.response.data.errors.forEach(
+        error => notifyError(error["id"].toUpperCase()+": "+ error["title"])
+      );
+    })
 }
 
-// // update a Company
+// // update a Employee
 export const update = (employee, ownProps) => async (dispatch) => {
   let response = await api.updateEmployee(employee)
   dispatch({

@@ -59,8 +59,7 @@ class EmployeeForm extends Component {
     if (this.props.employeeId) {
       this.props.update(obj, this.props)
     }else{
-      console.log(obj)
-      //this.props.add(obj, this.props)
+      this.props.add(obj, this.props)
     }  
   }
 
@@ -71,15 +70,9 @@ class EmployeeForm extends Component {
             pristine, 
             reset, 
             submitting, 
-            companies,
-            error,
-            warning,
-            touch } = this.props
+            companies } = this.props
 
     return (
-      
-      
-
       <div className="employee-form">
         <form onSubmit={handleSubmit(values => this.onSubmit(values))} >
           <div className="container" >
@@ -183,17 +176,18 @@ class EmployeeForm extends Component {
             </div>
 
             <If test={!this.props.employeeId } >
+              <h6>Senha: </h6>
               <div className="row mb-3">
 
                 <Grid cols="12 8 8 8">
-                  Senha: <Field component={Input} type="password" name="password" />
+                  Senha: <Field component={Input} type="password" name="password" validate={required()}/>
                 </Grid>
 
                 <Grid cols="12 8 8 8">
                   Confirmar Senha: <Field component={Input} 
                                           type="password" 
                                           name="password_confirm"
-                                          validate={confirmation({ field: 'password' })} />
+                                          validate={[required(), confirmation({ field: 'password' }) ]} />
                 </Grid>
 
               </div>
