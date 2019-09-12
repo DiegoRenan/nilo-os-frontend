@@ -28,7 +28,7 @@ class CompanyForm extends Component {
     if (this.props.companyId) {
       this.props.update(obj, this.props)
     } else {
-      this.props.add(obj)
+      this.props.add(obj, this.props)
     }
 
   }

@@ -17,7 +17,7 @@ class EmployeeForm extends Component {
   }
 
   componentWillMount() {
-    if (this.props.employeeId){
+    if (this.props.employeeId) {
       this.props.getEmployee(this.props.employeeId)
     }
     this.props.loadCompanies()
@@ -29,7 +29,7 @@ class EmployeeForm extends Component {
     ))
   }
 
-  employeeObj(values){
+  employeeObj(values) {
     const obj = {
       data: {
         type: "employees",
@@ -45,8 +45,8 @@ class EmployeeForm extends Component {
           district: values.district || '',
           city: values.city || '',
           uf: values.uf || '',
-          password: values.password || '',
-          password_confirm: values.password_confirm || '',
+          password: values.password || null,
+          password_confirmation: values.password_confirmation || null,
           company_id: values.companies || ''
         }
       }
@@ -58,19 +58,19 @@ class EmployeeForm extends Component {
     const obj = this.employeeObj(values)
     if (this.props.employeeId) {
       this.props.update(obj, this.props)
-    }else{
+    } else {
       this.props.add(obj, this.props)
-    }  
+    }
   }
 
 
   render() {
 
-    const { handleSubmit, 
-            pristine, 
-            reset, 
-            submitting, 
-            companies } = this.props
+    const { handleSubmit,
+      pristine,
+      reset,
+      submitting,
+      companies } = this.props
 
     return (
       <div className="employee-form">
@@ -79,11 +79,11 @@ class EmployeeForm extends Component {
             <div className="row mb-3">
 
               <Grid cols="12 8 8 8">
-                Nome*: <Field component={Input} type="text" name="name" validate={[ required() ]} />
+                Nome*: <Field component={Input} type="text" name="name" validate={[required()]} />
               </Grid>
 
               <Grid cols="12 4 4 4">
-                CPF*: <Field component={Input} type="number" name="cpf" validate={[ required() ]}/>
+                CPF*: <Field component={Input} type="number" name="cpf" validate={[required()]} />
               </Grid>
 
             </div>
@@ -91,14 +91,14 @@ class EmployeeForm extends Component {
             <div className="row mb-3">
 
               <Grid cols="12 4 4 4">
-                E-mail*: <Field component={Input} type="email" name="email" validate={[ required(), email() ]}/>
+                E-mail*: <Field component={Input} type="email" name="email" validate={[required(), email()]} />
               </Grid>
 
               <Grid cols="12 4 4 4">
-                Empresa*: <Field component={Select} name="companies" validate={[ required() ]}>
-                            <option>Selecione uma Empresa</option>
-                            {this.companiesOptions(companies)}
-                          </Field>
+                Empresa*: <Field component={Select} name="companies" validate={[required()]}>
+                  <option>Selecione uma Empresa</option>
+                  {this.companiesOptions(companies)}
+                </Field>
               </Grid>
 
               <Grid cols="12 4 4 4">
@@ -129,7 +129,7 @@ class EmployeeForm extends Component {
               </Grid>
 
               <Grid cols="12 8 8 8">
-                Bairro: <Field component={Input} type="text" name="district"/>
+                Bairro: <Field component={Input} type="text" name="district" />
               </Grid>
 
             </div>
@@ -175,34 +175,32 @@ class EmployeeForm extends Component {
 
             </div>
 
-            <If test={!this.props.employeeId } >
-              <h6>Senha: </h6>
-              <div className="row mb-3">
+            <h6>Senha: </h6>
+            <div className="row mb-3">
 
-                <Grid cols="12 8 8 8">
-                  Senha: <Field component={Input} type="password" name="password" validate={required()}/>
-                </Grid>
+              <Grid cols="12 8 8 8">
+                Senha: <Field component={Input} type="password" name="password" />
+              </Grid>
 
-                <Grid cols="12 8 8 8">
-                  Confirmar Senha: <Field component={Input} 
-                                          type="password" 
-                                          name="password_confirm"
-                                          validate={[required(), confirmation({ field: 'password' }) ]} />
-                </Grid>
+              <Grid cols="12 8 8 8">
+                Confirmar Senha: <Field component={Input}
+                  type="password"
+                  name="password_confirmation"
+                  validate={[confirmation({ field: 'password' })]} />
+              </Grid>
 
-              </div>
-            </If>
+            </div>
 
             <button type="submit"
-                    className="btn btn-primary btn-flat ml-auto m-2"
-                    disabled={submitting} >
-                    Salvar
+              className="btn btn-primary btn-flat ml-auto m-2"
+              disabled={submitting} >
+              Salvar
                   </button>
 
             <button type="button"
-                    className="btn btn-secondary btn-flat ml-auto"
-                    disabled={pristine || submitting}
-                    onClick={reset}>Limpar Campos</button>
+              className="btn btn-secondary btn-flat ml-auto"
+              disabled={pristine || submitting}
+              onClick={reset}>Limpar Campos</button>
           </div>
         </form>
 
@@ -215,11 +213,12 @@ class EmployeeForm extends Component {
 
 EmployeeForm = reduxForm({ form: 'employeeForm', required, enableReinitialize: true })(EmployeeForm)
 
-const mapDispatchToProps = dispatch => bindActionCreators({ add, 
-                                                            getEmployee, 
-                                                            update,
-                                                            loadCompanies
-                                                           }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({
+  add,
+  getEmployee,
+  update,
+  loadCompanies
+}, dispatch)
 
 EmployeeForm = connect(
   state => ({

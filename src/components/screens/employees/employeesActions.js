@@ -39,21 +39,22 @@ export const changeEmployee = event => {
 
 // create a Employee
 export const add = (employee, ownProps) => async (dispatch) => {
-  api.addEmployee(employee)
-    .then(response => {
-
-      dispatch({
-        type: EMPLOYEE_ADDED, payload: response
-      })
-      notifySuccess("Colaborador criado com sucesso!")
-      ownProps.history.push(`/show_employee/${response.data.data.id}`)
+  try { 
+    const response = await api.addEmployee(employee)
+    
+    dispatch({
+      type: EMPLOYEE_ADDED, payload: response
     })
-    .catch(e => {
-      console.log(e.response)
-      e.response.data.errors.forEach(
-        error => notifyError(error["id"].toUpperCase()+": "+ error["title"])
-      );
-    })
+    
+    notifySuccess("Colaborador criado com sucesso!")
+    //ownProps.history.push(`/show_employee/${response.data.data.id}`)
+    
+  } catch (e) {
+    console.log(e.response)
+    e.response.data.errors.forEach(erro => {
+      notifyError(erro.id.toUpperCase() + ": " + erro.title)
+    }); 
+  }
 }
 
 // // update a Employee
