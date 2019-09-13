@@ -57,9 +57,9 @@ class EmployeeForm extends Component {
   onSubmit(values) {
     const obj = this.employeeObj(values)
     if (this.props.employeeId) {
-      this.props.update(obj, this.props)
+      this.props.update(obj, this.props.history)
     } else {
-      this.props.add(obj, this.props)
+      this.props.add(obj, this.props.history)
     }
   }
 

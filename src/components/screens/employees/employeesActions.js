@@ -38,7 +38,7 @@ export const changeEmployee = event => {
 }
 
 // create a Employee
-export const add = (employee, ownProps) => async (dispatch) => {
+export const add = (employee, historyProps) => async (dispatch) => {
   try { 
     const response = await api.addEmployee(employee)
     
@@ -47,10 +47,9 @@ export const add = (employee, ownProps) => async (dispatch) => {
     })
     
     notifySuccess("Colaborador criado com sucesso!")
-    //ownProps.history.push(`/show_employee/${response.data.data.id}`)
+    historyProps.push(`/show_employee/${response.data.data.id}`)
     
   } catch (e) {
-    console.log(e.response)
     e.response.data.errors.forEach(erro => {
       notifyError(erro.id.toUpperCase() + ": " + erro.title)
     }); 
@@ -58,22 +57,24 @@ export const add = (employee, ownProps) => async (dispatch) => {
 }
 
 // // update a Employee
-export const update = (employee, ownProps) => async (dispatch) => {
-  let response = await api.updateEmployee(employee)
-  dispatch({
-    type: EMPLOYEE_UPDATED, payload: response
-  })
+export const update = (employee, historyProps) => async (dispatch) => {
 
-  let status, statusText
-  response.status === 200 && response.statusText === "OK" ? status = "success" : status = "error"
-  status === "success" ? statusText = "Salvo" : statusText = "Error"
+  try {
+    let response = await api.updateEmployee(employee)
 
-  dispatch(
-    alert({ http_code: status, message: statusText, hidden: '' })
-  )
-  hiddenAlert(dispatch)
+    dispatch({
+      type: EMPLOYEE_UPDATED, payload: response
+    })
 
-  ownProps.history.push(`/show_employee/${response.data.data.id}`)
+    notifySuccess("Atualizado")
+    historyProps.push(`/show_employee/${response.data.data.id}`)
+
+  } catch (e) {
+    e.response.data.errors.forEach(
+      error => notifyError(error.id.toUpperCase() + ': ' + error.title)
+    )
+  }
+
 }
 
 // get a employee's company

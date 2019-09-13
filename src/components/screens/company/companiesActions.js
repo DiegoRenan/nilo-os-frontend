@@ -80,18 +80,20 @@ export const getCompany = (company_id) => async (dispatch) => {
 
 // delete a Company
 export const remove = (company_id) => async (dispatch) => {
-  let response = await api.deleteCompany(company_id)
-  dispatch(
-    loadCompanies()
-  )
 
-  let status = "error", statusText = "Error"
-  response.status === 204 && response.statusText === "No Content" ? status = "success" : status = "error"
-  status === "success" ? statusText = "Deletado" : statusText = "Error"
+  try {
+    let response = await api.deleteCompany(company_id)
+  
+    dispatch(
+      loadCompanies()
+    )
 
-  if (status === "success")
     notifySuccess("Removido")
-  else
-    notifyError("Erro ao remover")
 
+  } catch (e) {
+    e.response.data.errors.forEach(
+      error => notifyError(error.id.toUpperCase() +': ' + error.title) 
+    ) 
+  } 
+  
 }
