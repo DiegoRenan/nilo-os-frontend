@@ -12,7 +12,7 @@ class Tool extends Component {
 
   render() {
 
-    const { name, email } = this.props.user
+    // const { name, email } = this.props.user
     
     return (
       <div className="nav-item dropdown ">
@@ -25,7 +25,7 @@ class Tool extends Component {
           aria-haspopup="true" 
           aria-expanded="false">
           
-          {name} 
+          User name 
 
         </a>
 

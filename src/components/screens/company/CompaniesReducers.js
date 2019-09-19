@@ -4,6 +4,8 @@ import { LOAD_COMPANIES,
          GET_COMPANY, 
          COMPANY_UPDATED } from '../../../actions/actionTypes'
 
+import setAuthHeader from '../../../services/setAuthHeader'
+
 const INITIAL_STATE = { companies: [], company: '' }
 
 export default (state = INITIAL_STATE, action) => {

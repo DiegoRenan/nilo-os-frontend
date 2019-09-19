@@ -6,7 +6,6 @@
 
   --header-height: 44px;
   --aside-width: 250px;
-  --alert-height: 50px;
   --footer-height: 40px;
 
   --shadow:
@@ -47,12 +46,10 @@ a, a:link, a:visited {
   grid-template-columns: var(--aside-width) 1fr;
   grid-template-rows:
     var(--header-height)
-    var(--alert-height)
     1fr
     var(--footer-height);
   grid-template-areas:
     "header header"
-    "menu alert"
     "menu content"
     "menu footer";
   height: 100vh;
@@ -69,15 +66,9 @@ aside.menu-area {
   grid-area: menu;
 }
 
-section.alert {
-  grid-area: alert;
-  background-color: white;
-  margin: 0px;
-  padding: 0px;
-}
-
 main.content {
   grid-area: content;
+  padding-top: 20px;
 }
 
 footer.footer {
@@ -90,12 +81,10 @@ footer.footer {
     grid-template-columns: 1fr;
     grid-template-rows:
       var(--header-height)
-      var(--alert-height)
       1fr
       var(--footer-height);
     grid-template-areas:
       "header"
-      "alert"
       "content"
       "footer";
     height: 100vh;

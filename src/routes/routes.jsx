@@ -1,5 +1,7 @@
 import React from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
+import { generateRequireSignInWrapper } from 'redux-token-auth'
+
 
 import Home from '../components/screens/home/Home'
 import MyTickets from '../components/screens/myTickets/MyTickets'
@@ -11,9 +13,16 @@ import Employees from '../components/screens/employees/Employee'
 import EmployeeNew from '../components/screens/employees/EmployeeNew'
 import EmployeeEdit from '../components/screens/employees/EmployeeEdit'
 import EmployeeShow from '../components/screens/employees/EmployeeShow'
+import SignIn from '../auth/auth'
+
+const requireSignIn = generateRequireSignInWrapper({
+  redirectPathIfNotSignedIn: '/login',
+})
+
 
 export default props => (
     <Switch>
+      <Route path='/login' component={SignIn} />
       <Route path='/tickets' component={Home} />
       <Route path='/mytickets' component={MyTickets} />
       <Route path='/closedtickets' component={ClosedTickets} />
