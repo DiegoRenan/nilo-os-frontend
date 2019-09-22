@@ -6,16 +6,24 @@ import {
   GET_COMPANY
 } from '../../../actions/actionTypes'
 
-import { toast } from 'react-toastify'
 import { notifyError, notifySuccess } from '../../../const/const'
 import api from '../../../services/api'
-
+import { setAuthHeader } from '../../../services/setAuthHeader'
 
 // Load Companies
-export const loadCompanies = () => {
-  return {
-    type: LOAD_COMPANIES,
-    payload: api.loadCompanies()
+export function loadCompanies() {
+  return dispatch => {
+    api.loadCompanies()
+      .then(resp => {
+
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        dispatch({ type: LOAD_COMPANIES, payload: resp })
+      })
   }
 }
 
@@ -28,72 +36,104 @@ export const changeCompany = event => {
 }
 
 // create a Company
-export const add = (company) => async (dispatch) => {
-  let response = await api.addCompany(company)
+export const add = (company) => {
+  return dispatch => {
+    api.addCompany(company)
+      .then(resp => {
 
-  dispatch({
-    type: COMPANY_ADDED, payload: response
-  })
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
 
-  dispatch(
-    loadCompanies()
-  )
+        setAuthHeader(token, client, uid)
 
-  let status, statusText
-  response.status === 201 && response.statusText === "Created" ? status = "success" : status = "error"
-  status === "success" ? statusText = "Salvo" : statusText = "Error"
+        dispatch({
+          type: COMPANY_ADDED, payload: resp
+        })
 
-  if (status === "success")
-    notifySuccess("Salvo")
-  else
-    notifyError("Erro ao salvar")
+        dispatch(
+          loadCompanies()
+        )
 
+        notifySuccess("Salvo")
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error)
+        );
+      })
+  }
 }
 
 // update a Company
-export const update = (company, ownProps) => async (dispatch) => {
-  let response = await api.updateCompany(company)
-  dispatch({
-    type: COMPANY_UPDATED, payload: response
-  })
+export const update = (company, ownProps) => {
 
-  let status, statusText
-  response.status === 200 && response.statusText === "OK" ? status = "success" : status = "error"
-  status === "success" ? statusText = "Salvo" : statusText = "Error"
+  return dispatch => {
+    api.updateCompany(company)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
 
-  if (status === "success")
-    notifySuccess("Atualizado")
-  else
-    notifyError("Erro ao atualizar")
+        setAuthHeader(token, client, uid)
 
-  ownProps.history.push(`/show_company/${response.data.data.id}`)
+        notifySuccess("Atualizado")
+
+        dispatch({ type: COMPANY_UPDATED, payload: resp })
+
+        ownProps.history.push(`/show_company/${resp.data.data.id}`)
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error)
+        );
+      })
+  }
 }
 
 // get a Company
-export const getCompany = (company_id) => async (dispatch) => {
-  let response = await api.getCompany(company_id)
-  dispatch({
-    type: GET_COMPANY,
-    payload: response
-  })
+export const getCompany = (company_id) => {
+  return dispatch => {
+    api.getCompany(company_id)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        dispatch({ type: GET_COMPANY, payload: resp })
+
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error)
+        );
+      })
+  }
 }
 
 // delete a Company
-export const remove = (company_id) => async (dispatch) => {
+export const remove = (company_id) => {
 
-  try {
-    let response = await api.deleteCompany(company_id)
-  
-    dispatch(
-      loadCompanies()
-    )
+  return dispatch => {
+    api.deleteCompany(company_id)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
 
-    notifySuccess("Removido")
+        setAuthHeader(token, client, uid)
 
-  } catch (e) {
-    e.response.data.errors.forEach(
-      error => notifyError(error.id.toUpperCase() +': ' + error.title) 
-    ) 
-  } 
-  
+        notifySuccess("Removido")
+
+        dispatch( loadCompanies() )
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id+" "+error.title)
+        );
+      })
+  }
+
 }

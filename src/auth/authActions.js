@@ -1,8 +1,8 @@
 import { USER_FETCHED, TOKEN_VALIDATED } from '../actions/actionTypes'
 
-import { url } from '../services/api'
+import api, { url}  from '../services/api'
 import { notifyError, notifySuccess } from '../const/const'
-import { setAuthHeader } from '../services/setAuthHeader'
+import { setAuthHeader, setHeaderCommon } from '../services/setAuthHeader'
 
 export function signInUser(values) {
   return submit(values, 'auth/sign_in')
@@ -24,10 +24,12 @@ function submit(values, path) {
         localStorage.setItem("client", client)
         localStorage.setItem("uid", uid)
 
-        setAuthHeader(token)
+        setAuthHeader(token, client, uid)
+
         dispatch([
           { type: USER_FETCHED, payload: resp.data }
         ])
+
       })
       .catch(e => {
         e.response.data.errors.forEach(
@@ -42,11 +44,12 @@ export function logout() {
 }
 
 export function validateToken(token) {
+    
   return dispatch => {
     if (token) {
-      url.get('auth/validate_token', { token })
+      
+    api.isTokenValid(token)
         .then(resp => {
-          setAuthHeader(resp.headers["access-token"])
           dispatch({ type: TOKEN_VALIDATED, payload: resp.data.success })
         })
         .catch(e => dispatch({ type: TOKEN_VALIDATED, payload: false }))
