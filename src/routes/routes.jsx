@@ -15,11 +15,6 @@ import EmployeeEdit from '../components/screens/employees/EmployeeEdit'
 import EmployeeShow from '../components/screens/employees/EmployeeShow'
 import SignIn from '../auth/auth'
 
-const requireSignIn = generateRequireSignInWrapper({
-  redirectPathIfNotSignedIn: '/login',
-})
-
-
 export default props => (
     <Switch>
       <Route path='/login' component={SignIn} />

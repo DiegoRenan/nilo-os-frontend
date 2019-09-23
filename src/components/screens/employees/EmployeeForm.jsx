@@ -25,7 +25,7 @@ class EmployeeForm extends Component {
 
   companiesOptions(companies) {
     return companies.map(company => (
-      <option value={company.id}>{company.attributes.name}</option>
+      <option value={company.id} key={company.id}>{company.attributes.name}</option>
     ))
   }
 
@@ -45,6 +45,7 @@ class EmployeeForm extends Component {
           district: values.district || '',
           city: values.city || '',
           uf: values.uf || '',
+          master: values.master || false,
           password: values.password || null,
           password_confirmation: values.password_confirmation || null,
           company_id: values.companies || ''
@@ -191,11 +192,21 @@ class EmployeeForm extends Component {
 
             </div>
 
+            <div className="row mb-3">
+
+              <Grid cols="12 12 12 12">
+                Master: {' '} 
+                <label>
+                  <Field name="master" component="input" type="checkbox" />
+                </label>
+              </Grid>
+
+            </div>
+
             <button type="submit"
               className="btn btn-primary btn-flat ml-auto m-2"
               disabled={submitting} >
-              Salvar
-                  </button>
+              Salvar</button>
 
             <button type="button"
               className="btn btn-secondary btn-flat ml-auto"

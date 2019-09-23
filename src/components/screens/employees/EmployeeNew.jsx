@@ -7,6 +7,6 @@ export default props =>
   <Main title="Novo Colaborador" >
     <div className="employee-new">
       <div className="display-4">Novo Colaborador</div>
-      <EmployeeForm />
+      <EmployeeForm history={props.history}/>
     </div>
   </Main>
