@@ -13,6 +13,10 @@ import Employees from '../components/screens/employees/Employee'
 import EmployeeNew from '../components/screens/employees/EmployeeNew'
 import EmployeeEdit from '../components/screens/employees/EmployeeEdit'
 import EmployeeShow from '../components/screens/employees/EmployeeShow'
+import Departments from '../components/screens/departments/Department'
+import DepartmentNew from '../components/screens/departments/DepartmentNew'
+import DepartmentShow from '../components/screens/departments/DepartmentShow'
+import DepartmentEdit from '../components/screens/departments/DepartmentEdit'
 import SignIn from '../auth/auth'
 
 export default props => (
@@ -30,6 +34,11 @@ export default props => (
       <Route path='/new_employee' component={EmployeeNew} />
       <Route path='/edit_employee/:id' component={EmployeeEdit} />
       <Route path='/show_employee/:id' component={EmployeeShow} />
+
+      <Route path='/departments' component={Departments} />
+      <Route path='/new_department' component={DepartmentNew} />
+      <Route path='/show_department/:id' component={DepartmentShow} />
+      <Route path='/edit_department/:id' component={DepartmentEdit} />
 
       <Redirect from='*' to='/tickets' />
     </Switch>

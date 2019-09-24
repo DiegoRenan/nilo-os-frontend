@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { loadDepartments } from '../components/screens/departments/departmentsActions';
 
 export let url = axios.create({
   // baseURL: "http://177.23.191.191:3000/",
@@ -29,6 +30,10 @@ export default {
     }
   }
   ),
+
+  
+  //######################  COMPANY ##############################
+
 
   loadCompanies: () => url.get("/v1/companies", {
     headers: {
@@ -78,6 +83,8 @@ export default {
       'uid': localStorage.getItem('uid')
     }
   }),
+
+   //######################  EMPLOYEE ############################
 
   loadEmployees: () => url.get("/v1/employees", {
     headers: {
@@ -144,5 +151,76 @@ export default {
       'client': localStorage.getItem('client'),
       'uid': localStorage.getItem('uid')
     }
+  }),
+
+   //######################  DEPARTMENT ##############################
+
+   loadDepartments: () => url.get("/v1/departments", {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  deleteDepartment: (id) => url.delete(`/v1/departments/${id}`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  addDepartment: (data) => url.post("/v1/departments", data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
+  ),
+
+  getDepartment: (id) => url.get(`/v1/departments/${id}`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  updateDepartment: (data) => url.put(`/v1/departments/${data.data.id}`, data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
+  ),
+
+  getDepartment: (id) => url.get(`/v1/departments/${id}`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  getDepartmentCompany: (departmentId) => url.get(`/v1/departments/${departmentId}/company`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
   })
+
+
 }
