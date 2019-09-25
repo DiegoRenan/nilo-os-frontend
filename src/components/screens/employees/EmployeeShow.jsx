@@ -11,12 +11,12 @@ class EmployeeShow extends Component {
 
   componentWillMount() {
     this.props.getEmployee(this.props.match.params.id)
-    this.props.getEmployeeCompany(this.props.match.params.id)
   }
 
   render() {
     const obj = this.props.employee || []
     const company = this.props.company || []
+    const department = this.props.department || []
 
     return (
       <Main title="Colaborador" >
@@ -34,6 +34,9 @@ class EmployeeShow extends Component {
 
           <ShowGridList label="Empresa"
             value={company.name} />
+
+          <ShowGridList label="Departmento"
+            value={department.name} />
 
           <ShowGridList label="CPF"
             value={obj.cpf} />
@@ -64,8 +67,8 @@ class EmployeeShow extends Component {
 
 const mapStateToProps = state => ({
   employee: state.employeeState.employee,
-  companyLink: state.employeeState.companyLink,
-  company: state.employeeState.company
+  company: state.employeeState.company,
+  department: state.employeeState.department
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ getEmployee, getEmployeeCompany }, dispatch)

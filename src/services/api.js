@@ -84,6 +84,15 @@ export default {
     }
   }),
 
+  getCompanyDepartments: (companyId) => url.get(`/v1/companies/${companyId}/departments`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
    //######################  EMPLOYEE ############################
 
   loadEmployees: () => url.get("/v1/employees", {

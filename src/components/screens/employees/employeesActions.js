@@ -59,7 +59,7 @@ export const add = (employee, historyProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error)
+          error => notifyError(error.id +': '+ error.title)
         );
       })
   }
@@ -114,6 +114,7 @@ export const getEmployeeCompany = (employeeId) => {
       })
   }
 }
+
 
 //get employee
 export const getEmployee = (employee_id) => {

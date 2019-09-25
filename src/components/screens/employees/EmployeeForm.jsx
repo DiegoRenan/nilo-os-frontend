@@ -5,11 +5,10 @@ import { bindActionCreators } from 'redux'
 import { required, email, confirmation } from 'redux-form-validators'
 
 import { add, getEmployee, update } from './employeesActions'
-import { loadCompanies } from '../company/companiesActions'
+import { loadCompanies, getCompanyDepartments } from '../company/companiesActions'
 import Input from '../../templates/form/Input'
 import Select from '../../templates/form/Select'
 import Grid from '../../templates/Grid'
-import If from '../../templates/If'
 
 class EmployeeForm extends Component {
   constructor(props) {
@@ -27,6 +26,17 @@ class EmployeeForm extends Component {
     return companies.map(company => (
       <option value={company.id} key={company.id}>{company.attributes.name}</option>
     ))
+  }
+
+  departmentsOptions() {
+    const departments = this.props.departments
+    return departments.map(department => (
+      <option value={department.id} key={department.id}>{department.attributes.name}</option>
+    ))
+  }
+
+  companyOnChange(e) {
+    this.props.getCompanyDepartments(e.target.value)
   }
 
   employeeObj(values) {
@@ -48,7 +58,8 @@ class EmployeeForm extends Component {
           master: values.master || false,
           password: values.password || null,
           password_confirmation: values.password_confirmation || null,
-          company_id: values.companies || ''
+          company_id: values.companies || '',
+          department_id: values.departments || null
         }
       }
     }
@@ -96,15 +107,30 @@ class EmployeeForm extends Component {
               </Grid>
 
               <Grid cols="12 4 4 4">
-                Empresa*: <Field component={Select} name="companies" validate={[required()]}>
+                Data de Nascimento: <Field component={Input} type="date" name="born" />
+              </Grid>
+
+            </div>
+
+            <br />
+            <div className="row mb-3">
+              
+              <Grid cols="12 6 6 6">
+                Empresa*: <Field component={Select} 
+                                 name="companies"
+                                 onChange={e => this.companyOnChange(e)}  
+                                 validate={[required()]}>
                   <option>Selecione uma Empresa</option>
                   {this.companiesOptions(companies)}
                 </Field>
               </Grid>
 
-              <Grid cols="12 4 4 4">
-                Data de Nascimento: <Field component={Input} type="date" name="born" />
-              </Grid>
+              <Grid cols="12 6 6 6">
+                Departamento: <Field component={Select} name="departments">
+                  <option >Selecione o Departamento</option>
+                  {this.departmentsOptions()}
+                </Field>
+              </Grid> 
 
             </div>
 
@@ -195,7 +221,7 @@ class EmployeeForm extends Component {
             <div className="row mb-3">
 
               <Grid cols="12 12 12 12">
-                Master: {' '} 
+                Master: {' '}
                 <label>
                   <Field name="master" component="input" type="checkbox" />
                 </label>
@@ -228,13 +254,15 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   add,
   getEmployee,
   update,
-  loadCompanies
+  loadCompanies,
+  getCompanyDepartments
 }, dispatch)
 
 EmployeeForm = connect(
   state => ({
     initialValues: state.employeeState.employee,
-    companies: state.employeeState.companies
+    companies: state.employeeState.companies,
+    departments: state.employeeState.departments
   }),
   mapDispatchToProps
 )(EmployeeForm)
