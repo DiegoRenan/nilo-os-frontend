@@ -37,7 +37,6 @@ class DepartmentShow extends Component {
 
 const mapStateToProps = state => ({
   department: state.departmentState.department,
-  companyLink: state.departmentState.companyLink,
   company: state.departmentState.company
 })
 

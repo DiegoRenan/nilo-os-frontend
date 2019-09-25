@@ -8,13 +8,18 @@ import {
   GET_COMPANY_DEPARTMENTS
 } from '../../../actions/actionTypes'
 
-const INITIAL_STATE = { employees: [], employee: [], companies: [], departments: [] }
+const INITIAL_STATE = { 
+  employees: [], 
+  employee: [], 
+  companies: [], 
+  department: [], 
+  departments: [] 
+}
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOAD_EMPLOYEES:
-      let data = action.payload.data || []
-      return { ...state, employees: data, employee: '' }
+      return { ...state, employees: action.payload.data, employee: '' }
       
     case EMPLOYEE_CHANGED:
       return { ...state, employee: action.payload }
@@ -26,10 +31,11 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, employee: '' }
 
     case GET_EMPLOYEE:
-      const department = []
       
-      if (action.payload.data.data[0].relationships.department.data !== null){
-        department = action.payload.data.included[1].attributes || []
+      console.log(action.payload.data.data[0].relationships.department.data)
+      const department = []
+      if(action.payload.data.data[0].relationships.department.data !== null){
+        department = action.payload.data.included[1].attributes
       }
 
       return {
@@ -39,12 +45,10 @@ export default (state = INITIAL_STATE, action) => {
       }
 
     case LOAD_COMPANIES:
-      let companies = action.payload.data || []
-      return { ...state, companies: companies.data }
+      return { ...state, companies: action.payload.data.data}
     
     case GET_COMPANY_DEPARTMENTS:
-      const departments = action.payload.data || []
-      return { ...state, departments: departments.data }
+      return { ...state, departments: action.payload.data.data }
 
     default:
       return state

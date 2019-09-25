@@ -6,7 +6,7 @@ import { LOAD_COMPANIES,
 
 import setAuthHeader from '../../../services/setAuthHeader'
 
-const INITIAL_STATE = { companies: [], company: '' }
+const INITIAL_STATE = { companies: [], company: '', departments: [] }
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -20,7 +20,7 @@ export default (state = INITIAL_STATE, action) => {
     case COMPANY_UPDATED:
       return { ...state, company: '' }
     case GET_COMPANY:
-        return { ...state, company: action.payload.data.data.attributes }
+      return { ...state, company: action.payload.data.data.attributes, departments: action.payload.data.included }
     default:
       return state
   }
