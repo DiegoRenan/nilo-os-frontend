@@ -21,7 +21,7 @@ export default props =>
         <NavItem icon="" title="Usuários" address="/employees" />
         <NavItem icon="" title="Empresas" address="/companies" />
         <NavItem icon="" title="Departamentos" address="/departments" />
-        <NavItem icon="" title="Setores" address="/" />
+        <NavItem icon="" title="Setores" address="/sectors" />
         <NavItem icon="" title="Serviços" address="/" />
         <NavItem icon="" title="Status" address="/" />
         <NavItem icon="" title="Permissões" address="/" />

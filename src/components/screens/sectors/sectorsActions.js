@@ -1,20 +1,19 @@
 import {
-  LOAD_COMPANIES,
-  COMPANY_CHANGED,
-  COMPANY_ADDED,
-  COMPANY_UPDATED,
-  GET_COMPANY,
-  GET_COMPANY_DEPARTMENTS
+  LOAD_SECTORS,
+  SECTOR_CHANGED,
+  SECTOR_ADDED,
+  SECTOR_UPDATED,
+  GET_SECTOR
 } from '../../../actions/actionTypes'
 
-import { notifyError, notifySuccess } from '../../../const/const'
 import api from '../../../services/api'
+import { notifyError, notifySuccess } from '../../../const/const'
 import { setAuthHeader } from '../../../services/setAuthHeader'
 
-// Load Companies
-export function loadCompanies() {
+// Load Sectors
+export function loadSectors() {
   return dispatch => {
-    api.loadCompanies()
+    api.loadSectors()
       .then(resp => {
 
         const token = resp.headers["access-token"]
@@ -23,25 +22,54 @@ export function loadCompanies() {
 
         setAuthHeader(token, client, uid)
 
-        dispatch({ type: LOAD_COMPANIES, payload: resp })
+        dispatch({ type: LOAD_SECTORS, payload: resp })
       })
   }
 }
 
-//Get input valeu 
-export const changeCompany = event => {
+// //Get input valeu 
+export const changeSector = event => {
   return {
-    type: COMPANY_CHANGED,
+    type: SECTOR_CHANGED,
     payload: event.target.value
   }
 }
 
-// create a Company
-export const add = (company) => {
-  return dispatch => {
-    api.addCompany(company)
-      .then(resp => {
+// create a Sector
+export const add = (sector, historyProps) => {
 
+  return dispatch => {
+    api.addSector(sector)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        notifySuccess("Setor criado com sucesso!")
+
+        dispatch({
+          type: SECTOR_ADDED, payload: resp
+        })
+
+        historyProps.push(`/show_sector/${resp.data.data.id}`)
+
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id +': '+error.title)
+        );
+      })
+  }
+
+}
+
+// // update a Sector
+export const update = (sector, historyProps) => {
+  return dispatch => {
+    api.updateSector(sector)
+      .then(resp => {
         const token = resp.headers["access-token"]
         const client = resp.headers["client"]
         const uid = resp.headers["uid"]
@@ -49,40 +77,11 @@ export const add = (company) => {
         setAuthHeader(token, client, uid)
 
         dispatch({
-          type: COMPANY_ADDED, payload: resp
+          type: SECTOR_UPDATED, payload: resp
         })
 
-        dispatch(
-          loadCompanies()
-        )
-
-        notifySuccess("Salvo")
-      })
-      .catch(e => {
-        e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
-        );
-      })
-  }
-}
-
-// update a Company
-export const update = (company, ownProps) => {
-
-  return dispatch => {
-    api.updateCompany(company)
-      .then(resp => {
-        const token = resp.headers["access-token"]
-        const client = resp.headers["client"]
-        const uid = resp.headers["uid"]
-
-        setAuthHeader(token, client, uid)
-
         notifySuccess("Atualizado")
-
-        dispatch({ type: COMPANY_UPDATED, payload: resp })
-
-        ownProps.history.push(`/show_company/${resp.data.data.id}`)
+        historyProps.push(`/show_sector/${resp.data.data.id}`)
       })
       .catch(e => {
         e.response.data.errors.forEach(
@@ -92,10 +91,10 @@ export const update = (company, ownProps) => {
   }
 }
 
-// get a Company
-export const getCompany = (company_id) => {
+//get sector
+export const getSector = (sector_id) => {
   return dispatch => {
-    api.getCompany(company_id)
+    api.getSector(sector_id)
       .then(resp => {
         const token = resp.headers["access-token"]
         const client = resp.headers["client"]
@@ -103,7 +102,7 @@ export const getCompany = (company_id) => {
 
         setAuthHeader(token, client, uid)
 
-        dispatch({ type: GET_COMPANY, payload: resp })
+        dispatch({ type: GET_SECTOR, payload: resp })
 
       })
       .catch(e => {
@@ -114,11 +113,11 @@ export const getCompany = (company_id) => {
   }
 }
 
-// delete a Company
-export const remove = (company_id) => {
 
+// delete a Sector
+export const remove = (sector_id) => {
   return dispatch => {
-    api.deleteCompany(company_id)
+    api.deleteSector(sector_id)
       .then(resp => {
         const token = resp.headers["access-token"]
         const client = resp.headers["client"]
@@ -128,35 +127,11 @@ export const remove = (company_id) => {
 
         notifySuccess("Removido")
 
-        dispatch( loadCompanies() )
+        dispatch(loadSectors())
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id+" "+error.title)
-        );
-      })
-  }
-
-}
-
-// get company departments
-export const getCompanyDepartments = (companyId) => {
-  return dispatch => {
-    api.getCompanyDepartments(companyId)
-      .then(resp => {
-        const token = resp.headers["access-token"]
-        const client = resp.headers["client"]
-        const uid = resp.headers["uid"]
-
-        setAuthHeader(token, client, uid)
-
-        dispatch({
-          type: GET_COMPANY_DEPARTMENTS, payload: resp
-        })
-      })
-      .catch(e => {
-        e.response.data.errors.forEach(
-          error => notifyError(error)
+          error => notifyError(error.id +': '+error.title)
         );
       })
   }

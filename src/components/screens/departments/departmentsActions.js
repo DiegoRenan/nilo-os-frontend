@@ -4,7 +4,8 @@ import {
   DEPARTMENT_ADDED,
   DEPARTMENT_UPDATED,
   GET_DEPARTMENT,
-  GET_DEPARTMENT_COMPANY
+  GET_DEPARTMENT_COMPANY,
+  GET_DEPARTMENT_SECTORS,
 } from '../../../actions/actionTypes'
 
 import api from '../../../services/api'
@@ -59,7 +60,7 @@ export const add = (department, historyProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error)
+          error => notifyError(error.id +': '+error.title)
         );
       })
   }
@@ -86,7 +87,7 @@ export const update = (department, historyProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error)
+          error => notifyError(error.id +': '+error.title)
         );
       })
   }
@@ -152,6 +153,29 @@ export const remove = (department_id) => {
         notifySuccess("Removido")
 
         dispatch(loadDepartments())
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id +': '+error.title)
+        );
+      })
+  }
+}
+
+// get department sectors
+export const getDepartmentSectors = (sectorId) => {
+  return dispatch => {
+    api.getDepartmentSectors(sectorId)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        dispatch({
+          type: GET_DEPARTMENT_SECTORS, payload: resp
+        })
       })
       .catch(e => {
         e.response.data.errors.forEach(

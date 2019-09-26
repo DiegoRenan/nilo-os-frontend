@@ -5,22 +5,24 @@ import {
   GET_EMPLOYEE,
   EMPLOYEE_UPDATED,
   LOAD_COMPANIES,
-  GET_COMPANY_DEPARTMENTS
+  GET_COMPANY_DEPARTMENTS,
+  GET_DEPARTMENT_SECTORS
 } from '../../../actions/actionTypes'
 
-const INITIAL_STATE = { 
-  employees: [], 
-  employee: [], 
-  companies: [], 
-  department: [], 
-  departments: [] 
+const INITIAL_STATE = {
+  employees: [],
+  employee: [],
+  company: {},
+  companies: [],
+  department: [],
+  departments: []
 }
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOAD_EMPLOYEES:
       return { ...state, employees: action.payload.data, employee: '' }
-      
+
     case EMPLOYEE_CHANGED:
       return { ...state, employee: action.payload }
 
@@ -31,24 +33,37 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, employee: '' }
 
     case GET_EMPLOYEE:
-      
-      console.log(action.payload.data.data[0].relationships.department.data)
-      const department = []
-      if(action.payload.data.data[0].relationships.department.data !== null){
-        department = action.payload.data.included[1].attributes
-      }
+
+      let company = []
+      let department = []
+      let sector = []
+
+      let included = action.payload.data.included
+
+      included.map(hash => {
+        if (hash.type === "companies")
+          company = hash.attributes
+        if (hash.type === "departments")
+          department = hash.attributes
+        if (hash.type === "sectors")
+          sector = hash.attributes
+      })
 
       return {
         ...state, employee: action.payload.data.data[0].attributes,
-        company: action.payload.data.included[0].attributes,
-        department: department
+        company: company,
+        department: department,
+        sector: sector
       }
 
     case LOAD_COMPANIES:
-      return { ...state, companies: action.payload.data.data}
-    
+      return { ...state, companies: action.payload.data.data }
+
     case GET_COMPANY_DEPARTMENTS:
       return { ...state, departments: action.payload.data.data }
+
+    case GET_DEPARTMENT_SECTORS:
+      return { ...state, sectors: action.payload.data.data }
 
     default:
       return state

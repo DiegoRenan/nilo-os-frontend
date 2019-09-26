@@ -17,6 +17,10 @@ import Departments from '../components/screens/departments/Department'
 import DepartmentNew from '../components/screens/departments/DepartmentNew'
 import DepartmentShow from '../components/screens/departments/DepartmentShow'
 import DepartmentEdit from '../components/screens/departments/DepartmentEdit'
+import Sectors from '../components/screens/sectors/Sector'
+import SectorNew from '../components/screens/sectors/SectorNew'
+import SectorShow from '../components/screens/sectors/SectorShow'
+import SectorEdit from '../components/screens/sectors/SectorEdit'
 import SignIn from '../auth/auth'
 
 export default props => (
@@ -39,6 +43,11 @@ export default props => (
       <Route path='/new_department' component={DepartmentNew} />
       <Route path='/show_department/:id' component={DepartmentShow} />
       <Route path='/edit_department/:id' component={DepartmentEdit} />
+
+      <Route path='/sectors' component={Sectors} />
+      <Route path='/new_sector' component={SectorNew} />
+      <Route path='/show_sector/:id' component={SectorShow} />
+      <Route path='/edit_sector/:id' component={SectorEdit} />
 
       <Redirect from='*' to='/tickets' />
     </Switch>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Link } from 'react-router-dom'
 
 
 import Main from '../../templates/Main'
@@ -12,6 +13,18 @@ class DepartmentShow extends Component {
   componentWillMount() {
     this.props.getDepartment(this.props.match.params.id)
     this.props.getDepartmentCompany(this.props.match.params.id)
+  }
+
+  renderSectors() {
+    let sectors = this.props.sectors || []
+
+    return sectors.map(sector => (
+      <tr>
+        <td key={sector.id}>
+          <Link to="/">{sector.attributes.name}</Link>
+        </td>
+      </tr>
+    ))
   }
 
   render() {
@@ -29,6 +42,17 @@ class DepartmentShow extends Component {
           <ShowGridList label="Empresa"
             value={company.name} />
 
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Setores</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.renderSectors()}
+            </tbody>
+          </table>
+
         </div>
       </Main>
     )
@@ -37,7 +61,8 @@ class DepartmentShow extends Component {
 
 const mapStateToProps = state => ({
   department: state.departmentState.department,
-  company: state.departmentState.company
+  company: state.departmentState.company,
+  sectors: state.departmentState.sectors
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ getDepartment, getDepartmentCompany }, dispatch)

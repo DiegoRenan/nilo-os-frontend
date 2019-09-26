@@ -86,7 +86,7 @@ export const update = (employee, historyProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error)
+          error => notifyError(error.id +': '+error.title)
         );
       })
   }
@@ -156,7 +156,7 @@ export const remove = (employee_id) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error)
+          error => notifyError(error.id +': '+error.title)
         );
       })
   }
