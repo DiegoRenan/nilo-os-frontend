@@ -340,6 +340,60 @@ export default {
         'uid': localStorage.getItem('uid')
       }
     }
+  ),
+
+
+  //######################  TYPES ##############################
+
+  loadTypes: () => url.get("/v1/ticket_types", {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  deleteType: (id) => url.delete(`/v1/ticket_types/${id}`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  addType: (data) => url.post("/v1/ticket_types", data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
+  ),
+
+  getType: (id) => url.get(`/v1/ticket_types/${id}`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  updateType: (data) => url.put(`/v1/ticket_types/${data.data.id}`, data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
   )
+
+
 
 }

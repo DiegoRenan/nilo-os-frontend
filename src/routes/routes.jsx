@@ -25,6 +25,10 @@ import Status from '../components/screens/ticketStatus/Status'
 import StatusNew from '../components/screens/ticketStatus/StatusNew'
 import StatusShow from '../components/screens/ticketStatus/StatusShow'
 import StatusEdit from '../components/screens/ticketStatus/StatusEdit'
+import Types from '../components/screens/ticketTypes/Types'
+import TypeShow from '../components/screens/ticketTypes/TypeShow'
+import TypeNew from '../components/screens/ticketTypes/TypeNew'
+import TypeEdit from '../components/screens/ticketTypes/TypeEdit'
 import SignIn from '../auth/auth'
 
 export default props => (
@@ -57,6 +61,11 @@ export default props => (
       <Route path='/new_status' component={StatusNew} />
       <Route path='/show_status/:id' component={StatusShow} />
       <Route path='/edit_status/:id' component={StatusEdit} />
+
+      <Route path='/types' component={Types} />
+      <Route path='/new_type' component={TypeNew} />
+      <Route path='/show_type/:id' component={TypeShow} />
+      <Route path='/edit_type/:id' component={TypeEdit} />
 
       <Redirect from='*' to='/tickets' />
     </Switch>

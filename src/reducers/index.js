@@ -9,6 +9,7 @@ import EmployeeReducers from '../components/screens/employees/employeesReducers'
 import DepartmentReducers from '../components/screens/departments/departmentReducer'
 import SectorReducers from '../components/screens/sectors/sectorReducer'
 import StatusReducers from '../components/screens/ticketStatus/statusReducer'
+import TypeReducers from '../components/screens/ticketTypes/typeReducer'
 import { reduxTokenAuthReducer } from 'redux-token-auth'
 
 export default combineReducers({
@@ -18,6 +19,7 @@ export default combineReducers({
   departmentState: DepartmentReducers,
   sectorState: SectorReducers,
   statusState: StatusReducers,
+  typesState: TypeReducers, 
   alertState: AlertReducers,
   auth: AuthReducers,
   reduxTokenAuth: reduxTokenAuthReducer,
