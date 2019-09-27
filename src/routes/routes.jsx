@@ -21,6 +21,10 @@ import Sectors from '../components/screens/sectors/Sector'
 import SectorNew from '../components/screens/sectors/SectorNew'
 import SectorShow from '../components/screens/sectors/SectorShow'
 import SectorEdit from '../components/screens/sectors/SectorEdit'
+import Status from '../components/screens/ticketStatus/Status'
+import StatusNew from '../components/screens/ticketStatus/StatusNew'
+import StatusShow from '../components/screens/ticketStatus/StatusShow'
+import StatusEdit from '../components/screens/ticketStatus/StatusEdit'
 import SignIn from '../auth/auth'
 
 export default props => (
@@ -48,6 +52,11 @@ export default props => (
       <Route path='/new_sector' component={SectorNew} />
       <Route path='/show_sector/:id' component={SectorShow} />
       <Route path='/edit_sector/:id' component={SectorEdit} />
+
+      <Route path='/status' component={Status} />
+      <Route path='/new_status' component={StatusNew} />
+      <Route path='/show_status/:id' component={StatusShow} />
+      <Route path='/edit_status/:id' component={StatusEdit} />
 
       <Redirect from='*' to='/tickets' />
     </Switch>

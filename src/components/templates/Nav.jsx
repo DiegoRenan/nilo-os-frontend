@@ -23,7 +23,7 @@ export default props =>
         <NavItem icon="" title="Departamentos" address="/departments" />
         <NavItem icon="" title="Setores" address="/sectors" />
         <NavItem icon="" title="Serviços" address="/" />
-        <NavItem icon="" title="Status" address="/" />
+        <NavItem icon="" title="Status" address="/status" />
         <NavItem icon="" title="Permissões" address="/" />
         <NavItem icon="" title="Funções" address="/" />
       </DropMenu>

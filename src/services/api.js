@@ -19,7 +19,7 @@ export let urlHeaders = axios.create({
 
 
 export default {
-  isTokenValid: (token) => urlHeaders.get('auth/validate_token', token ),
+  isTokenValid: (token) => urlHeaders.get('auth/validate_token', token),
 
   loadTickets: () => url.get("/v1/tickets", {
     headers: {
@@ -31,7 +31,7 @@ export default {
   }
   ),
 
-  
+
   //######################  COMPANY ##############################
 
 
@@ -93,7 +93,7 @@ export default {
     }
   }),
 
-   //######################  EMPLOYEE ############################
+  //######################  EMPLOYEE ############################
 
   loadEmployees: () => url.get("/v1/employees", {
     headers: {
@@ -162,9 +162,9 @@ export default {
     }
   }),
 
-   //######################  DEPARTMENT ##############################
+  //######################  DEPARTMENT ##############################
 
-   loadDepartments: () => url.get("/v1/departments", {
+  loadDepartments: () => url.get("/v1/departments", {
     headers: {
       'Accept': 'application/json',
       'access-token': localStorage.getItem('access-token'),
@@ -281,6 +281,57 @@ export default {
   }),
 
   updateSector: (data) => url.put(`/v1/sectors/${data.data.id}`, data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
+  ),
+
+  //######################  SECTORS ##############################
+
+  loadStatus: () => url.get("/v1/ticket_statuses", {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  deleteStatus: (id) => url.delete(`/v1/ticket_statuses/${id}`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  addStatus: (data) => url.post("/v1/ticket_statuses", data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
+  ),
+
+  getStatus: (id) => url.get(`/v1/ticket_statuses/${id}`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  updateStatus: (data) => url.put(`/v1/ticket_statuses/${data.data.id}`, data,
     {
       headers: {
         'Accept': 'application/json',
