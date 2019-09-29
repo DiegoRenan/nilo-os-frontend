@@ -27,7 +27,6 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, department: '' }
 
     case GET_DEPARTMENT:
-      console.log(action.payload.data.included)
       return {
         ...state,
         department: action.payload.data.data[0].attributes,

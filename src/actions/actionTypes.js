@@ -1,5 +1,6 @@
 export const TICKET_SEARCHED = "TICKET_SEARCHED"
 export const LOAD_TICKETS = "LOAD_TICKETS"
+export const GET_TICKET = "GET_TICKET"
 
 export const LOAD_COMPANIES = "LOAD_COMPANIES"
 export const COMPANY_CHANGED = "COMPANY_CHANGED"
@@ -44,3 +45,4 @@ export const TYPE_CHANGED = "TYPE_CHANGED"
 export const TYPE_ADDED = "TYPE_ADDED"
 export const TYPE_UPDATED = "TYPE_UPDATED"
 export const GET_TYPE = "GET_TYPE"
+

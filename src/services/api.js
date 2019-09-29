@@ -31,6 +31,14 @@ export default {
   }
   ),
 
+  getTicket: (id) => url.get(`/v1/tickets/${id}`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
 
   //######################  COMPANY ##############################
 
