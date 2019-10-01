@@ -400,8 +400,17 @@ export default {
         'uid': localStorage.getItem('uid')
       }
     }
-  )
+  ),
 
+  //######################  TYPES ##############################
 
+  getComments: (ticketId) => url.get(`/v1/tickets/${ticketId}/comments`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  })
 
 }

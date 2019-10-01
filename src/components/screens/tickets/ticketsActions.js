@@ -1,4 +1,4 @@
-import { LOAD_TICKETS, GET_TICKET } from '../../../actions/actionTypes'
+import { LOAD_TICKETS, GET_TICKET, GET_COMMENTS } from '../../../actions/actionTypes'
 import api from '../../../services/api'
 import { setAuthHeader } from '../../../services/setAuthHeader'
 
@@ -38,5 +38,23 @@ export const getTicket = (id) => {
 
   }
 
+}
+
+export const getComments = (ticketId) => {
+  
+  return dispatch => {
+
+    api.getComments(ticketId)
+      .then(resp => {
+        
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+        
+        setAuthHeader(token, client, uid)
+
+        dispatch ({ type: GET_COMMENTS, payload: resp })
+      })
+  }
 }
 

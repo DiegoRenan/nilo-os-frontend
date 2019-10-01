@@ -46,3 +46,4 @@ export const TYPE_ADDED = "TYPE_ADDED"
 export const TYPE_UPDATED = "TYPE_UPDATED"
 export const GET_TYPE = "GET_TYPE"
 
+export const GET_COMMENTS = "LOAD_COMMENTS"

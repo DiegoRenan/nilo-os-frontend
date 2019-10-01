@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 import { loadTickets } from './ticketsActions'
 
 import Icon from '../../templates/Icon'
-import Button from '../../templates/Button'
 
 class TicketsList extends Component {
   constructor(props) {

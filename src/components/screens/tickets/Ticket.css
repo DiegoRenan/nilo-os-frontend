@@ -1,3 +1,25 @@
 .status {
   background-color: #DCDCDC;
 }
+
+.card {
+  background-color: #ffffff !important;
+}
+
+.mg-5{
+  margin: 5px
+}
+
+.mg-top-15 {
+  margin-top: 20px;
+}
+
+.pd-5 {
+  padding: 5px
+}
+
+.comment-body {
+  border-radius: none !important;
+  border: 0.5px solid #DCDCDC;
+  padding: 5px;
+}

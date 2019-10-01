@@ -63,21 +63,27 @@ export default props => {
 
   }
 
+  const renderResponsibles = () => {
+    const responsibles = props.responsibles || []
+
+    return responsibles.map(e => (
+      <span class="badge badge-light" key={e.id}>{e.name}</span>
+    ))
+  }
 
   return (
 
 
-    <div className="container status">
-      <div className="row">
-        <Grid cols="12 6 6 6">
-          
+    <div className="status">
+      <div className="row mg-5">
+        <div className="col-6">
           {renderStatus()}
-
-        </Grid>
-        <Grid cols="12 6 6 6">
-            Responsaveis
-      </Grid>
+        </div>
+        <div className="col-6">
+          <strong>Responsaveis:</strong>
+          {renderResponsibles()}
+        </div>
       </div>
-      </div>
-      )
+    </div>
+  )
 }
