@@ -8,5 +8,6 @@ export default props =>
     data-toggle={props.toggle}
     data-target={props.target}
   >
+    {props.title}
     <Icon icon={props.icon}></Icon>
   </button>

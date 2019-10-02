@@ -3,13 +3,15 @@ import {
   GET_TICKET,
   GET_COMMENTS,
   GET_TICKET_RESPONSIBLES,
+  COMMENT_ADDED,
   LOAD_EMPLOYEES
 } from "../../../actions/actionTypes";
 
-const INITIAL_STATE = { tickets: [], comments: [] }
+const INITIAL_STATE = { tickets: [], comments: [], comment: '' }
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    
     case LOAD_TICKETS:
       return { ...state, tickets: action.payload.data }
 
@@ -21,7 +23,10 @@ export default (state = INITIAL_STATE, action) => {
       }
 
     case GET_COMMENTS:
-      return { ...state, comments: action.payload.data.data }
+      return { ...state, comments: action.payload.data.data, comment: '' }
+    
+    case COMMENT_ADDED:
+      return {...state, comment: ''}
 
     case GET_TICKET_RESPONSIBLES:
       return {
@@ -30,7 +35,6 @@ export default (state = INITIAL_STATE, action) => {
       }
 
     case LOAD_EMPLOYEES:
-      console.log(action.payload.data.data)
       return {
         ...state,
         employees: action.payload.data.data

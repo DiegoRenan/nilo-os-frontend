@@ -23,3 +23,8 @@
   border: 0.5px solid #DCDCDC;
   padding: 5px;
 }
+
+.float-left{
+  float: left;
+  clear: both;
+}

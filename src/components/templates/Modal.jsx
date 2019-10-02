@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default props =>
-  <div className="modal fade" id={props.modal_id} tabindex="-1" role="dialog" aria-labelledby={props.modal_id_label} aria-hidden="true">
+  <div className="modal fade" id={props.modal_id} tabIndex="-1" key={props.modal_id} role="dialog" aria-labelledby={props.modal_id_label} aria-hidden="true">
     <div className="modal-dialog" role="document">
       <div className="modal-content">
         <div className="modal-header">

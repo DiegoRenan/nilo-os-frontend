@@ -103,7 +103,9 @@ const mapDispatchToProps = dispatch => bindActionCreators({ add, update, getComp
 
 CompanyForm = connect(
   state => ({
-    initialValues: state.companiesState.company
+    initialValues: {
+      company: state.companiesState.company
+    }
   }),
   mapDispatchToProps
 )(CompanyForm)

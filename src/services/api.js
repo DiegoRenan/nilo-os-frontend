@@ -442,6 +442,17 @@ export default {
         'uid': localStorage.getItem('uid')
       }
     }
+  ),
+
+  addComments: (data) => url.post("/v1/comments", data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
   )
 
 }

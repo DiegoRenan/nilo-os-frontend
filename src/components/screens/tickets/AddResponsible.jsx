@@ -68,7 +68,7 @@ class AddResponsibles extends Component {
     const responsibles = this.props.responsibles || []
 
     return responsibles.map(e => (
-      <span className="badge badge-light" key={e.id}>
+      <span className="badge badge-light" key={e.id+`responsibles`}>
         {e.attributes.employee.name}
         <Button
           style="danger btn-sm"
@@ -82,7 +82,7 @@ class AddResponsibles extends Component {
   render() {
     return (
       <div>
-        <ul class="list-group">{this.renderEmployees()}</ul>
+        <ul className="list-group">{this.renderEmployees()}</ul>
       </div>
     )
   }

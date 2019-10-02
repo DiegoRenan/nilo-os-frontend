@@ -38,7 +38,6 @@ class TicketComments extends Component {
           <small>{": " + comment.attributes.created}</small><br />
         </span>
         <div className="comment-body mg-5"  >
-
           <div className="row">
             <Grid cols="12 12 12 12">
               {comment.attributes.body}

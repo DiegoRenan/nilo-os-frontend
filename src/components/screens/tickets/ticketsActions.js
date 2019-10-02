@@ -4,7 +4,7 @@ import {
   GET_COMMENTS,
   GET_TICKET_RESPONSIBLES,
   LOAD_EMPLOYEES,
-  RESPONSIBLE_ADDED
+  COMMENT_ADDED
 } from '../../../actions/actionTypes'
 
 import api from '../../../services/api'
@@ -155,6 +155,31 @@ export function loadEmployees() {
         dispatch({ type: LOAD_EMPLOYEES, payload: resp })
       })
   }
+}
+
+export const addComments = (obj) => {
+
+  return dispatch => {
+    api.addComments(obj)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+        
+        notifySuccess("Resposta enviada")
+
+        dispatch([getComments(obj.data.attributes.ticket_id), {type: COMMENT_ADDED}])
+
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id +': '+error.title)
+        );
+      })
+  }
+  
 }
 
 

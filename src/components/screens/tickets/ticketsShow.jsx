@@ -16,7 +16,8 @@ import TicketsStatus from './ticketsStatus'
 import TicketBody from './TicketBody'
 import TicketComments from './TicketComments'
 import Modal from '../../templates/Modal'
-import AddResponsible from './AddResponsible';
+import AddResponsible from './AddResponsible'
+import AddComments from './AddComments'
 
 class TicketsShow extends Component {
 
@@ -56,12 +57,14 @@ class TicketsShow extends Component {
           {obj.title}
         </h1>
 
-        <Button
-            style="secondary btn-sm"
-            icon="fas fa-users"
-            toggle="modal" 
-            target="#exampleModal"
-          />
+        <div className="d-flex flex-row-reverse">
+          <Button
+              style="secondary btn-sm"
+              icon="fas fa-users"
+              toggle="modal" 
+              target="#exampleModal"
+            />
+        </div>
 
         <Modal
           modal_id="exampleModal"
@@ -91,6 +94,11 @@ class TicketsShow extends Component {
 
         <div className="mg-5 pd-5">
           <TicketComments />
+        </div>
+
+        <div className="mg-5 pd-5">
+          <AddComments 
+            ticket_id={this.props.ticketId}/>
         </div>
 
       </Main>
