@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import './Status.css'
 
 import Main from '../../templates/Main'
 import StatusList from './StatusList'

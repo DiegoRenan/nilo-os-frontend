@@ -36,7 +36,7 @@ class SectorForm extends Component {
         id: this.props.sectorId || '',
         attributes: {
           name: values.name || '',
-          department_id: values.departments || ''
+          department_id: values.departments || null
         }
       }
     }
@@ -70,7 +70,7 @@ class SectorForm extends Component {
 
               <Grid cols="12 4 4 4">
                 Departamento*: <Field component={Select} name="departments" validate={[required()]}>
-                  <option>Selecione um Departamento</option>
+                  <option value="" disabled>Selecione um Departamento</option>
                   {this.departmentsOptions()}
                 </Field>
               </Grid>

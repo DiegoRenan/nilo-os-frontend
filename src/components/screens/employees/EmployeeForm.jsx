@@ -133,7 +133,7 @@ class EmployeeForm extends Component {
                                  name="companies"
                                  onChange={e => this.companyOnChange(e)}  
                                  validate={[required()]}>
-                  <option>Selecione uma Empresa</option>
+                  <option value="" disabled>Selecione uma Empresa</option>
                   {this.companiesOptions(companies)}
                 </Field>
               </Grid>
@@ -143,14 +143,14 @@ class EmployeeForm extends Component {
                                      name="departments"
                                      onChange={e => this.departmentOnChange(e)}
                                      >
-                  <option >Selecione o Departamento</option>
+                  <option value="" disabled>Selecione o Departamento</option>
                   {this.departmentsOptions()}
                 </Field>
               </Grid> 
 
               <Grid cols="12 12 4 4">
                 Setor: <Field component={Select} name="sectors">
-                  <option >Selecione o Setor</option>
+                  <option value="" disabled>Selecione o Setor</option>
                   {this.sectorsOptions()}
                 </Field>
               </Grid> 
@@ -192,7 +192,7 @@ class EmployeeForm extends Component {
 
               <Grid cols="12 4 4 4">
                 Estado: <Field component={Select} name="uf" >
-                  <option value={undefined}>Selecione um Estado</option>
+                  <option value={undefined} disabled>Selecione um Estado</option>
                   <option value="AC">Acre</option>
                   <option value="AL">Alagoas</option>
                   <option value="AP">Amapá</option>
@@ -229,14 +229,14 @@ class EmployeeForm extends Component {
             <div className="row mb-3">
 
               <Grid cols="12 8 8 8">
-                Senha: <Field component={Input} type="password" name="password" />
+                Senha: <Field component={Input} type="password" name="password" validate={[required()]}/>
               </Grid>
 
               <Grid cols="12 8 8 8">
                 Confirmar Senha: <Field component={Input}
                   type="password"
                   name="password_confirmation"
-                  validate={[confirmation({ field: 'password' })]} />
+                  validate={[confirmation({ field: 'password' }), required()]} />
               </Grid>
 
             </div>

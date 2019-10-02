@@ -35,7 +35,7 @@ class DepartmentForm extends Component {
         id: this.props.departmentId || '',
         attributes: {
           name: values.name || '',
-          company_id: values.companies || ''
+          company_id: values.companies || null
         }
       }
     }
@@ -69,7 +69,7 @@ class DepartmentForm extends Component {
 
               <Grid cols="12 4 4 4">
                 Empresa*: <Field component={Select} name="companies" validate={[required()]}>
-                  <option>Selecione uma Empresa</option>
+                  <option value="" disabled>Selecione uma Empresa</option>
                   {this.companiesOptions(companies)}
                 </Field>
               </Grid>
