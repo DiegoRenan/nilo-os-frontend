@@ -4,7 +4,10 @@ import {
   GET_COMMENTS,
   GET_TICKET_RESPONSIBLES,
   LOAD_EMPLOYEES,
-  COMMENT_ADDED
+  TICKET_ADDED,
+  TICKET_UPDATED,
+  COMMENT_ADDED,
+  LOAD_PRIORITIES
 } from '../../../actions/actionTypes'
 
 import api from '../../../services/api'
@@ -29,6 +32,81 @@ export const loadTickets = () => {
       })
   }
 }
+
+export const loadPriorities = () => {
+
+  return dispatch => {
+
+    api.loadPriorities()
+      .then(resp => {
+
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        dispatch({ type: LOAD_PRIORITIES, payload: resp })
+      })
+  }
+}
+
+// create a Employee
+export const add = (ticket, historyProps) => {
+
+  return dispatch => {
+    api.addTicket(ticket)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        notifySuccess("Ticket enviado!")
+
+        dispatch({
+          type: TICKET_ADDED, payload: resp
+        })
+
+        historyProps.push(`/show_ticket/${resp.data.data.id}`)
+
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id +': '+ error.title)
+        );
+      })
+  }
+
+}
+
+// // update a Employee
+export const update = (ticket, historyProps) => {
+  return dispatch => {
+    api.updateTicket(ticket)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        dispatch({
+          type: TICKET_UPDATED, payload: resp
+        })
+
+        notifySuccess("Atualizado")
+        historyProps.push(`/show_ticket/${resp.data.data.id}`)
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id +': '+error.title)
+        );
+      })
+  }
+}
+
 
 export const getTicket = (id) => {
 

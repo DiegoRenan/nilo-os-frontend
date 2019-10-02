@@ -18,8 +18,20 @@ export let urlHeaders = axios.create({
 })
 
 
+
 export default {
   isTokenValid: (token) => urlHeaders.get('auth/validate_token', token),
+
+  addTicket: (data) => url.post("/v1/tickets", data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
+  ),
 
   loadTickets: () => url.get("/v1/tickets", {
     headers: {
@@ -453,6 +465,16 @@ export default {
         'uid': localStorage.getItem('uid')
       }
     }
+  ),
+
+  loadPriorities: () => url.get("/v1/priorities", {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }
   )
 
 }

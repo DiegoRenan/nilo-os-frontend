@@ -4,6 +4,7 @@ import { generateRequireSignInWrapper } from 'redux-token-auth'
 
 
 import Home from '../components/screens/home/Home'
+import TicketNew from '../components/screens/tickets/TicketNew'
 import TicketsShow from '../components/screens/tickets/ticketsShow'
 import MyTickets from '../components/screens/myTickets/MyTickets'
 import ClosedTickets from '../components/screens/closedTickets/ClosedTickets'
@@ -38,6 +39,7 @@ export default props => (
       <Route path='/tickets' component={Home} />
       <Route path='/mytickets' component={MyTickets} />
       <Route path='/closedtickets' component={ClosedTickets} />
+      <Route path='/new_ticket' component={TicketNew} />
       <Route path='/show_ticket/:id' component={TicketsShow} />
 
       <Route path='/companies' component={Company} />
