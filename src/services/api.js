@@ -411,6 +411,37 @@ export default {
       'client': localStorage.getItem('client'),
       'uid': localStorage.getItem('uid')
     }
-  })
+  }),
+
+  //######################  RESPONSIBLES ##############################
+
+  getTicketResponsibles: (id) => url.get(`/v1/tickets/${id}/responsibles`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  removeResponsible: (id) => url.delete(`/v1/responsibles/${id}`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  addResponsible: (data) => url.post("/v1/responsibles", data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
+  )
 
 }

@@ -1,8 +1,9 @@
 import React from 'react'
 
 import ShowGridList from '../../templates/ShowGridList'
-import Grid from '../../templates/Grid'
 import If from '../../templates/If'
+import TicketResponsibles from './TicketResponsibles'
+
 export default props => {
 
   const renderStatus = () => {
@@ -63,17 +64,7 @@ export default props => {
 
   }
 
-  const renderResponsibles = () => {
-    const responsibles = props.responsibles || []
-
-    return responsibles.map(e => (
-      <span class="badge badge-light" key={e.id}>{e.name}</span>
-    ))
-  }
-
   return (
-
-
     <div className="status">
       <div className="row mg-5">
         <div className="col-6">
@@ -81,7 +72,7 @@ export default props => {
         </div>
         <div className="col-6">
           <strong>Responsaveis:</strong>
-          {renderResponsibles()}
+          <TicketResponsibles />
         </div>
       </div>
     </div>

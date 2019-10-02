@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import Grid from '../../templates/Grid'
 
-export default props => {
+class TicketComments extends Component {
 
-  const hashCode = (str) => {
+  hashCode = (str) => {
     var hash = 0;
     for (var i = 0; i < str.length; i++) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -11,7 +13,7 @@ export default props => {
     return hash;
   }
 
-  const intoRGB = (i) => {
+  intoRGB = (i) => {
     var hex = ((i >> 24) & 0xFF).toString(16) +
       ((i >> 16) & 0xFF).toString(16) +
       ((i >> 8) & 0xFF).toString(16) +
@@ -21,21 +23,21 @@ export default props => {
     return hex.substring(0, 6);
   }
 
-  const colorStyle = (str) => {
-    return { color: `#` + intoRGB(hashCode(str)) }
+  colorStyle = (str) => {
+    return { color: `#` + this.intoRGB(this.hashCode(str)) }
   }
 
 
-  const renderComments = () => {
-    const comments = props.comments || []
+  renderComments = () => {
+    const comments = this.props.comments || []
 
     return comments.map(comment => (
-      <div className="ticket-body mg-top-15">
-        <span style={colorStyle(comment.attributes.employee)}>
+      <div className="ticket-body mg-top-15" key={comment.id}>
+        <span style={this.colorStyle(comment.attributes.employee)}>
           <strong>{comment.attributes.employee}</strong>
           <small>{": " + comment.attributes.created}</small><br />
         </span>
-        <div className="comment-body mg-5" key={comment.id} >
+        <div className="comment-body mg-5"  >
 
           <div className="row">
             <Grid cols="12 12 12 12">
@@ -47,5 +49,14 @@ export default props => {
     ))
   }
 
-  return (renderComments())
+  render() {
+    return (this.renderComments())
+  }
+
 }
+
+const mapStateToProps = state => ({
+  comments: state.ticketsState.comments
+})
+
+export default connect(mapStateToProps, null)(TicketComments)
