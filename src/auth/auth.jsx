@@ -19,7 +19,7 @@ class Auth extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props
+    const { handleSubmit, submitting } = this.props
 
     return (
       <aside className="login-container">
@@ -34,6 +34,7 @@ class Auth extends Component {
                 <Field component={Input} type="email" name="email" label="email" icon="user" />
                 <Field component={Input} type="password" name="password" label="password" icon="lock" />
                 <button type="submit"
+                  disabled={submitting}
                   className="btn btn-primary btn-block btn-flat" >
                   Entrar
                   </button>
