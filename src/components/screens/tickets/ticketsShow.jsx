@@ -52,7 +52,7 @@ class TicketsShow extends Component {
         id: this.props.match.params.id || null,
         employee_id: localStorage.getItem("employee_id") || null
     }
-    
+
     return obj
   }
 
@@ -110,6 +110,7 @@ class TicketsShow extends Component {
             responsibles={this.props.responsibles}
             employees={employees}
           />
+          
         </Modal>
 
         <div className="card types">

@@ -29,7 +29,6 @@ export default (state = INITIAL_STATE, action) => {
 
     case LOAD_TICKETS:
       return { ...state, tickets: action.payload.data }
-
     case GET_TICKET:
       return {
         ...state, ticket: action.payload.data.data[0].attributes,

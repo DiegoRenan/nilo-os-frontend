@@ -36,8 +36,9 @@ class AddResponsibles extends Component {
       employeesNotIn.push(e.attributes.employee.id)
     })
 
-    return ( employeesNotIn )
+    return (employeesNotIn)
   }
+
 
   renderEmployees() {
     let employees = this.props.employees || []
@@ -68,20 +69,26 @@ class AddResponsibles extends Component {
     const responsibles = this.props.responsibles || []
 
     return responsibles.map(e => (
-      <span className="badge badge-light" key={e.id+`responsibles`}>
-        {e.attributes.employee.name}
-        <Button
-          style="danger btn-sm"
-          icon="far fa-times-circle"
-          onClick={() => this.handleRemoveResponsible(e.id, e.attributes.ticket.id)}
-        />
-      </span>
+      <li className="list-group-item" key={e.id}>
+        <div className="row">
+          <Grid cols="8 8 8 8">{e.attributes.employee.name}</Grid>
+          <Grid cols="4 4 4 4">
+            <Button
+              style="danger btn-sm"
+              icon="far fa-times-circle"
+              onClick={() => this.handleRemoveResponsible(e.id, e.attributes.ticket.id)}
+            />
+          </Grid>
+        </div>
+      </li>
+
     ))
   }
 
   render() {
     return (
       <div>
+        <ul className="list-group">{this.renderResponsibles()}</ul>
         <ul className="list-group">{this.renderEmployees()}</ul>
       </div>
     )

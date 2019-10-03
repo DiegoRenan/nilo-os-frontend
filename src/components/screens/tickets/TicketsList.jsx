@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 
+import Button from '../../templates/Button'
 import { loadTickets } from './ticketsActions'
+import Modal from '../../templates/Modal'
+import AddResponsible from './AddResponsible'
 
 import Icon from '../../templates/Icon'
 
@@ -32,17 +35,47 @@ class TicketsList extends Component {
 
   renderRows() {
     let tickets = this.props.tickets || []
-    return tickets.map(ticket => (
+    return tickets.map((ticket, index) => (
       <tr key={ticket.id}>
         <td><Icon icon={`circle-o ` + this.colorPriority(ticket.attributes.nivel)} /></td>
-        <td><Link to={`/show_ticket/`+ticket.id}>{ticket.attributes.title}</Link></td>
+        <td><Link to={`/show_ticket/` + ticket.id}>{ticket.attributes.title}</Link></td>
         <td>{ticket.attributes.author}</td>
-        <td><Icon icon='users' /></td>
+        <td>
+          <Button
+            style="secondary btn-sm mg-l-5"
+            icon="fas fa-users"
+            toggle="modal"
+            target={`#m` + index + `m`}
+          />
+          {this.renderModal(ticket, `m` + index + `m`)}
+        </td>
         <td><Icon icon='hourglass-half' /></td>
         <td><Icon icon='edit' /></td>
         <td><Icon icon='trash' /></td>
       </tr>
     ))
+  }
+
+  renderResponsibles(ticket) {
+    let responsibles = ticket.attributes.responsibles || []
+    return responsibles.map((responsible, index) => (
+      <li className="list-group-item" key={index}>
+        {responsible}
+      </li>
+    ))
+  }
+
+  renderModal(ticket, id) {
+    return (
+      <Modal
+        modal_id={id}
+        modal_id_label={id + `Label`}
+        modal_title="Responsaveis"
+      >
+        <ul className="list-group">{this.renderResponsibles(ticket)}</ul>
+
+      </Modal>
+    )
   }
 
   render() {
