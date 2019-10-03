@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 import Button from '../../templates/Button'
 import { loadTickets } from './ticketsActions'
 import Modal from '../../templates/Modal'
-import AddResponsible from './AddResponsible'
 
 import Icon from '../../templates/Icon'
 
@@ -50,7 +49,7 @@ class TicketsList extends Component {
           {this.renderModal(ticket, `m` + index + `m`)}
         </td>
         <td><Icon icon='hourglass-half' /></td>
-        <td><Icon icon='edit' /></td>
+        <td><Link to={`/edit_ticket/` + ticket.id}><Icon icon='edit' /></Link></td>
         <td><Icon icon='trash' /></td>
       </tr>
     ))

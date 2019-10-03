@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { required, reset, confirmation } from 'redux-form-validators'
 
-import { add, update, loadPriorities } from './ticketsActions'
+import { add, update, loadPriorities, getTicket } from './ticketsActions'
 import { loadCompanies, getCompanyDepartments } from '../company/companiesActions'
 import { loadStatus } from '../ticketStatus/statusActions'
 import { loadTypes } from '../ticketTypes/typeActions'
@@ -26,6 +26,9 @@ class TicketForm extends Component {
     this.props.loadStatus()
     this.props.loadTypes()
     this.props.loadPriorities()
+    if (this.props.ticketId) {
+      this.props.getTicket(this.props.ticketId)
+    }
   }
 
   companiesOptions() {
@@ -87,13 +90,34 @@ class TicketForm extends Component {
           title: values.title || '',
           body: values.body || '',
           conclude_at: values.conclude_at || '',
-          company_id: values.companies || null,
-          department_id: values.departments || null,
-          sector_id: values.sectors || null,
-          ticket_status_id: values.ticket_status || null,
-          ticket_type_id: values.ticket_type || null,
+          company_id: values.company_id || null,
+          department_id: values.department_id || null,
+          sector_id: values.sector_id || null,
+          ticket_status_id: values.ticket_status_id || null,
+          ticket_type_id: values.ticket_type_id || null,
           employee_id: localStorage.getItem("employee_id") || null,
-          priority_id: values.ticket_priority || null
+          priority_id: values.ticket_priority_id || null
+        }
+      }
+    }
+    return obj
+  }
+
+  ticketUpdateObj(values) {
+    const obj = {
+      data: {
+        type: "tickets",
+        id: this.props.ticketId || '',
+        attributes: {
+          title: values.title || '',
+          body: values.body || '',
+          conclude_at: values.conclude_at || '',
+          company_id: values.company_id || null,
+          department_id: values.department_id || null,
+          sector_id: values.sector_id || null,
+          ticket_status_id: values.ticket_status_id || null,
+          ticket_type_id: values.ticket_type_id || null,
+          priority_id: values.ticket_priority_id || null
         }
       }
     }
@@ -101,12 +125,11 @@ class TicketForm extends Component {
   }
 
   onSubmit(values) {
-    const obj = this.ticketObj(values)
-
-    console.log(obj)
     if (this.props.ticketId) {
+      const obj = this.ticketUpdateObj(values)
       this.props.update(obj, this.props.history)
     } else {
+      const obj = this.ticketObj(values)
       this.props.add(obj, this.props.history)
     }
   }
@@ -127,7 +150,7 @@ class TicketForm extends Component {
 
               <Grid cols="12 12 4 4">
                 Empresa*: <Field component={Select}
-                  name="companies"
+                  name="company_id"
                   onChange={e => this.companyOnChange(e)}
                   validate={[required()]}>
                   <option value="" disabled>Selecione uma Empresa</option>
@@ -137,7 +160,7 @@ class TicketForm extends Component {
 
               <Grid cols="12 12 4 4">
                 Departamento: <Field component={Select}
-                  name="departments"
+                  name="department_id"
                   onChange={e => this.departmentOnChange(e)}
                 >
                   <option value="" disabled>Selecione o Departamento</option>
@@ -146,7 +169,7 @@ class TicketForm extends Component {
               </Grid>
 
               <Grid cols="12 12 4 4">
-                Setor: <Field component={Select} name="sectors">
+                Setor: <Field component={Select} name="sector_id">
                   <option value="" disabled>Selecione o Setor</option>
                   {this.sectorsOptions()}
                 </Field>
@@ -173,7 +196,7 @@ class TicketForm extends Component {
             <div className="row mb-3">
               <Grid cols="12 6 4 4">
                 Tipo de Serviço: <Field component={Select}
-                  name="ticket_type">
+                  name="ticket_type_id">
                   <option value="" disabled>Selecione um Tipo de Serviço</option>
                   {this.typesOptions()}
                 </Field>
@@ -187,7 +210,7 @@ class TicketForm extends Component {
 
               <Grid cols="12 4 4 4">
                 Prioridade: <Field component={Select}
-                  name="ticket_priority">
+                  name="ticket_priority_id">
                   <option value="" disabled>Selecione uma Prioridade</option>
                   {this.priorityOptions()}
                 </Field>
@@ -195,7 +218,7 @@ class TicketForm extends Component {
 
               <Grid cols="12 4 4 4">
                 Status: <Field component={Select}
-                  name="ticket_status">
+                  name="ticket_status_id">
                   <option value="" disabled>Selecione um Status</option>
                   {this.statusOptions()}
                 </Field>
@@ -255,14 +278,23 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getDepartmentSectors,
   loadStatus,
   loadTypes,
-  loadPriorities
+  loadPriorities,
+  getTicket
 }, dispatch)
 
 TicketForm = connect(
 
   state => ({
     initialValues: {
-      ticket: state.ticketsState.ticket
+      title: state.ticketsState.ticket.title,
+      body: state.ticketsState.ticket.body,
+      company_id: state.ticketsState.company_id,
+      department_id: state.ticketsState.department_id,
+      sector_id: state.ticketsState.sector_id,
+      company_id: state.ticketsState.company_id,
+      ticket_status_id: state.ticketsState.ticket_status_id,
+      ticket_type_id: state.ticketsState.ticket_type_id,
+      priority_id: state.ticketsState.ticket.priority_id
     },
     ticket: state.ticketsState.ticket,
     companies: state.ticketsState.companies,
