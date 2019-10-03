@@ -90,13 +90,13 @@ class TicketForm extends Component {
           title: values.title || '',
           body: values.body || '',
           conclude_at: values.conclude_at || '',
-          company_id: values.company_id || null,
-          department_id: values.department_id || null,
-          sector_id: values.sector_id || null,
-          ticket_status_id: values.ticket_status_id || null,
-          ticket_type_id: values.ticket_type_id || null,
+          company_id: values.company || null,
+          department_id: values.department || null,
+          sector_id: values.sector || null,
+          ticket_status_id: values.ticket_status || null,
+          ticket_type_id: values.ticket_type || null,
           employee_id: localStorage.getItem("employee_id") || null,
-          priority_id: values.ticket_priority_id || null
+          priority_id: values.ticket_priority || null
         }
       }
     }
@@ -112,12 +112,12 @@ class TicketForm extends Component {
           title: values.title || '',
           body: values.body || '',
           conclude_at: values.conclude_at || '',
-          company_id: values.company_id || null,
-          department_id: values.department_id || null,
-          sector_id: values.sector_id || null,
-          ticket_status_id: values.ticket_status_id || null,
-          ticket_type_id: values.ticket_type_id || null,
-          priority_id: values.ticket_priority_id || null
+          company_id: values.company || null,
+          department_id: values.department || null,
+          sector_id: values.sector || null,
+          ticket_status_id: values.ticket_status || null,
+          ticket_type_id: values.ticket_type || null,
+          priority_id: values.ticket_priority || null
         }
       }
     }
@@ -150,7 +150,7 @@ class TicketForm extends Component {
 
               <Grid cols="12 12 4 4">
                 Empresa*: <Field component={Select}
-                  name="company_id"
+                  name="company"
                   onChange={e => this.companyOnChange(e)}
                   validate={[required()]}>
                   <option value="" disabled>Selecione uma Empresa</option>
@@ -160,7 +160,7 @@ class TicketForm extends Component {
 
               <Grid cols="12 12 4 4">
                 Departamento: <Field component={Select}
-                  name="department_id"
+                  name="department"
                   onChange={e => this.departmentOnChange(e)}
                 >
                   <option value="" disabled>Selecione o Departamento</option>
@@ -169,7 +169,7 @@ class TicketForm extends Component {
               </Grid>
 
               <Grid cols="12 12 4 4">
-                Setor: <Field component={Select} name="sector_id">
+                Setor: <Field component={Select} name="sector">
                   <option value="" disabled>Selecione o Setor</option>
                   {this.sectorsOptions()}
                 </Field>
@@ -196,7 +196,7 @@ class TicketForm extends Component {
             <div className="row mb-3">
               <Grid cols="12 6 4 4">
                 Tipo de Serviço: <Field component={Select}
-                  name="ticket_type_id">
+                  name="ticket_type">
                   <option value="" disabled>Selecione um Tipo de Serviço</option>
                   {this.typesOptions()}
                 </Field>
@@ -218,7 +218,7 @@ class TicketForm extends Component {
 
               <Grid cols="12 4 4 4">
                 Status: <Field component={Select}
-                  name="ticket_status_id">
+                  name="ticket_status">
                   <option value="" disabled>Selecione um Status</option>
                   {this.statusOptions()}
                 </Field>
@@ -287,14 +287,7 @@ TicketForm = connect(
   state => ({
     initialValues: {
       title: state.ticketsState.ticket.title,
-      body: state.ticketsState.ticket.body,
-      company_id: state.ticketsState.company_id,
-      department_id: state.ticketsState.department_id,
-      sector_id: state.ticketsState.sector_id,
-      company_id: state.ticketsState.company_id,
-      ticket_status_id: state.ticketsState.ticket_status_id,
-      ticket_type_id: state.ticketsState.ticket_type_id,
-      priority_id: state.ticketsState.ticket.priority_id
+      body: state.ticketsState.ticket.body
     },
     ticket: state.ticketsState.ticket,
     companies: state.ticketsState.companies,
