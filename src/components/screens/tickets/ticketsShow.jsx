@@ -4,11 +4,13 @@ import { bindActionCreators } from 'redux'
 
 import './Ticket.css'
 import Main from '../../templates/Main'
-import { 
-  getTicket, 
-  getComments, 
+import {
+  getTicket,
+  getComments,
   getTicketResponsibles,
   loadEmployees,
+  aproveTicket,
+  closeTicket
 } from './ticketsActions'
 import Icon from '../../templates/Icon'
 import Button from '../../templates/Button'
@@ -45,6 +47,25 @@ class TicketsShow extends Component {
     return 'text-light'
   }
 
+  statusObj() {
+    const obj = {
+        id: this.props.match.params.id || null,
+        employee_id: localStorage.getItem("employee_id") || null
+    }
+    
+    return obj
+  }
+
+  closeTicket() {
+    const obj = this.statusObj()
+    this.props.closeTicket(obj)
+  }
+
+  aproveTicket() {
+    const obj = this.statusObj()
+    this.props.aproveTicket(obj)
+  }
+
   render() {
     const obj = this.props.ticket || []
     const included = this.props.included || []
@@ -57,27 +78,40 @@ class TicketsShow extends Component {
           {obj.title}
         </h1>
 
-        <div className="d-flex flex-row-reverse">
+        <div className="d-flex flex-row-reverse mg-5">
           <Button
-              style="secondary btn-sm"
-              icon="fas fa-users"
-              toggle="modal" 
-              target="#exampleModal"
-            />
+            style="secondary btn-sm mg-l-5"
+            icon="fas fa-users"
+            toggle="modal"
+            target="#exampleModal"
+          />
+
+          <Button
+            style="secondary btn-sm mg-l-5"
+            title="Concluir"
+            onClick={() => this.closeTicket()}
+          />
+
+          <Button
+            style="secondary btn-sm mg-l-5"
+            title="Aprovar"
+            onClick={() => this.aproveTicket()}
+          />
+
         </div>
 
         <Modal
           modal_id="exampleModal"
           modal_id_label="exampleModalLabel"
           modal_title="Adicionar Responsável"
-          >
-            <AddResponsible 
-              ticketId={this.props.ticketId}
-              responsibles={this.props.responsibles}
-              employees={employees}
-            />
+        >
+          <AddResponsible
+            ticketId={this.props.ticketId}
+            responsibles={this.props.responsibles}
+            employees={employees}
+          />
         </Modal>
-        
+
         <div className="card types">
 
           <TicketsStatus
@@ -97,8 +131,8 @@ class TicketsShow extends Component {
         </div>
 
         <div className="mg-5 pd-5">
-          <AddComments 
-            ticket_id={this.props.ticketId}/>
+          <AddComments
+            ticket_id={this.props.ticketId} />
         </div>
 
       </Main>
@@ -119,6 +153,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getTicket,
   getComments,
   getTicketResponsibles,
-  loadEmployees
+  loadEmployees,
+  closeTicket,
+  aproveTicket
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(TicketsShow)

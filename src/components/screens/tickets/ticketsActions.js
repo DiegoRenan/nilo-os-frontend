@@ -7,7 +7,9 @@ import {
   TICKET_ADDED,
   TICKET_UPDATED,
   COMMENT_ADDED,
-  LOAD_PRIORITIES
+  LOAD_PRIORITIES,
+  TICKET_APROVED,
+  TICKET_CLOSED
 } from '../../../actions/actionTypes'
 
 import api from '../../../services/api'
@@ -249,6 +251,56 @@ export const addComments = (obj) => {
         notifySuccess("Resposta enviada")
 
         dispatch([getComments(obj.data.attributes.ticket_id), {type: COMMENT_ADDED}])
+
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id +': '+error.title)
+        );
+      })
+  }
+  
+}
+
+export const closeTicket = (obj) => {
+
+  return dispatch => {
+    api.closeTicket(obj)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+        
+        notifySuccess("Enviado para Avaliação")
+
+        dispatch(getTicket(obj.id))
+
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id +': '+error.title)
+        );
+      })
+  }
+  
+}
+
+export const aproveTicket = (obj) => {
+
+  return dispatch => {
+    api.aproveTicket(obj)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+        
+        notifySuccess("Ticket Aprovado")
+
+        dispatch(getTicket(obj.id))
 
       })
       .catch(e => {

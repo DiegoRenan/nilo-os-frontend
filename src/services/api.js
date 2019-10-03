@@ -475,6 +475,28 @@ export default {
       'uid': localStorage.getItem('uid')
     }
   }
+  ),
+
+  closeTicket: (data) => url.post("/v1/close_ticket", data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
+  ),
+
+  aproveTicket: (data) => url.post("/v1/aprove_ticket", data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
   )
 
 }
