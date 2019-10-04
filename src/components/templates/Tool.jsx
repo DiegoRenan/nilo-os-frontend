@@ -25,7 +25,7 @@ class Tool extends Component {
           aria-haspopup="true" 
           aria-expanded="false">
           
-          User name 
+          {localStorage.getItem("uid")}
 
         </a>
 

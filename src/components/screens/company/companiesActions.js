@@ -3,7 +3,8 @@ import {
   COMPANY_CHANGED,
   COMPANY_ADDED,
   COMPANY_UPDATED,
-  GET_COMPANY
+  GET_COMPANY,
+  GET_COMPANY_DEPARTMENTS
 } from '../../../actions/actionTypes'
 
 import { notifyError, notifySuccess } from '../../../const/const'
@@ -59,7 +60,7 @@ export const add = (company) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error)
+          error => notifyError(error.id +': '+error.title)
         );
       })
   }
@@ -85,7 +86,7 @@ export const update = (company, ownProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error)
+          error => notifyError(error.id +': '+error.title)
         );
       })
   }
@@ -136,4 +137,27 @@ export const remove = (company_id) => {
       })
   }
 
+}
+
+// get company departments
+export const getCompanyDepartments = (companyId) => {
+  return dispatch => {
+    api.getCompanyDepartments(companyId)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        dispatch({
+          type: GET_COMPANY_DEPARTMENTS, payload: resp
+        })
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error)
+        );
+      })
+  }
 }

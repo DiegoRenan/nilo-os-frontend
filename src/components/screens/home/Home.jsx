@@ -1,17 +1,12 @@
 import './Home.css'
-import React, { Component } from 'react'
+import React from 'react'
 
 import Main from '../../templates/Main'
-import TicketsList from '../../templates/ticketsList/TicketsList'
+import TicketsList from  '../tickets/TicketsList'
 
-export default class Home extends Component {
+export default props =>
+  <Main title="Home" >
+    <div className="display-4">Ticktes</div>
+    <TicketsList />
+  </Main>
 
-  render() {
-    return (
-      <Main title="Home" >
-        <div className="display-4">Ticktes</div>
-        <TicketsList /> 
-      </Main>
-    )
-  }
-}

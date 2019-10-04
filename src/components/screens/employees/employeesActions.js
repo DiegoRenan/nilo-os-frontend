@@ -7,25 +7,24 @@ import {
   GET_EMPLOYEE_COMPANY
 } from '../../../actions/actionTypes'
 
-import alert from '../../../actions/alert'
 import api from '../../../services/api'
 import { notifyError, notifySuccess } from '../../../const/const'
-import { signup } from '../../../auth/authActions'
-
-// //show/hidden Alerts
-const hiddenAlert = (dispatch) => {
-  setTimeout(() => {
-    dispatch(
-      alert({ hidden: 'hidden' })
-    )
-  }, 5000);
-}
+import { setAuthHeader } from '../../../services/setAuthHeader'
 
 // Load Employees
-export const loadEmployees = () => {
-  return {
-    type: LOAD_EMPLOYEES,
-    payload: api.loadEmployees()
+export function loadEmployees() {
+  return dispatch => {
+    api.loadEmployees()
+      .then(resp => {
+
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        dispatch({ type: LOAD_EMPLOYEES, payload: resp })
+      })
   }
 }
 
@@ -38,75 +37,127 @@ export const changeEmployee = event => {
 }
 
 // create a Employee
-export const add = (employee, historyProps) => async (dispatch) => {
-  try { 
-    const response = await api.addEmployee(employee)
-    
-    dispatch({
-      type: EMPLOYEE_ADDED, payload: response
-    })
-    
-    notifySuccess("Colaborador criado com sucesso!")
-    historyProps.push(`/show_employee/${response.data.data.id}`)
-    
-  } catch (e) {
-    e.response.data.errors.forEach(erro => {
-      notifyError(erro.id.toUpperCase() + ": " + erro.title)
-    }); 
+export const add = (employee, historyProps) => {
+
+  return dispatch => {
+    api.addEmployee(employee)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        notifySuccess("Colaborador criado com sucesso!")
+
+        dispatch({
+          type: EMPLOYEE_ADDED, payload: resp
+        })
+
+        historyProps.push(`/show_employee/${resp.data.data.id}`)
+
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id +': '+ error.title)
+        );
+      })
   }
+
 }
 
 // // update a Employee
-export const update = (employee, historyProps) => async (dispatch) => {
+export const update = (employee, historyProps) => {
+  return dispatch => {
+    api.updateEmployee(employee)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
 
-  try {
-    let response = await api.updateEmployee(employee)
+        setAuthHeader(token, client, uid)
 
-    dispatch({
-      type: EMPLOYEE_UPDATED, payload: response
-    })
+        dispatch({
+          type: EMPLOYEE_UPDATED, payload: resp
+        })
 
-    notifySuccess("Atualizado")
-    historyProps.push(`/show_employee/${response.data.data.id}`)
-
-  } catch (e) {
-    e.response.data.errors.forEach(
-      error => notifyError(error.id.toUpperCase() + ': ' + error.title)
-    )
+        notifySuccess("Atualizado")
+        historyProps.push(`/show_employee/${resp.data.data.id}`)
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id +': '+error.title)
+        );
+      })
   }
-
 }
 
 // get a employee's company
-export const getEmployeeCompany = (employeeId) => async (dispatch) => {
-  let response = await api.getEmployeeCompany(employeeId)
-  dispatch({
-    type: GET_EMPLOYEE_COMPANY, payload: response
-  })
-}
+export const getEmployeeCompany = (employeeId) => {
+  return dispatch => {
+    api.getEmployeeCompany(employeeId)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
 
-// get a Company
-export const getEmployee = (employee_id) => {
-  return {
-    type: GET_EMPLOYEE,
-    payload: api.getEmployee(employee_id)
+        setAuthHeader(token, client, uid)
+
+        dispatch({
+          type: GET_EMPLOYEE_COMPANY, payload: resp
+        })
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error)
+        );
+      })
   }
 }
 
+
+//get employee
+export const getEmployee = (employee_id) => {
+  return dispatch => {
+    api.getEmployee(employee_id)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        dispatch({ type: GET_EMPLOYEE, payload: resp })
+
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error)
+        );
+      })
+  }
+}
+
+
 // delete a Employee
-export const remove = (employee_id) => async (dispatch) => {
-  let response = await api.deleteEmployee(employee_id)
-  dispatch(
-    loadEmployees()
-  )
+export const remove = (employee_id) => {
+  return dispatch => {
+    api.deleteEmployee(employee_id)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
 
-  let status = "error", statusText = "Error"
-  response.status === 204 && response.statusText === "No Content" ? status = "success" : status = "error"
-  status === "success" ? statusText = "Deletado" : statusText = "Error"
+        setAuthHeader(token, client, uid)
 
-  dispatch(
-    alert({ http_code: status, message: statusText, hidden: '' })
-  )
+        notifySuccess("Removido")
 
-  hiddenAlert(dispatch)
+        dispatch(loadEmployees())
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id +': '+error.title)
+        );
+      })
+  }
 }

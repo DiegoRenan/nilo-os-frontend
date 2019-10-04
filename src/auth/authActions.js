@@ -24,6 +24,10 @@ function submit(values, path) {
         localStorage.setItem("client", client)
         localStorage.setItem("uid", uid)
 
+        localStorage.setItem("employee_id", resp.data.data.employee_id)
+        localStorage.setItem("master", resp.data.data.master)
+        localStorage.setItem("admin", resp.data.data.admin)
+
         setAuthHeader(token, client, uid)
 
         dispatch([

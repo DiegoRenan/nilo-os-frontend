@@ -5,11 +5,11 @@ import { bindActionCreators } from 'redux'
 import { required, email, confirmation } from 'redux-form-validators'
 
 import { add, getEmployee, update } from './employeesActions'
-import { loadCompanies } from '../company/companiesActions'
+import { loadCompanies, getCompanyDepartments } from '../company/companiesActions'
+import { getDepartmentSectors } from '../departments/departmentsActions'
 import Input from '../../templates/form/Input'
 import Select from '../../templates/form/Select'
 import Grid from '../../templates/Grid'
-import If from '../../templates/If'
 
 class EmployeeForm extends Component {
   constructor(props) {
@@ -25,8 +25,30 @@ class EmployeeForm extends Component {
 
   companiesOptions(companies) {
     return companies.map(company => (
-      <option value={company.id}>{company.attributes.name}</option>
+      <option value={company.id} key={company.id}>{company.attributes.name}</option>
     ))
+  }
+
+  departmentsOptions() {
+    const departments = this.props.departments
+    return departments.map(department => (
+      <option value={department.id} key={department.id}>{department.attributes.name}</option>
+    ))
+  }
+
+  sectorsOptions() {
+    let sectors = this.props.sectors || []
+    return sectors.map(sector => (
+      <option value={sector.id} key={sector.id}>{sector.attributes.name}</option>
+    ))
+  }
+
+  companyOnChange(e) {
+    this.props.getCompanyDepartments(e.target.value)
+  }
+
+  departmentOnChange(e) {
+    this.props.getDepartmentSectors(e.target.value)
   }
 
   employeeObj(values) {
@@ -45,9 +67,12 @@ class EmployeeForm extends Component {
           district: values.district || '',
           city: values.city || '',
           uf: values.uf || '',
+          master: values.master || false,
           password: values.password || null,
           password_confirmation: values.password_confirmation || null,
-          company_id: values.companies || ''
+          company_id: values.companies || '',
+          department_id: values.departments || null,
+          sector_id: values.sectors || null
         }
       }
     }
@@ -95,15 +120,40 @@ class EmployeeForm extends Component {
               </Grid>
 
               <Grid cols="12 4 4 4">
-                Empresa*: <Field component={Select} name="companies" validate={[required()]}>
-                  <option>Selecione uma Empresa</option>
+                Data de Nascimento: <Field component={Input} type="date" name="born" />
+              </Grid>
+
+            </div>
+
+            <br />
+            <div className="row mb-3">
+              
+              <Grid cols="12 12 4 4">
+                Empresa*: <Field component={Select} 
+                                 name="companies"
+                                 onChange={e => this.companyOnChange(e)}  
+                                 validate={[required()]}>
+                  <option value="" disabled>Selecione uma Empresa</option>
                   {this.companiesOptions(companies)}
                 </Field>
               </Grid>
 
-              <Grid cols="12 4 4 4">
-                Data de Nascimento: <Field component={Input} type="date" name="born" />
-              </Grid>
+              <Grid cols="12 12 4 4">
+                Departamento: <Field component={Select} 
+                                     name="departments"
+                                     onChange={e => this.departmentOnChange(e)}
+                                     >
+                  <option value="" disabled>Selecione o Departamento</option>
+                  {this.departmentsOptions()}
+                </Field>
+              </Grid> 
+
+              <Grid cols="12 12 4 4">
+                Setor: <Field component={Select} name="sectors">
+                  <option value="" disabled>Selecione o Setor</option>
+                  {this.sectorsOptions()}
+                </Field>
+              </Grid> 
 
             </div>
 
@@ -142,7 +192,7 @@ class EmployeeForm extends Component {
 
               <Grid cols="12 4 4 4">
                 Estado: <Field component={Select} name="uf" >
-                  <option value={undefined}>Selecione um Estado</option>
+                  <option value={undefined} disabled>Selecione um Estado</option>
                   <option value="AC">Acre</option>
                   <option value="AL">Alagoas</option>
                   <option value="AP">Amapá</option>
@@ -179,14 +229,25 @@ class EmployeeForm extends Component {
             <div className="row mb-3">
 
               <Grid cols="12 8 8 8">
-                Senha: <Field component={Input} type="password" name="password" />
+                Senha: <Field component={Input} type="password" name="password" validate={[required()]}/>
               </Grid>
 
               <Grid cols="12 8 8 8">
                 Confirmar Senha: <Field component={Input}
                   type="password"
                   name="password_confirmation"
-                  validate={[confirmation({ field: 'password' })]} />
+                  validate={[confirmation({ field: 'password' }), required()]} />
+              </Grid>
+
+            </div>
+
+            <div className="row mb-3">
+
+              <Grid cols="12 12 12 12">
+                Master: {' '}
+                <label>
+                  <Field name="master" component="input" type="checkbox" />
+                </label>
               </Grid>
 
             </div>
@@ -194,8 +255,7 @@ class EmployeeForm extends Component {
             <button type="submit"
               className="btn btn-primary btn-flat ml-auto m-2"
               disabled={submitting} >
-              Salvar
-                  </button>
+              Salvar</button>
 
             <button type="button"
               className="btn btn-secondary btn-flat ml-auto"
@@ -217,13 +277,17 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   add,
   getEmployee,
   update,
-  loadCompanies
+  loadCompanies,
+  getCompanyDepartments,
+  getDepartmentSectors
 }, dispatch)
 
 EmployeeForm = connect(
   state => ({
     initialValues: state.employeeState.employee,
-    companies: state.employeeState.companies
+    companies: state.employeeState.companies,
+    departments: state.employeeState.departments,
+    sectors: state.employeeState.sectors
   }),
   mapDispatchToProps
 )(EmployeeForm)
