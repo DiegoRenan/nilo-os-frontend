@@ -3,12 +3,12 @@ import { loadDepartments } from '../components/screens/departments/departmentsAc
 
 export let url = axios.create({
   baseURL: "http://177.23.191.191:3000/",
-  // baseURL: "http://localhost:3000/",
+  baseURL: "http://localhost:3000/",
 })
 
 export let urlHeaders = axios.create({
   baseURL: "http://177.23.191.191:3000/",
-  // baseURL: "http://localhost:3000/",
+  baseURL: "http://localhost:3000/",
   headers: {
     'Accept': 'application/json',
     'access-token': localStorage.getItem('access-token'),
