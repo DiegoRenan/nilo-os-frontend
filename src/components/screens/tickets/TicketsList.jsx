@@ -3,9 +3,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import Button from '../../templates/Button'
-import { loadTickets } from './ticketsActions'
+import { loadTickets, remove } from './ticketsActions'
 import Modal from '../../templates/Modal'
 
 import Icon from '../../templates/Icon'
@@ -17,6 +19,26 @@ class TicketsList extends Component {
 
   componentDidMount() {
     this.props.loadTickets()
+  }
+
+  removeTicket(id) {
+    
+    confirmAlert( {
+      title: 'Confirma pra Deletar',
+      message: `Todas as informações deste ticket incluindo os comentário serão permanentemente excluídos. 
+                Deseja continuar?`,
+      buttons: [
+        {
+          label: 'Confirmar',
+          onClick: () => this.props.remove(id)
+        },
+        {
+          label: 'Cancelar',
+          onClick: () => {}
+        }
+      ]
+    });
+
   }
 
   colorPriority(priority) {
@@ -50,7 +72,7 @@ class TicketsList extends Component {
         </td>
         <td><Icon icon='hourglass-half' /></td>
         <td><Link to={`/edit_ticket/` + ticket.id}><Icon icon='edit' /></Link></td>
-        <td><Icon icon='trash' /></td>
+        <td><Link to="#" onClick={() =>  this.removeTicket(ticket.id)} ><Icon icon='trash' /></Link></td>
       </tr>
     ))
   }
@@ -102,5 +124,5 @@ class TicketsList extends Component {
 }
 
 const mapStateToProps = state => ({ tickets: state.ticketsState.tickets.data })
-const mapDispatchToProps = dispatch => bindActionCreators({ loadTickets }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ loadTickets, remove }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(TicketsList)

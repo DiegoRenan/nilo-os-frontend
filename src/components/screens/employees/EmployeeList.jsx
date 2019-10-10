@@ -7,6 +7,8 @@ import { loadEmployees, remove } from './employeesActions'
 
 import Icon from '../../templates/Icon'
 import If from '../../templates/If'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 class EmployeeList extends Component {
   constructor(props) {
@@ -15,6 +17,26 @@ class EmployeeList extends Component {
 
   componentDidMount() {
     this.props.loadEmployees()
+  }
+
+  removeEmployee(id) {
+    
+    confirmAlert( {
+      title: 'Confirma pra Deletar',
+      message: `O usuário só podera ser removido se não estiver mais vínculado a nenhum ticket. 
+                Deseja continuar?`,
+      buttons: [
+        {
+          label: 'Confirmar',
+          onClick: () => this.props.remove(id)
+        },
+        {
+          label: 'Cancelar',
+          onClick: () => {}
+        }
+      ]
+    });
+
   }
 
   renderRows() {
@@ -30,7 +52,7 @@ class EmployeeList extends Component {
         </td>
           <td>
             <If test={!(localStorage.getItem("admin") == "true")} >
-              <Link to="#" onClick={() => this.props.remove(employee.id)} ><Icon icon='trash' /> </Link> 
+              <Link to="#" onClick={() => this.removeEmployee(employee.id)} ><Icon icon='trash' /> </Link> 
             </If>
         </td>
       </tr>
