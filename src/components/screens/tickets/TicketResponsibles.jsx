@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { removeResponsible, getTicketResponsibles } from './ticketsActions'
 import Button from '../../templates/Button'
+import If from '../../templates/If'
 
 class TicketResponsibles extends Component {
 
@@ -17,11 +18,13 @@ class TicketResponsibles extends Component {
       return responsibles.map(e => (
         <span className="badge badge-light" key={e.id}>
           {e.attributes.employee.name}
-          <Button
-            style="danger btn-sm"
-            icon="far fa-times-circle"
-            onClick={() => this.handleRemoveResponsible(e.id, e.attributes.ticket.id)}
-          />
+          <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"} >
+            <Button
+              style="danger btn-sm"
+              icon="far fa-times-circle"
+              onClick={() => this.handleRemoveResponsible(e.id, e.attributes.ticket.id)}
+            />
+          </If>
         </span>
       ))
 

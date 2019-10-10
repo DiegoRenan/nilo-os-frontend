@@ -6,7 +6,7 @@ export default props =>
     
     <div className="row">
       <Grid cols="12 3 3 3">
-        <strong>{ props.ticket.author }</strong><br />
+        <strong>{ props.author }</strong><br />
         <small>{props.ticket.created}</small><br />
       </Grid>
 

@@ -9,7 +9,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import Button from '../../templates/Button'
 import { loadTickets, remove } from './ticketsActions'
 import Modal from '../../templates/Modal'
-
+import If from '../../templates/If'
 import Icon from '../../templates/Icon'
 
 class TicketsList extends Component {
@@ -60,7 +60,7 @@ class TicketsList extends Component {
       <tr key={ticket.id}>
         <td><Icon icon={`circle-o ` + this.colorPriority(ticket.attributes.nivel)} /></td>
         <td><Link to={`/show_ticket/` + ticket.id}>{ticket.attributes.title}</Link></td>
-        <td>{ticket.attributes.author}</td>
+        <td>{ticket.attributes.author.name}</td>
         <td>
           <Button
             style="secondary btn-sm mg-l-5"
@@ -71,8 +71,17 @@ class TicketsList extends Component {
           {this.renderModal(ticket, `m` + index + `m`)}
         </td>
         <td><Icon icon='hourglass-half' /></td>
-        <td><Link to={`/edit_ticket/` + ticket.id}><Icon icon='edit' /></Link></td>
-        <td><Link to="#" onClick={() =>  this.removeTicket(ticket.id)} ><Icon icon='trash' /></Link></td>
+        
+        <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"}>
+          <td><Link to={`/edit_ticket/` + ticket.id}><Icon icon='edit' /></Link></td>
+        </If>
+        
+        <If test={localStorage.getItem("admin") == "true"}>
+          <td>
+            <Link to="#" onClick={() =>  this.removeTicket(ticket.id)} ><Icon icon='trash' /></Link>
+          </td>
+        </If>
+
       </tr>
     ))
   }
@@ -110,8 +119,12 @@ class TicketsList extends Component {
               <th>Autor</th>
               <th> Resp </th>
               <th> - </th>
-              <th> - </th>
-              <th> - </th>
+              <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"}>
+                <th> - </th>
+              </If>
+              <If test={localStorage.getItem("admin") == "true"}>
+                <th> - </th>
+              </If>
             </tr>
           </thead>
           <tbody>

@@ -7,6 +7,7 @@ export default props =>
     onClick={props.onClick}
     data-toggle={props.toggle}
     data-target={props.target}
+    disabled={props.disabled}
   >
     {props.title}
     <Icon icon={props.icon}></Icon>

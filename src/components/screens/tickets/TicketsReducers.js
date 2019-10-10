@@ -30,9 +30,11 @@ export default (state = INITIAL_STATE, action) => {
     case LOAD_TICKETS:
       return { ...state, tickets: action.payload.data }
     case GET_TICKET:
-      console.log(action.payload.data.data[0].attributes)
+   
       return {
         ...state, ticket: action.payload.data.data[0].attributes,
+        author: action.payload.data.data[0].attributes.author,
+        status: action.payload.data.included[1].attributes.status,
         included: action.payload.data.included,
         ticketId: action.payload.data.data[0].id
       }
