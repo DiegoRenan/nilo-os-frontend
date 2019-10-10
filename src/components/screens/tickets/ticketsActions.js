@@ -313,3 +313,27 @@ export const aproveTicket = (obj) => {
 }
 
 
+// delete a Status
+export const remove = (id) => {
+  return dispatch => {
+    api.deleteTicket(id)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        notifySuccess("Removido")
+
+        dispatch(loadTickets())
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id +': '+error.title)
+        );
+      })
+  }
+}
+
+
