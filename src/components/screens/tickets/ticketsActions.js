@@ -35,6 +35,24 @@ export const loadTickets = () => {
   }
 }
 
+export const loadTicketsUser = (user_id) => {
+
+  return dispatch => {
+
+    api.loadTicketsUser(user_id)
+      .then(resp => {
+
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        dispatch({ type: LOAD_TICKETS, payload: resp })
+      })
+  }
+}
+
 export const loadPriorities = () => {
 
   return dispatch => {
@@ -76,7 +94,7 @@ export const add = (ticket, historyProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+ error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
@@ -103,7 +121,7 @@ export const update = (ticket, historyProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
@@ -182,7 +200,7 @@ export const removeResponsible = (responsible_id, ticket_id) => {
         setAuthHeader(token, client, uid)
 
         notifySuccess("Removido responsável")
-        
+
         dispatch(getTicketResponsibles(ticket_id))
 
       })
@@ -213,11 +231,11 @@ export const addResponsible = (obj) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
-  
+
 }
 
 // Load Employees
@@ -247,19 +265,19 @@ export const addComments = (obj) => {
         const uid = resp.headers["uid"]
 
         setAuthHeader(token, client, uid)
-        
+
         notifySuccess("Resposta enviada")
 
-        dispatch([getComments(obj.data.attributes.ticket_id), {type: COMMENT_ADDED}])
+        dispatch([getComments(obj.data.attributes.ticket_id), { type: COMMENT_ADDED }])
 
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
-  
+
 }
 
 export const closeTicket = (obj) => {
@@ -272,7 +290,7 @@ export const closeTicket = (obj) => {
         const uid = resp.headers["uid"]
 
         setAuthHeader(token, client, uid)
-        
+
         notifySuccess("Enviado para Avaliação")
 
         dispatch(getTicket(obj.id))
@@ -280,11 +298,11 @@ export const closeTicket = (obj) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
-  
+
 }
 
 export const aproveTicket = (obj) => {
@@ -297,7 +315,7 @@ export const aproveTicket = (obj) => {
         const uid = resp.headers["uid"]
 
         setAuthHeader(token, client, uid)
-        
+
         notifySuccess("Ticket Aprovado")
 
         dispatch(getTicket(obj.id))
@@ -305,11 +323,11 @@ export const aproveTicket = (obj) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
-  
+
 }
 
 
@@ -330,7 +348,7 @@ export const remove = (id) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }

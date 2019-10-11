@@ -7,7 +7,7 @@ import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import Button from '../../templates/Button'
-import { loadTickets, remove } from './ticketsActions'
+import { loadTickets, remove, loadTicketsUser } from './ticketsActions'
 import Modal from '../../templates/Modal'
 import If from '../../templates/If'
 import Icon from '../../templates/Icon'
@@ -18,7 +18,11 @@ class TicketsList extends Component {
   }
 
   componentDidMount() {
-    this.props.loadTickets()
+    if(this.props.user_id){
+      this.props.loadTicketsUser(this.props.user_id)
+    }else{  
+      this.props.loadTickets()
+    }
   }
 
   removeTicket(id) {
@@ -137,5 +141,5 @@ class TicketsList extends Component {
 }
 
 const mapStateToProps = state => ({ tickets: state.ticketsState.tickets.data })
-const mapDispatchToProps = dispatch => bindActionCreators({ loadTickets, remove }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ loadTickets, remove, loadTicketsUser }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(TicketsList)
