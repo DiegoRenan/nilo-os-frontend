@@ -203,28 +203,30 @@ class TicketForm extends Component {
               </Grid>
             </div>
 
-            <div className="row mb-3">
-              <Grid cols="12 4 4 4 ">
-                Concluir até: <Field component={Input} type="date" name="conclude_at" />
-              </Grid>
+            <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"}>
+              <div className="row mb-3">
+                <Grid cols="12 4 4 4 ">
+                  Concluir até: <Field component={Input} type="date" name="conclude_at" />
+                </Grid>
 
-              <Grid cols="12 4 4 4">
-                Prioridade: <Field component={Select}
-                  name="ticket_priority_id">
-                  <option value="" disabled>Selecione uma Prioridade</option>
-                  {this.priorityOptions()}
-                </Field>
-              </Grid>
+                <Grid cols="12 4 4 4">
+                  Prioridade: <Field component={Select}
+                    name="ticket_priority_id">
+                    <option value="" disabled>Selecione uma Prioridade</option>
+                    {this.priorityOptions()}
+                  </Field>
+                </Grid>
 
-              <Grid cols="12 4 4 4">
-                Status: <Field component={Select}
-                  name="ticket_status">
-                  <option value="" disabled>Selecione um Status</option>
-                  {this.statusOptions()}
-                </Field>
-              </Grid>
+                <Grid cols="12 4 4 4">
+                  Status: <Field component={Select}
+                    name="ticket_status">
+                    <option value="" disabled>Selecione um Status</option>
+                    {this.statusOptions()}
+                  </Field>
+                </Grid>
 
-            </div>
+              </div>
+            </If>
             <br />
             <br />
             <div className="row mb-3">
