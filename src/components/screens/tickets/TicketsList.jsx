@@ -18,16 +18,16 @@ class TicketsList extends Component {
   }
 
   componentDidMount() {
-    if(this.props.user_id){
+    if (this.props.user_id) {
       this.props.loadTicketsUser(this.props.user_id)
-    }else{  
+    } else {
       this.props.loadTickets()
     }
   }
 
   removeTicket(id) {
-    
-    confirmAlert( {
+
+    confirmAlert({
       title: 'Confirma pra Deletar',
       message: `Todas as informações deste ticket incluindo os comentário serão permanentemente excluídos. 
                 Deseja continuar?`,
@@ -38,7 +38,7 @@ class TicketsList extends Component {
         },
         {
           label: 'Cancelar',
-          onClick: () => {}
+          onClick: () => { }
         }
       ]
     });
@@ -58,36 +58,53 @@ class TicketsList extends Component {
     return 'text-light'
   }
 
+  ticketsList(ticket, index) {
+    return (<tr key={ticket.id}>
+      <td><Icon icon={`circle-o ` + this.colorPriority(ticket.attributes.nivel)} /></td>
+      <td><Link to={`/show_ticket/` + ticket.id}>{ticket.attributes.title}</Link></td>
+      <td>{ticket.attributes.author.name}</td>
+      <td>
+        <Button
+          style="secondary btn-sm mg-l-5"
+          icon="fas fa-users"
+          toggle="modal"
+          target={`#m` + index + `m`}
+        />
+        {this.renderModal(ticket, `m` + index + `m`)}
+      </td>
+      <td><Icon icon='hourglass-half' /></td>
+
+      <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"}>
+        <td><Link to={`/edit_ticket/` + ticket.id}><Icon icon='edit' /></Link></td>
+      </If>
+
+      <If test={localStorage.getItem("admin") == "true"}>
+        <td>
+          <Link to="#" onClick={() => this.removeTicket(ticket.id)} ><Icon icon='trash' /></Link>
+        </td>
+      </If>
+
+    </tr>
+    )
+  }
+
   renderRows() {
     let tickets = this.props.tickets || []
-    return tickets.map((ticket, index) => (
-      <tr key={ticket.id}>
-        <td><Icon icon={`circle-o ` + this.colorPriority(ticket.attributes.nivel)} /></td>
-        <td><Link to={`/show_ticket/` + ticket.id}>{ticket.attributes.title}</Link></td>
-        <td>{ticket.attributes.author.name}</td>
-        <td>
-          <Button
-            style="secondary btn-sm mg-l-5"
-            icon="fas fa-users"
-            toggle="modal"
-            target={`#m` + index + `m`}
-          />
-          {this.renderModal(ticket, `m` + index + `m`)}
-        </td>
-        <td><Icon icon='hourglass-half' /></td>
-        
-        <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"}>
-          <td><Link to={`/edit_ticket/` + ticket.id}><Icon icon='edit' /></Link></td>
-        </If>
-        
-        <If test={localStorage.getItem("admin") == "true"}>
-          <td>
-            <Link to="#" onClick={() =>  this.removeTicket(ticket.id)} ><Icon icon='trash' /></Link>
-          </td>
-        </If>
+    const closedTickets = this.props.closedTickets
 
-      </tr>
-    ))
+    if (closedTickets) {
+      return tickets.map((ticket, index) => (
+        <If test={ticket.attributes.status == "CONCLUÍDO"}>
+          {this.ticketsList(ticket, index)}
+        </If>
+      ))
+    } else {
+      return tickets.map((ticket, index) => (
+        <If test={!(ticket.attributes.status == "CONCLUÍDO")}>
+          {this.ticketsList(ticket, index)}
+        </If>
+      ))
+    }
   }
 
   renderResponsibles(ticket) {
