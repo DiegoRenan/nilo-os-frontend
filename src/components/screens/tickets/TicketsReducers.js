@@ -28,7 +28,6 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
 
     case LOAD_TICKETS:
-        console.log(action.payload.data)
       return { ...state, tickets: action.payload.data }
 
     case GET_TICKET:
@@ -69,7 +68,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, sectors: action.payload.data.data }
 
     case LOAD_STATUS:
-      return { ...state, status: action.payload.data.data }
+      return { ...state, statuses: action.payload.data.data }
 
     case LOAD_TYPES:
       return { ...state, types: action.payload.data.data }

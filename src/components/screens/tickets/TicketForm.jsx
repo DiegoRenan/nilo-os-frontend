@@ -39,7 +39,7 @@ class TicketForm extends Component {
   }
 
   statusOptions() {
-    let status = this.props.status || []
+    let status = this.props.statuses || []
     return status.map(status => (
       <option value={status.id} key={status.id}>{status.attributes.status}</option>
     ))
@@ -283,6 +283,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   loadPriorities,
   getTicket
 }, dispatch)
+
 
 TicketForm = connect(
 

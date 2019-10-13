@@ -6,7 +6,7 @@ import TicketsList from '../tickets/TicketsList'
 
 export default props => 
   <Main title="Meus Tickets" >
-    <div className="display-4">Titckets Fechados</div>
+    <div className="display-4">Tickets Fechados</div>
     <TicketsList
       closedTickets={true}
      />
