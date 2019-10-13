@@ -20,7 +20,7 @@ const INITIAL_STATE = {
   companies: [],
   departments: [],
   sectors: [],
-  status: [],
+  statuses: [],
   comment: ''
 }
 

@@ -58,11 +58,36 @@ class TicketsList extends Component {
     return 'text-light'
   }
 
+  renderStatus(ticket){
+    if(ticket.attributes.status == "ABERTO"){
+      return (<Icon icon='envelope-open text-success' />) 
+    }
+    if(ticket.attributes.status == "AGUARDANDO_APROVAÇÃO"){
+      return (<Icon icon='hourglass-half text-muted' />) 
+    }
+    if(ticket.attributes.status == "CONCLUÍDO"){
+      return (<Icon icon="envelope text-secondary" />) 
+    }
+  }
+
   ticketsList(ticket, index) {
     return (<tr key={ticket.id}>
-      <td><Icon icon={`circle-o ` + this.colorPriority(ticket.attributes.nivel)} /></td>
-      <td><Link to={`/show_ticket/` + ticket.id}>{ticket.attributes.title}</Link></td>
-      <td>{ticket.attributes.author.name}</td>
+      <td>
+        <Icon icon={`circle-o ` + this.colorPriority(ticket.attributes.nivel)} />
+      </td>
+      
+      <td>
+        <Link to={`/show_ticket/` + ticket.id}>{ticket.attributes.title}</Link>
+      </td>
+
+      <td>
+        {ticket.attributes.author.name}
+      </td>
+      
+      <td>
+        {this.renderStatus(ticket)}
+      </td>
+
       <td>
         <Button
           style="secondary btn-sm mg-l-5"
@@ -72,7 +97,6 @@ class TicketsList extends Component {
         />
         {this.renderModal(ticket, `m` + index + `m`)}
       </td>
-      <td><Icon icon='hourglass-half' /></td>
 
       <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"}>
         <td><Link to={`/edit_ticket/` + ticket.id}><Icon icon='edit' /></Link></td>
@@ -138,7 +162,7 @@ class TicketsList extends Component {
               <th>Prio.</th>
               <th>Título</th>
               <th>Autor</th>
-              <th> Resp </th>
+              <th> Status </th>
               <th> - </th>
               <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"}>
                 <th> - </th>
