@@ -17,8 +17,6 @@ export let urlHeaders = axios.create({
   }
 })
 
-
-
 export default {
   isTokenValid: (token) => urlHeaders.get('auth/validate_token', token),
 
@@ -509,6 +507,20 @@ export default {
     {
       headers: {
         'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
+  ),
+
+  //######################  EMPLOYEE AVATAR ##############################
+  
+  uploadAvatar: (data, id) => url.post(`/v1/employees/${id}/avatar`, data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'content-type': 'multipart/form-data',
         'access-token': localStorage.getItem('access-token'),
         'client': localStorage.getItem('client'),
         'uid': localStorage.getItem('uid')

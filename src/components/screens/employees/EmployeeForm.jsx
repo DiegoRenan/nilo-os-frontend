@@ -8,8 +8,10 @@ import { add, getEmployee, update } from './employeesActions'
 import { loadCompanies, getCompanyDepartments } from '../company/companiesActions'
 import { getDepartmentSectors } from '../departments/departmentsActions'
 import Input from '../../templates/form/Input'
+import InputFile from '../../templates/form/InputFile'
 import Select from '../../templates/form/Select'
 import Grid from '../../templates/Grid'
+import If from '../../templates/If'
 
 class EmployeeForm extends Component {
   constructor(props) {
@@ -51,7 +53,18 @@ class EmployeeForm extends Component {
     this.props.getDepartmentSectors(e.target.value)
   }
 
+  formData(values) {
+    let formData = new FormData();
+    if (typeof values.avatar !== 'string' && values.avatar !== null) {
+      formData.append('avatar', values.avatar[0])
+      return formData;
+    }else {
+      return null
+    }
+  }
+
   employeeObj(values) {
+
     const obj = {
       data: {
         type: "employees",
@@ -67,6 +80,7 @@ class EmployeeForm extends Component {
           district: values.district || '',
           city: values.city || '',
           uf: values.uf || '',
+          avatar: this.formData(values) || null,
           master: values.master || false,
           password: values.password || null,
           password_confirmation: values.password_confirmation || null,
@@ -127,33 +141,33 @@ class EmployeeForm extends Component {
 
             <br />
             <div className="row mb-3">
-              
+
               <Grid cols="12 12 4 4">
-                Empresa*: <Field component={Select} 
-                                 name="companies"
-                                 onChange={e => this.companyOnChange(e)}  
-                                 validate={[required()]}>
+                Empresa*: <Field component={Select}
+                  name="companies"
+                  onChange={e => this.companyOnChange(e)}
+                  validate={[required()]}>
                   <option value="" disabled>Selecione uma Empresa</option>
                   {this.companiesOptions(companies)}
                 </Field>
               </Grid>
 
               <Grid cols="12 12 4 4">
-                Departamento: <Field component={Select} 
-                                     name="departments"
-                                     onChange={e => this.departmentOnChange(e)}
-                                     >
+                Departamento: <Field component={Select}
+                  name="departments"
+                  onChange={e => this.departmentOnChange(e)}
+                >
                   <option value="" disabled>Selecione o Departamento</option>
                   {this.departmentsOptions()}
                 </Field>
-              </Grid> 
+              </Grid>
 
               <Grid cols="12 12 4 4">
                 Setor: <Field component={Select} name="sectors">
                   <option value="" disabled>Selecione o Setor</option>
                   {this.sectorsOptions()}
                 </Field>
-              </Grid> 
+              </Grid>
 
             </div>
 
@@ -229,7 +243,7 @@ class EmployeeForm extends Component {
             <div className="row mb-3">
 
               <Grid cols="12 8 8 8">
-                Senha: <Field component={Input} type="password" name="password" validate={[required()]}/>
+                Senha: <Field component={Input} type="password" name="password" validate={[required()]} />
               </Grid>
 
               <Grid cols="12 8 8 8">
