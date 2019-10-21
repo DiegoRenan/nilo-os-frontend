@@ -10,7 +10,6 @@ class AuthOrApp extends Component {
   componentWillMount() {
     if (this.props.auth.user) {
       const token = localStorage.getItem("access-token")
-      console.log(this.props.validateToken(token))
     }
   }
 

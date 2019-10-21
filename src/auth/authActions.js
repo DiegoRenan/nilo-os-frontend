@@ -1,8 +1,8 @@
 import { USER_FETCHED, TOKEN_VALIDATED } from '../actions/actionTypes'
 
 import api, { url}  from '../services/api'
-import { notifyError, notifySuccess } from '../const/const'
-import { setAuthHeader, setHeaderCommon } from '../services/setAuthHeader'
+import { notifyError } from '../const/const'
+import { setAuthHeader } from '../services/setAuthHeader'
 
 export function signInUser(values) {
   return submit(values, 'auth/sign_in')

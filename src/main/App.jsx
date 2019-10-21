@@ -22,7 +22,7 @@ export default props =>
         <Nav />
       </div>
       <Alert />
-      <Routes />
       <Footer />
+      <Routes />
     </div>
   </HashRouter>
