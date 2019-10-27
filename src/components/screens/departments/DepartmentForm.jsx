@@ -11,9 +11,6 @@ import Select from '../../templates/form/Select'
 import Grid from '../../templates/Grid'
 
 class DepartmentForm extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentWillMount() {
     if (this.props.departmentId) {

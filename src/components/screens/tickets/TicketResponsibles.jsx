@@ -18,9 +18,9 @@ class TicketResponsibles extends Component {
       return responsibles.map(e => (
         <span className="badge badge-light" key={e.id}>
           {e.attributes.employee.name}
-          <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"} >
+          <If test={localStorage.getItem("admin") === "true" || localStorage.getItem("master") === "true"} >
             <Button
-              style="danger btn-sm"
+              class="danger btn-sm"
               icon="far fa-times-circle"
               onClick={() => this.handleRemoveResponsible(e.id, e.attributes.ticket.id)}
             />

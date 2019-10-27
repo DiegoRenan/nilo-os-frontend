@@ -11,9 +11,6 @@ import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
 class EmployeeList extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentDidMount() {
     this.props.loadEmployees()
@@ -46,12 +43,12 @@ class EmployeeList extends Component {
         <td><Link to={`show_employee/` + employee.id}> {employee.attributes.name} </Link></td>
 
         <td>
-          <If test={!(localStorage.getItem("admin") == true)} >
+          <If test={!(localStorage.getItem("admin") === true)} >
             <Link to={`edit_employee/` + employee.id}> <Icon icon='edit' /> </Link>
           </If> 
         </td>
           <td>
-            <If test={!(localStorage.getItem("admin") == true)} >
+            <If test={!(localStorage.getItem("admin") === true)} >
               <Link to="#" onClick={() => this.removeEmployee(employee.id)} ><Icon icon='trash' /> </Link> 
             </If>
         </td>

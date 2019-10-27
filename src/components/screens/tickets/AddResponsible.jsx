@@ -53,7 +53,7 @@ class AddResponsibles extends Component {
             <Grid cols="8 8 8 8">{e.attributes.name}</Grid>
             <Grid cols="4 4 4 4">
               <Button
-                style="success btn-sm"
+                class="success btn-sm"
                 icon="far fa-plus"
                 onClick={() => this.handleAddResponsible(e.id)}
               />
@@ -74,7 +74,7 @@ class AddResponsibles extends Component {
           <Grid cols="8 8 8 8">{e.attributes.employee.name}</Grid>
           <Grid cols="4 4 4 4">
             <Button
-              style="danger btn-sm"
+              class="danger btn-sm"
               icon="far fa-times-circle"
               onClick={() => this.handleRemoveResponsible(e.id, e.attributes.ticket.id)}
             />

@@ -18,7 +18,7 @@ export default props =>
         <NavItem icon="filter" title="Prioridade 2" address="/" />
       </DropMenu>
 
-      <If test={localStorage.getItem("admin") == "true"}>
+      <If test={localStorage.getItem("admin") === "true"}>
         <DropMenu title="Administrativo" icon="chevron-down">
           <NavItem icon="" title="Usuários" address="/employees" />
           <NavItem icon="" title="Empresas" address="/companies" />

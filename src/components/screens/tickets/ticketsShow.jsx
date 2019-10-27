@@ -81,30 +81,30 @@ class TicketsShow extends Component {
         </h1>
 
         <div className="d-flex flex-row-reverse mg-5">
-          <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"} >
+          <If test={localStorage.getItem("admin") === "true" || localStorage.getItem("master") === "true"} >
             <Button
-              style="secondary btn-sm mg-l-5"
+              class="secondary btn-sm mg-l-5"
               icon="fas fa-users"
               toggle="modal"
               target="#exampleModal"
             />
           </If>
 
-          <If test={localStorage.getItem("admin") == "true" || 
-                    localStorage.getItem("master") == "true" ||
-                    localStorage.getItem("uid") == author.email
+          <If test={localStorage.getItem("admin") === "true" || 
+                    localStorage.getItem("master") === "true" ||
+                    localStorage.getItem("uid") === author.email
                     } >
             <Button
-              style="secondary btn-sm mg-l-5"
+              class="secondary btn-sm mg-l-5"
               title="Concluir"
               onClick={() => this.closeTicket()}
-              disabled={ !(this.props.status == "ABERTO") }
+              disabled={ !(this.props.status === "ABERTO") }
             />
           </If>
          
-          <If test={localStorage.getItem("admin") == "true"} >
+          <If test={localStorage.getItem("admin") === "true"} >
             <Button
-              style="secondary btn-sm mg-l-5"
+              class="secondary btn-sm mg-l-5"
               title="Aprovar"
               onClick={() => this.aproveTicket()}
             />

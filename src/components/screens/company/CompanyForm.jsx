@@ -12,9 +12,6 @@ import { connect } from 'react-redux';
 const required = value => value ? undefined : 'Required'
 
 class CompanyForm extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentWillMount() {
     if (this.props.companyId) {
@@ -72,7 +69,7 @@ class CompanyForm extends Component {
                     <Button type="submit"
                       disabled={submitting}
                       icon="plus"
-                      style="primary btn-block"
+                      class="primary btn-block"
                     />
                   </Grid>
 

@@ -10,9 +10,6 @@ import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
 class DepartmentList extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentDidMount() {
     this.props.loadDepartments()

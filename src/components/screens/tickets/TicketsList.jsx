@@ -13,9 +13,6 @@ import If from '../../templates/If'
 import Icon from '../../templates/Icon'
 
 class TicketsList extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentDidMount() {
     if (this.props.user_id) {
@@ -59,13 +56,13 @@ class TicketsList extends Component {
   }
 
   renderStatus(ticket){
-    if(ticket.attributes.status == "ABERTO"){
+    if(ticket.attributes.status === "ABERTO"){
       return (<Icon icon='envelope-open text-success' />) 
     }
-    if(ticket.attributes.status == "AGUARDANDO_APROVAÇÃO"){
+    if(ticket.attributes.status === "AGUARDANDO_APROVAÇÃO"){
       return (<Icon icon='hourglass-half text-muted' />) 
     }
-    if(ticket.attributes.status == "CONCLUÍDO"){
+    if(ticket.attributes.status === "CONCLUÍDO"){
       return (<Icon icon="envelope text-secondary" />) 
     }
   }
@@ -90,7 +87,7 @@ class TicketsList extends Component {
 
       <td>
         <Button
-          style="secondary btn-sm mg-l-5"
+          class="secondary btn-sm mg-l-5"
           icon="fas fa-users"
           toggle="modal"
           target={`#m` + index + `m`}
@@ -98,11 +95,11 @@ class TicketsList extends Component {
         {this.renderModal(ticket, `m` + index + `m`)}
       </td>
 
-      <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"}>
+      <If test={localStorage.getItem("admin") === "true" || localStorage.getItem("master") === "true"}>
         <td><Link to={`/edit_ticket/` + ticket.id}><Icon icon='edit' /></Link></td>
       </If>
 
-      <If test={localStorage.getItem("admin") == "true"}>
+      <If test={localStorage.getItem("admin") === "true"}>
         <td>
           <Link to="#" onClick={() => this.removeTicket(ticket.id)} ><Icon icon='trash' /></Link>
         </td>
@@ -118,13 +115,13 @@ class TicketsList extends Component {
 
     if (closedTickets) {
       return tickets.map((ticket, index) => (
-        <If test={ticket.attributes.status == "CONCLUÍDO"}>
+        <If test={ticket.attributes.status === "CONCLUÍDO"}>
           {this.ticketsList(ticket, index)}
         </If>
       ))
     } else {
       return tickets.map((ticket, index) => (
-        <If test={!(ticket.attributes.status == "CONCLUÍDO")}>
+        <If test={!(ticket.attributes.status === "CONCLUÍDO")}>
           {this.ticketsList(ticket, index)}
         </If>
       ))
@@ -164,10 +161,10 @@ class TicketsList extends Component {
               <th>Autor</th>
               <th> Status </th>
               <th> - </th>
-              <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"}>
+              <If test={localStorage.getItem("admin") === "true" || localStorage.getItem("master") === "true"}>
                 <th> - </th>
               </If>
-              <If test={localStorage.getItem("admin") == "true"}>
+              <If test={localStorage.getItem("admin") === "true"}>
                 <th> - </th>
               </If>
             </tr>

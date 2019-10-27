@@ -8,15 +8,10 @@ import { add, getEmployee, update } from './employeesActions'
 import { loadCompanies, getCompanyDepartments } from '../company/companiesActions'
 import { getDepartmentSectors } from '../departments/departmentsActions'
 import Input from '../../templates/form/Input'
-import InputFile from '../../templates/form/InputFile'
 import Select from '../../templates/form/Select'
 import Grid from '../../templates/Grid'
-import If from '../../templates/If'
 
 class EmployeeForm extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentWillMount() {
     if (this.props.employeeId) {

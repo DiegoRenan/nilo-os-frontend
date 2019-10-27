@@ -72,7 +72,7 @@ class AddComments extends Component {
                   <Grid cols="6 6 6 6">
                     <Button type="submit"
                       disabled={submitting}
-                      style="success btn-block"
+                      class="success btn-block"
                       title="responder"
                     />
                   </Grid>

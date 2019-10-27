@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 export function setAuthHeader(token, client, uid) {
   if(token) {
     localStorage.setItem("access-token", token)

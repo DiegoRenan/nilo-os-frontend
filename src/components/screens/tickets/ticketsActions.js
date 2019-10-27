@@ -7,9 +7,7 @@ import {
   TICKET_ADDED,
   TICKET_UPDATED,
   COMMENT_ADDED,
-  LOAD_PRIORITIES,
-  TICKET_APROVED,
-  TICKET_CLOSED
+  LOAD_PRIORITIES
 } from '../../../actions/actionTypes'
 
 import api from '../../../services/api'

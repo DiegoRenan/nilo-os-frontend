@@ -14,5 +14,4 @@ export default props => {
       </Grid>
     </div>
   )
-
 }

@@ -17,9 +17,6 @@ import Button from '../../templates/Button'
 import If from '../../templates/If'
 
 class TicketForm extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentWillMount() {
     this.props.loadCompanies()
@@ -203,7 +200,7 @@ class TicketForm extends Component {
               </Grid>
             </div>
 
-            <If test={localStorage.getItem("admin") == "true" || localStorage.getItem("master") == "true"}>
+            <If test={localStorage.getItem("admin") === "true" || localStorage.getItem("master") === "true"}>
               <div className="row mb-3">
                 <Grid cols="12 4 4 4 ">
                   Concluir até: <Field component={Input} type="date" name="conclude_at" />
@@ -246,7 +243,7 @@ class TicketForm extends Component {
                   <Grid cols="6 6 6 6">
                     <Button type="submit"
                       disabled={submitting}
-                      style="success btn-block"
+                      class="success btn-block"
                       title="enviar"
                     />
                   </Grid>
@@ -296,7 +293,7 @@ TicketForm = connect(
     companies: state.ticketsState.companies,
     departments: state.ticketsState.departments,
     sectors: state.ticketsState.sectors,
-    status: state.ticketsState.status,
+    statuses: state.ticketsState.statuses,
     types: state.ticketsState.types,
     priorities: state.ticketsState.priorities
   }),

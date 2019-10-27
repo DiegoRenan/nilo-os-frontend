@@ -1,7 +1,5 @@
 import React from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
-import { generateRequireSignInWrapper } from 'redux-token-auth'
-
 
 import Home from '../components/screens/home/Home'
 import TicketNew from '../components/screens/tickets/TicketNew'
