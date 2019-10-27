@@ -1,6 +1,7 @@
 export const TICKET_SEARCHED = "TICKET_SEARCHED"
 export const LOAD_TICKETS = "LOAD_TICKETS"
 export const GET_TICKET = "GET_TICKET"
+export const NEW_TICKET = "NEW_TICKET"
 export const TICKET_ADDED = "TICKET_ADDED"
 export const TICKET_UPDATED = "TICKET_UPDATED"
 

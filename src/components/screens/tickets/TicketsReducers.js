@@ -10,7 +10,8 @@ import {
   GET_DEPARTMENT_SECTORS,
   LOAD_STATUS,
   LOAD_TYPES,
-  LOAD_PRIORITIES
+  LOAD_PRIORITIES,
+  NEW_TICKET
 } from "../../../actions/actionTypes";
 
 const INITIAL_STATE = {
@@ -39,6 +40,9 @@ export default (state = INITIAL_STATE, action) => {
         included: action.payload.data.included,
         ticketId: action.payload.data.data[0].id
       }
+
+    case NEW_TICKET:
+      return { ...state, body: '', title: '' }
 
     case GET_COMMENTS:
       return { ...state, comments: action.payload.data.data, comment: '' }

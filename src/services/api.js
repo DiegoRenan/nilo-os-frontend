@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 export let url = axios.create({
-  baseURL: "http://177.23.191.191:3000/",
-  // baseURL: "http://localhost:3000/"
+  // baseURL: "http://177.23.191.191:3000/",
+  baseURL: "http://localhost:3000/"
 })
 
 export let urlHeaders = axios.create({
-  baseURL: "http://177.23.191.191:3000/",
-  // baseURL: "http://localhost:3000/",
+  // baseURL: "http://177.23.191.191:3000/",
+  baseURL: "http://localhost:3000/",
   headers: {
     'Accept': 'application/json',
     'access-token': localStorage.getItem('access-token'),
@@ -38,6 +38,17 @@ export default {
       'uid': localStorage.getItem('uid')
     }
   }),
+
+  updateTicket: (data) => url.put(`/v1/tickets/${data.data.id}`, data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
+  ),
 
   loadTicketsUser: (user_id) => url.get(`/v1/employees/${user_id}/tickets`, {
     headers: {

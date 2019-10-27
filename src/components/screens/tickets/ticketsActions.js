@@ -7,7 +7,8 @@ import {
   TICKET_ADDED,
   TICKET_UPDATED,
   COMMENT_ADDED,
-  LOAD_PRIORITIES
+  LOAD_PRIORITIES,
+  NEW_TICKET
 } from '../../../actions/actionTypes'
 
 import api from '../../../services/api'
@@ -48,6 +49,12 @@ export const loadTicketsUser = (user_id) => {
 
         dispatch({ type: LOAD_TICKETS, payload: resp })
       })
+  }
+}
+
+export const newTicket = () => {
+  return dispatch => {
+    dispatch({ type: NEW_TICKET })
   }
 }
 
@@ -119,7 +126,7 @@ export const update = (ticket, historyProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id + ': ' + error.title)
+          error => notifyError(error)
         );
       })
   }

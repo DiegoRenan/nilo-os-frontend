@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { required, reset, confirmation } from 'redux-form-validators'
 
-import { add, update, loadPriorities, getTicket } from './ticketsActions'
+import { add, update, loadPriorities, getTicket, newTicket } from './ticketsActions'
 import { loadCompanies, getCompanyDepartments } from '../company/companiesActions'
 import { loadStatus } from '../ticketStatus/statusActions'
 import { loadTypes } from '../ticketTypes/typeActions'
@@ -25,6 +25,8 @@ class TicketForm extends Component {
     this.props.loadPriorities()
     if (this.props.ticketId) {
       this.props.getTicket(this.props.ticketId)
+    } else {
+      this.props.newTicket()
     }
   }
 
@@ -278,7 +280,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   loadStatus,
   loadTypes,
   loadPriorities,
-  getTicket
+  getTicket,
+  newTicket
 }, dispatch)
 
 
