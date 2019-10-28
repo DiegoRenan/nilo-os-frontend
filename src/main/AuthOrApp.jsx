@@ -7,6 +7,13 @@ import Auth from '../auth/auth'
 import { validateToken } from '../auth/authActions'
 
 class AuthOrApp extends Component {
+  
+  componentWillMount() {
+    if (this.props.auth.user) {
+      const token = localStorage.getItem("access-token")
+      this.props.validateToken(token)
+    }
+  }
 
   render() {
     const { user, validToken } = this.props.auth
