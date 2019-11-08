@@ -75,7 +75,6 @@ class EmployeeForm extends Component {
           district: values.district || '',
           city: values.city || '',
           uf: values.uf || '',
-          avatar: this.formData(values) || null,
           master: values.master || false,
           password: values.password || null,
           password_confirmation: values.password_confirmation || null,

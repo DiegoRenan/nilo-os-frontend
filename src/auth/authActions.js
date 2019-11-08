@@ -54,7 +54,6 @@ export function validateToken(token) {
       
     api.isTokenValid(token)
         .then(resp => {
-          console.log('validateToken? ' + resp.data.success)
           dispatch({ type: TOKEN_VALIDATED, payload: resp.data.success })
         })
         .catch(e => dispatch({ type: TOKEN_VALIDATED, payload: false }))
