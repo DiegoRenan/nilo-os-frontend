@@ -5,6 +5,9 @@ import Home from '../components/screens/home/Home'
 import TicketNew from '../components/screens/tickets/TicketNew'
 import TicketEdit from '../components/screens/tickets/TicketEdit'
 import TicketsShow from '../components/screens/tickets/ticketsShow'
+import UrgentTickets from '../components/screens/ticketsFilters/UrgentTickets'
+import ImportantTickets from '../components/screens/ticketsFilters/ImportantTickets'
+import ToMeTickets from '../components/screens/ticketsFilters/ToMeTickets'
 import MyTickets from '../components/screens/myTickets/MyTickets'
 import ClosedTickets from '../components/screens/closedTickets/ClosedTickets'
 import Company from '../components/screens/company/Company'
@@ -37,6 +40,9 @@ export default props => (
       <Route path='/login' component={SignIn} />
       <Route path='/tickets' component={Home} />
       <Route path='/mytickets' component={MyTickets} />
+      <Route path='/urgent_tickets' component={UrgentTickets} />
+      <Route path='/important_tickets' component={ImportantTickets} />
+      <Route path='/responsible_tickets' component={ToMeTickets} />
       <Route path='/closedtickets' component={ClosedTickets} />
       <Route path='/new_ticket' component={TicketNew} />
       <Route path='/edit_ticket/:id' component={TicketEdit} />

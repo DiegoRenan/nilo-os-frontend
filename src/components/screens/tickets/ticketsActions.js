@@ -16,11 +16,13 @@ import { setAuthHeader } from '../../../services/setAuthHeader'
 import { notifyError, notifySuccess } from '../../../const/const'
 
 
-export const loadTickets = () => {
+export const loadTickets = (q = null) => {
+  
+  let filter = q ? `?${Object.keys(q)[0]}=${Object.values(q)[0]}` : ""
 
   return dispatch => {
 
-    api.loadTickets()
+    api.loadTickets(filter)
       .then(resp => {
 
         const token = resp.headers["access-token"]

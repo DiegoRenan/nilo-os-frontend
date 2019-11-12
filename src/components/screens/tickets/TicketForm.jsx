@@ -95,7 +95,7 @@ class TicketForm extends Component {
           ticket_status_id: values.ticket_status || null,
           ticket_type_id: values.ticket_type || null,
           employee_id: localStorage.getItem("employee_id") || null,
-          priority_id: values.ticket_priority || null
+          priority_id: values.ticket_priority_id || null
         }
       }
     }
@@ -116,7 +116,7 @@ class TicketForm extends Component {
           sector_id: values.sector || null,
           ticket_status_id: values.ticket_status || null,
           ticket_type_id: values.ticket_type || null,
-          priority_id: values.ticket_priority || null
+          priority_id: values.ticket_priority_id || null
         }
       }
     }

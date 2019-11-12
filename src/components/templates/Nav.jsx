@@ -13,9 +13,9 @@ export default props =>
       <NavItem icon="lock" title="Tickets Fechados" address="/closedtickets" />
 
       <DropMenu title="Filters" icon="chevron-down">
-        <NavItem icon="filter" title="Delegadas a mim" address="/" />
-        <NavItem icon="filter" title="Prioridade 1" address="/" />
-        <NavItem icon="filter" title="Prioridade 2" address="/" />
+        <NavItem icon="filter" title="Delegadas a mim" address="/responsible_tickets" />
+        <NavItem icon="filter" title="Prioridade 1" address="/urgent_tickets" />
+        <NavItem icon="filter" title="Prioridade 2" address="/important_tickets" />
       </DropMenu>
 
       <If test={localStorage.getItem("admin") === "true"}>

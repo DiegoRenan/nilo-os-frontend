@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export let url = axios.create({
-  baseURL: "http://177.23.191.191:3000/",
+  baseURL: "http://177.23.191.191:3000/"
   // baseURL: "http://localhost:3000/"
 })
 
@@ -30,7 +30,7 @@ export default {
     }
   ),
 
-  loadTickets: () => url.get("/v1/tickets", {
+  loadTickets: (q) => url.get(`/v1/tickets${q}`, {
     headers: {
       'Accept': 'application/json',
       'access-token': localStorage.getItem('access-token'),
