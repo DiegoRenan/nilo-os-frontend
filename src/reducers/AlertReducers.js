@@ -1,4 +1,4 @@
-import { CRUD_EXECUTED, LOAD_COMPANIES } from '../actions/actionTypes'
+import { CRUD_EXECUTED } from '../actions/actionTypes'
 
 const INITIAL_STATE = { http_code: '', message: '' }
 

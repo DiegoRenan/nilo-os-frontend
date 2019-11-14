@@ -20,6 +20,7 @@ import TicketComments from './TicketComments'
 import Modal from '../../templates/Modal'
 import AddResponsible from './AddResponsible'
 import AddComments from './AddComments'
+import If from '../../templates/If'
 
 class TicketsShow extends Component {
 
@@ -70,6 +71,7 @@ class TicketsShow extends Component {
     const obj = this.props.ticket || []
     const included = this.props.included || []
     const employees = this.props.employees || []
+    const author = this.props.author || []
 
     return (
       <Main title="Type" >
@@ -79,27 +81,37 @@ class TicketsShow extends Component {
         </h1>
 
         <div className="d-flex flex-row-reverse mg-5">
-          <Button
-            style="secondary btn-sm mg-l-5"
-            icon="fas fa-users"
-            toggle="modal"
-            target="#exampleModal"
-          />
+          <If test={localStorage.getItem("admin") === "true" || localStorage.getItem("master") === "true"} >
+            <Button
+              class="secondary btn-sm mg-l-5"
+              icon="fas fa-users"
+              toggle="modal"
+              target="#exampleModal"
+            />
+          </If>
 
-          <Button
-            style="secondary btn-sm mg-l-5"
-            title="Concluir"
-            onClick={() => this.closeTicket()}
-          />
-
-          <Button
-            style="secondary btn-sm mg-l-5"
-            title="Aprovar"
-            onClick={() => this.aproveTicket()}
-          />
+          <If test={localStorage.getItem("admin") === "true" || 
+                    localStorage.getItem("master") === "true" ||
+                    localStorage.getItem("uid") === author.email
+                    } >
+            <Button
+              class="secondary btn-sm mg-l-5"
+              title="Concluir"
+              onClick={() => this.closeTicket()}
+              disabled={ !(this.props.status === "ABERTO") }
+            />
+          </If>
+         
+          <If test={localStorage.getItem("admin") === "true"} >
+            <Button
+              class="secondary btn-sm mg-l-5"
+              title="Aprovar"
+              onClick={() => this.aproveTicket()}
+            />
+          </If>
 
         </div>
-
+        
         <Modal
           modal_id="exampleModal"
           modal_id_label="exampleModalLabel"
@@ -121,6 +133,7 @@ class TicketsShow extends Component {
           />
 
           <TicketBody
+            author={author.name}
             ticket={obj}
             ticketId={this.props.ticketId}
           />
@@ -147,7 +160,9 @@ const mapStateToProps = state => ({
   ticketId: state.ticketsState.ticketId,
   comments: state.ticketsState.comments,
   responsibles: state.ticketsState.responsibles,
-  employees: state.ticketsState.employees
+  employees: state.ticketsState.employees,
+  author: state.ticketsState.author,
+  status: state.ticketsState.status
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({

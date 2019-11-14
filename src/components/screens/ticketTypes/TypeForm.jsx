@@ -9,9 +9,6 @@ import Input from '../../templates/form/Input'
 import Grid from '../../templates/Grid'
 
 class TypeForm extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentWillMount() {
     if (this.props.typeId) {

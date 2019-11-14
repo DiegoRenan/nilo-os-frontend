@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker'
 
 import store from './store'
 import AuthOrApp from './main/AuthOrApp'
-import { setAuthHeader, setHeaderCommon } from './services/setAuthHeader'
+import { setAuthHeader } from './services/setAuthHeader'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

@@ -10,7 +10,8 @@ import {
   GET_DEPARTMENT_SECTORS,
   LOAD_STATUS,
   LOAD_TYPES,
-  LOAD_PRIORITIES
+  LOAD_PRIORITIES,
+  NEW_TICKET
 } from "../../../actions/actionTypes";
 
 const INITIAL_STATE = {
@@ -20,7 +21,7 @@ const INITIAL_STATE = {
   companies: [],
   departments: [],
   sectors: [],
-  status: [],
+  statuses: [],
   comment: ''
 }
 
@@ -28,14 +29,21 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
 
     case LOAD_TICKETS:
+      console.log(action.payload.data)
       return { ...state, tickets: action.payload.data }
+
     case GET_TICKET:
-      console.log(action.payload.data.data[0].attributes)
+   
       return {
         ...state, ticket: action.payload.data.data[0].attributes,
+        author: action.payload.data.data[0].attributes.author,
+        status: action.payload.data.included[1].attributes.status,
         included: action.payload.data.included,
         ticketId: action.payload.data.data[0].id
       }
+
+    case NEW_TICKET:
+      return { ...state, body: '', title: '' }
 
     case GET_COMMENTS:
       return { ...state, comments: action.payload.data.data, comment: '' }
@@ -65,7 +73,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, sectors: action.payload.data.data }
 
     case LOAD_STATUS:
-      return { ...state, status: action.payload.data.data }
+      return { ...state, statuses: action.payload.data.data }
 
     case LOAD_TYPES:
       return { ...state, types: action.payload.data.data }

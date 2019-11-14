@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { required, reset, confirmation } from 'redux-form-validators'
 
-import { add, update, loadPriorities, getTicket } from './ticketsActions'
+import { add, update, loadPriorities, getTicket, newTicket } from './ticketsActions'
 import { loadCompanies, getCompanyDepartments } from '../company/companiesActions'
 import { loadStatus } from '../ticketStatus/statusActions'
 import { loadTypes } from '../ticketTypes/typeActions'
@@ -17,9 +17,6 @@ import Button from '../../templates/Button'
 import If from '../../templates/If'
 
 class TicketForm extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentWillMount() {
     this.props.loadCompanies()
@@ -28,6 +25,8 @@ class TicketForm extends Component {
     this.props.loadPriorities()
     if (this.props.ticketId) {
       this.props.getTicket(this.props.ticketId)
+    } else {
+      this.props.newTicket()
     }
   }
 
@@ -39,7 +38,7 @@ class TicketForm extends Component {
   }
 
   statusOptions() {
-    let status = this.props.status || []
+    let status = this.props.statuses || []
     return status.map(status => (
       <option value={status.id} key={status.id}>{status.attributes.status}</option>
     ))
@@ -96,7 +95,7 @@ class TicketForm extends Component {
           ticket_status_id: values.ticket_status || null,
           ticket_type_id: values.ticket_type || null,
           employee_id: localStorage.getItem("employee_id") || null,
-          priority_id: values.ticket_priority || null
+          priority_id: values.ticket_priority_id || null
         }
       }
     }
@@ -117,7 +116,7 @@ class TicketForm extends Component {
           sector_id: values.sector || null,
           ticket_status_id: values.ticket_status || null,
           ticket_type_id: values.ticket_type || null,
-          priority_id: values.ticket_priority || null
+          priority_id: values.ticket_priority_id || null
         }
       }
     }
@@ -203,28 +202,30 @@ class TicketForm extends Component {
               </Grid>
             </div>
 
-            <div className="row mb-3">
-              <Grid cols="12 4 4 4 ">
-                Concluir até: <Field component={Input} type="date" name="conclude_at" />
-              </Grid>
+            <If test={localStorage.getItem("admin") === "true" || localStorage.getItem("master") === "true"}>
+              <div className="row mb-3">
+                <Grid cols="12 4 4 4 ">
+                  Concluir até: <Field component={Input} type="date" name="conclude_at" />
+                </Grid>
 
-              <Grid cols="12 4 4 4">
-                Prioridade: <Field component={Select}
-                  name="ticket_priority_id">
-                  <option value="" disabled>Selecione uma Prioridade</option>
-                  {this.priorityOptions()}
-                </Field>
-              </Grid>
+                <Grid cols="12 4 4 4">
+                  Prioridade: <Field component={Select}
+                    name="ticket_priority_id">
+                    <option value="" disabled>Selecione uma Prioridade</option>
+                    {this.priorityOptions()}
+                  </Field>
+                </Grid>
 
-              <Grid cols="12 4 4 4">
-                Status: <Field component={Select}
-                  name="ticket_status">
-                  <option value="" disabled>Selecione um Status</option>
-                  {this.statusOptions()}
-                </Field>
-              </Grid>
+                <Grid cols="12 4 4 4">
+                  Status: <Field component={Select}
+                    name="ticket_status">
+                    <option value="" disabled>Selecione um Status</option>
+                    {this.statusOptions()}
+                  </Field>
+                </Grid>
 
-            </div>
+              </div>
+            </If>
             <br />
             <br />
             <div className="row mb-3">
@@ -244,7 +245,7 @@ class TicketForm extends Component {
                   <Grid cols="6 6 6 6">
                     <Button type="submit"
                       disabled={submitting}
-                      style="success btn-block"
+                      class="success btn-block"
                       title="enviar"
                     />
                   </Grid>
@@ -279,8 +280,10 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   loadStatus,
   loadTypes,
   loadPriorities,
-  getTicket
+  getTicket,
+  newTicket
 }, dispatch)
+
 
 TicketForm = connect(
 
@@ -293,7 +296,7 @@ TicketForm = connect(
     companies: state.ticketsState.companies,
     departments: state.ticketsState.departments,
     sectors: state.ticketsState.sectors,
-    status: state.ticketsState.status,
+    statuses: state.ticketsState.statuses,
     types: state.ticketsState.types,
     priorities: state.ticketsState.priorities
   }),

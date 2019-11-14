@@ -6,10 +6,6 @@ import { logout } from '../../auth/authActions'
 
 class Tool extends Component {
 
-  constructor(props) {
-    super(props)
-  }
-
   render() {
 
     // const { name, email } = this.props.user

@@ -13,7 +13,7 @@ export default props => {
       <div className="row">
         
         <Grid cols="9 9 9 9">
-          <div className="display-4">Type</div>
+          <div className="display-4">Tipos de Tickets</div>
         </Grid>
         
         <Grid cols="3 3 3 3">

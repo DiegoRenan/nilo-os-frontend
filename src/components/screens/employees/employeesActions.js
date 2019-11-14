@@ -59,11 +59,31 @@ export const add = (employee, historyProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+ error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
 
+}
+
+//upload Avatar
+export const avatarUpload = (data, id) => {
+  return dipatch => {
+    api.uploadAvatar(data, id)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id + ': ' + error.title)
+        );
+      })
+  }
 }
 
 // // update a Employee
@@ -86,7 +106,7 @@ export const update = (employee, historyProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
@@ -156,7 +176,7 @@ export const remove = (employee_id) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }

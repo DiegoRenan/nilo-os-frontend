@@ -11,9 +11,6 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import Icon from '../../templates/Icon'
 
 class CompanyList extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentDidMount() {
     this.props.loadCompanies()

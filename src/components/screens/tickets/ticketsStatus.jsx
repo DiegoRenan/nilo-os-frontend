@@ -11,7 +11,7 @@ export default props => {
 
     return included.map(e => (
       <div>
-        <If test={e.type == "ticket-statuses"} key="ticket-statuses">
+        <If test={e.type === "ticket-statuses"} key="ticket-statuses">
           <ShowGridList
             mb="0"
             label="Status"
@@ -19,7 +19,7 @@ export default props => {
           />
         </If>
 
-        <If test={e.type == "ticket-types"} key="ticket-types">
+        <If test={e.type === "ticket-types"} key="ticket-types">
           <ShowGridList
             mb="0"
             label="Serviço"
@@ -27,7 +27,7 @@ export default props => {
           />
         </If>
 
-        <If test={e.type == "companies"} key="companies">
+        <If test={e.type === "companies"} key="companies">
           <ShowGridList
             mb="0"
             label="Empresa"
@@ -35,7 +35,7 @@ export default props => {
           />
         </If>
 
-        <If test={e.type == "departments"} key="departments">
+        <If test={e.type === "departments"} key="departments">
           <ShowGridList
             mb="0"
             label="Departamento"
@@ -43,7 +43,7 @@ export default props => {
           />
         </If>
 
-        <If test={e.type == "sectors"} key="sectors">
+        <If test={e.type === "sectors"} key="sectors">
           <ShowGridList
             mb="0"
             label="Setor"

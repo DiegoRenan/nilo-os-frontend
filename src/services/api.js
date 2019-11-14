@@ -1,9 +1,8 @@
 import axios from 'axios'
-import { loadDepartments } from '../components/screens/departments/departmentsActions';
 
 export let url = axios.create({
-  baseURL: "http://177.23.191.191:3000/",
-  // baseURL: "http://localhost:3000/",
+  baseURL: "http://177.23.191.191:3000/"
+  // baseURL: "http://localhost:3000/"
 })
 
 export let urlHeaders = axios.create({
@@ -17,10 +16,8 @@ export let urlHeaders = axios.create({
   }
 })
 
-
-
 export default {
-  isTokenValid: (token) => urlHeaders.get('auth/validate_token', token),
+  isTokenValid: (token) => urlHeaders.get('/auth/validate_token/', token),
 
   addTicket: (data) => url.post("/v1/tickets", data,
     {
@@ -33,15 +30,34 @@ export default {
     }
   ),
 
-  loadTickets: () => url.get("/v1/tickets", {
+  loadTickets: (q) => url.get(`/v1/tickets${q}`, {
     headers: {
       'Accept': 'application/json',
       'access-token': localStorage.getItem('access-token'),
       'client': localStorage.getItem('client'),
       'uid': localStorage.getItem('uid')
     }
-  }
+  }),
+
+  updateTicket: (data) => url.put(`/v1/tickets/${data.data.id}`, data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
   ),
+
+  loadTicketsUser: (user_id) => url.get(`/v1/employees/${user_id}/tickets`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
 
   getTicket: (id) => url.get(`/v1/tickets/${id}`, {
     headers: {
@@ -173,15 +189,6 @@ export default {
     }
   ),
 
-  getEmployee: (id) => url.get(`/v1/employees/${id}`, {
-    headers: {
-      'Accept': 'application/json',
-      'access-token': localStorage.getItem('access-token'),
-      'client': localStorage.getItem('client'),
-      'uid': localStorage.getItem('uid')
-    }
-  }),
-
   getEmployeeCompany: (employeeId) => url.get(`/v1/employees/${employeeId}/company`, {
     headers: {
       'Accept': 'application/json',
@@ -221,15 +228,6 @@ export default {
       }
     }
   ),
-
-  getDepartment: (id) => url.get(`/v1/departments/${id}`, {
-    headers: {
-      'Accept': 'application/json',
-      'access-token': localStorage.getItem('access-token'),
-      'client': localStorage.getItem('client'),
-      'uid': localStorage.getItem('uid')
-    }
-  }),
 
   updateDepartment: (data) => url.put(`/v1/departments/${data.data.id}`, data,
     {
@@ -501,6 +499,20 @@ export default {
     {
       headers: {
         'Accept': 'application/json',
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    }
+  ),
+
+  //######################  EMPLOYEE AVATAR ##############################
+  
+  uploadAvatar: (data, id) => url.post(`/v1/employees/${id}/avatar`, data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'content-type': 'multipart/form-data',
         'access-token': localStorage.getItem('access-token'),
         'client': localStorage.getItem('client'),
         'uid': localStorage.getItem('uid')

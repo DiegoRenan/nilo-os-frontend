@@ -8,9 +8,6 @@ import { signInUser } from './authActions'
 import Input from '../components/templates/form/InputAuth'
 
 class Auth extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   onSubmit(values) {
     const { signInUser } = this.props

@@ -8,8 +8,7 @@ import {
   TICKET_UPDATED,
   COMMENT_ADDED,
   LOAD_PRIORITIES,
-  TICKET_APROVED,
-  TICKET_CLOSED
+  NEW_TICKET
 } from '../../../actions/actionTypes'
 
 import api from '../../../services/api'
@@ -17,11 +16,13 @@ import { setAuthHeader } from '../../../services/setAuthHeader'
 import { notifyError, notifySuccess } from '../../../const/const'
 
 
-export const loadTickets = () => {
+export const loadTickets = (q = null) => {
+  
+  let filter = q ? `?${Object.keys(q)[0]}=${Object.values(q)[0]}` : ""
 
   return dispatch => {
 
-    api.loadTickets()
+    api.loadTickets(filter)
       .then(resp => {
 
         const token = resp.headers["access-token"]
@@ -32,6 +33,30 @@ export const loadTickets = () => {
 
         dispatch({ type: LOAD_TICKETS, payload: resp })
       })
+  }
+}
+
+export const loadTicketsUser = (user_id) => {
+
+  return dispatch => {
+
+    api.loadTicketsUser(user_id)
+      .then(resp => {
+
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        dispatch({ type: LOAD_TICKETS, payload: resp })
+      })
+  }
+}
+
+export const newTicket = () => {
+  return dispatch => {
+    dispatch({ type: NEW_TICKET })
   }
 }
 
@@ -76,7 +101,7 @@ export const add = (ticket, historyProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+ error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
@@ -103,7 +128,7 @@ export const update = (ticket, historyProps) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error)
         );
       })
   }
@@ -182,7 +207,7 @@ export const removeResponsible = (responsible_id, ticket_id) => {
         setAuthHeader(token, client, uid)
 
         notifySuccess("Removido responsável")
-        
+
         dispatch(getTicketResponsibles(ticket_id))
 
       })
@@ -213,11 +238,11 @@ export const addResponsible = (obj) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
-  
+
 }
 
 // Load Employees
@@ -247,19 +272,19 @@ export const addComments = (obj) => {
         const uid = resp.headers["uid"]
 
         setAuthHeader(token, client, uid)
-        
+
         notifySuccess("Resposta enviada")
 
-        dispatch([getComments(obj.data.attributes.ticket_id), {type: COMMENT_ADDED}])
+        dispatch([getComments(obj.data.attributes.ticket_id), { type: COMMENT_ADDED }])
 
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
-  
+
 }
 
 export const closeTicket = (obj) => {
@@ -272,7 +297,7 @@ export const closeTicket = (obj) => {
         const uid = resp.headers["uid"]
 
         setAuthHeader(token, client, uid)
-        
+
         notifySuccess("Enviado para Avaliação")
 
         dispatch(getTicket(obj.id))
@@ -280,11 +305,11 @@ export const closeTicket = (obj) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
-  
+
 }
 
 export const aproveTicket = (obj) => {
@@ -297,7 +322,7 @@ export const aproveTicket = (obj) => {
         const uid = resp.headers["uid"]
 
         setAuthHeader(token, client, uid)
-        
+
         notifySuccess("Ticket Aprovado")
 
         dispatch(getTicket(obj.id))
@@ -305,11 +330,11 @@ export const aproveTicket = (obj) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
-  
+
 }
 
 
@@ -330,7 +355,7 @@ export const remove = (id) => {
       })
       .catch(e => {
         e.response.data.errors.forEach(
-          error => notifyError(error.id +': '+error.title)
+          error => notifyError(error.id + ': ' + error.title)
         );
       })
   }
