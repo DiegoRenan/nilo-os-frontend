@@ -16,10 +16,12 @@ import { setAuthHeader } from '../../../services/setAuthHeader'
 import { notifyError, notifySuccess } from '../../../const/const'
 
 
-export const loadTickets = (q = null) => {
+export const loadTickets = (q = null, p = null) => {
   
   let filter = q ? `?${Object.keys(q)[0]}=${Object.values(q)[0]}` : ""
-
+  let priority = p ? `&${Object.keys(p)[0]}=${Object.values(p)[0]}` : ""
+  filter = `${filter}${priority}`
+  
   return dispatch => {
 
     api.loadTickets(filter)
@@ -36,11 +38,10 @@ export const loadTickets = (q = null) => {
   }
 }
 
-export const loadTicketsUser = (user_id) => {
-
+export const loadTicketsUser = (user_id, q = null) => {
+  let filter = q ? `?${Object.keys(q)[0]}=${Object.values(q)[0]}` : ""
   return dispatch => {
-
-    api.loadTicketsUser(user_id)
+    api.loadTicketsUser(user_id, filter)
       .then(resp => {
 
         const token = resp.headers["access-token"]

@@ -29,13 +29,13 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
 
     case LOAD_TICKETS:
-      console.log(action.payload.data)
       return { ...state, tickets: action.payload.data }
 
     case GET_TICKET:
-   
+
       return {
-        ...state, ticket: action.payload.data.data[0].attributes,
+        ...state, 
+        ticket: action.payload.data.data[0].attributes ,
         author: action.payload.data.data[0].attributes.author,
         status: action.payload.data.included[1].attributes.status,
         included: action.payload.data.included,
