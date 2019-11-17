@@ -32,12 +32,14 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, tickets: action.payload.data }
 
     case GET_TICKET:
-
-      return {
+      console.log(action.payload.data.included)
+      return { 
         ...state, 
         ticket: action.payload.data.data[0].attributes ,
         author: action.payload.data.data[0].attributes.author,
-        status: action.payload.data.included[1].attributes.status,
+        company: action.payload.data.included[0].id,
+        department: action.payload.data.included[1].id || '',
+        sector: action.payload.data.included[2].id || '',
         included: action.payload.data.included,
         ticketId: action.payload.data.data[0].id
       }

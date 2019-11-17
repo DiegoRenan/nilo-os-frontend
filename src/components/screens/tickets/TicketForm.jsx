@@ -152,7 +152,7 @@ class TicketForm extends Component {
                   name="company"
                   onChange={e => this.companyOnChange(e)}
                   validate={[required()]}>
-                  <option value="" disabled>Selecione uma Empresa</option>
+                  <option value="" disabled>Selecione a Empresa</option>
                   {this.companiesOptions()}
                 </Field>
               </Grid>
@@ -290,7 +290,10 @@ TicketForm = connect(
   state => ({
     initialValues: {
       title: state.ticketsState.ticket.title,
-      body: state.ticketsState.ticket.body
+      body: state.ticketsState.ticket.body,
+      company: state.ticketsState.company,
+      department: state.ticketsState.department,
+      sector: state.ticketsState.sector
     },
     ticket: state.ticketsState.ticket,
     companies: state.ticketsState.companies,
