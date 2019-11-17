@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Link } from 'react-router-dom'
 
 import './Ticket.css'
 import Main from '../../templates/Main'
@@ -93,13 +94,18 @@ class TicketsShow extends Component {
           <If test={localStorage.getItem("admin") === "true" || 
                     localStorage.getItem("master") === "true" ||
                     localStorage.getItem("uid") === author.email
-                    } >
+                    } >      
             <Button
               class="secondary btn-sm mg-l-5"
               title="Concluir"
               onClick={() => this.closeTicket()}
               disabled={ !(this.props.status === "ABERTO") }
             />
+
+            <Link class="btn btn-sm mg-l-5" to={`/edit_ticket/` + this.props.ticketId}>
+              <Icon icon='edit'/>
+            </Link>
+
           </If>
          
           <If test={localStorage.getItem("admin") === "true"} >
