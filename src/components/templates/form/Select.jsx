@@ -6,6 +6,7 @@ export default props => {
   return (
     <div>
       <select className="select form-control"
+        id={props.id}
         {...props.input}>
         {props.children}
       </select>

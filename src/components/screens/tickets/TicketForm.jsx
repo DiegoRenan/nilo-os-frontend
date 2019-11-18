@@ -23,18 +23,13 @@ class TicketForm extends Component {
     this.props.loadStatus()
     this.props.loadTypes()
     this.props.loadPriorities()
-    if (this.props.ticketId) {
-      this.props.getTicket(this.props.ticketId)
-    } else {
-      this.props.newTicket()
-    }
   }
 
   companiesOptions() {
-    let companies = this.props.companies || []
+    let companies = this.props.companies || [] 
     return companies.map(company => (
       <option value={company.id} key={company.id}>{company.attributes.name}</option>
-    ))
+    ))   
   }
 
   statusOptions() {
@@ -58,8 +53,8 @@ class TicketForm extends Component {
     ))
   }
 
-  departmentsOptions() {
-    const departments = this.props.departments
+  departmentsOptions() {    
+    let departments = this.props.departments    
     return departments.map(department => (
       <option value={department.id} key={department.id}>{department.attributes.name}</option>
     ))
@@ -134,25 +129,30 @@ class TicketForm extends Component {
   }
 
   render() {
-
-    const { handleSubmit,
+    const { 
+      handleSubmit,
       pristine,
       reset,
       submitting } = this.props
 
+    let {
+      company,
+      department,
+      sector
+    } = this.props.initialValues
+    
     return (
       <div className="ticket-form">
         <form onSubmit={handleSubmit(values => this.onSubmit(values))} >
           <div className="container" >
 
             <div className="row mb-3">
-
               <Grid cols="12 12 4 4">
                 Empresa*: <Field component={Select}
                   name="company"
                   onChange={e => this.companyOnChange(e)}
                   validate={[required()]}>
-                  <option value="" disabled>Selecione a Empresa</option>
+                  <option disabled>Selecione a Empresa</option>
                   {this.companiesOptions()}
                 </Field>
               </Grid>
@@ -160,10 +160,9 @@ class TicketForm extends Component {
               <Grid cols="12 12 4 4">
                 Departamento: <Field component={Select}
                   name="department"
-                  onChange={e => this.departmentOnChange(e)}
-                >
-                  <option value="" disabled>Selecione o Departamento</option>
-                  {this.departmentsOptions()}
+                  onChange={e => this.departmentOnChange(e)}>
+                    <option value="" disabled>Selecione o Departamento</option>
+                    {this.departmentsOptions()}
                 </Field>
               </Grid>
 
@@ -173,23 +172,18 @@ class TicketForm extends Component {
                   {this.sectorsOptions()}
                 </Field>
               </Grid>
-
             </div>
 
             <div className="row mb-3">
-
               <Grid cols="12 12 12 12">
                 Titulo*: <Field component={Input} type="text" name="title" validate={[required()]} />
               </Grid>
-
             </div>
 
             <div className="row mb-3">
-
               <Grid cols="12 12 12 12">
                 <Field component={TextArea} rows="6" name="body" validate={[required()]} />
               </Grid>
-
             </div>
 
             <div className="row mb-3">
@@ -207,7 +201,6 @@ class TicketForm extends Component {
                 <Grid cols="12 4 4 4 ">
                   Concluir até: <Field component={Input} type="date" name="conclude_at" />
                 </Grid>
-
                 <Grid cols="12 4 4 4">
                   Prioridade: <Field component={Select}
                     name="ticket_priority_id">
@@ -215,7 +208,6 @@ class TicketForm extends Component {
                     {this.priorityOptions()}
                   </Field>
                 </Grid>
-
                 <Grid cols="12 4 4 4">
                   Status: <Field component={Select}
                     name="ticket_status">
@@ -223,17 +215,14 @@ class TicketForm extends Component {
                     {this.statusOptions()}
                   </Field>
                 </Grid>
-
               </div>
             </If>
             <br />
             <br />
+
             <div className="row mb-3">
-
               <Grid cols="12 12 12 12">
-
                 <div className="row ">
-
                   <Grid cols="6 6 6 6">
                     <button type="button"
                       className="btn btn-secondary btn-flat btn-block"
@@ -241,7 +230,6 @@ class TicketForm extends Component {
                       disabled={pristine || submitting}
                       onClick={reset}>limpar</button>
                   </Grid>
-
                   <Grid cols="6 6 6 6">
                     <Button type="submit"
                       disabled={submitting}
@@ -249,18 +237,13 @@ class TicketForm extends Component {
                       title="enviar"
                     />
                   </Grid>
-
                 </div>
-
               </Grid>
-
             </div>
 
           </div>
         </form>
-
       </div>
-
     )
   }
 }
@@ -286,7 +269,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 
 TicketForm = connect(
-
   state => ({
     initialValues: {
       title: state.ticketsState.ticket.title,

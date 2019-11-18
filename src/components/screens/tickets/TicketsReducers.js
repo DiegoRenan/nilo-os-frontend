@@ -22,6 +22,7 @@ const INITIAL_STATE = {
   departments: [],
   sectors: [],
   statuses: [],
+  relationships: [],
   comment: ''
 }
 
@@ -32,14 +33,13 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, tickets: action.payload.data }
 
     case GET_TICKET:
-      console.log(action.payload.data.included)
       return { 
         ...state, 
         ticket: action.payload.data.data[0].attributes ,
+        company: action.payload.data.data[0].relationships.company.data.id,
+        department: action.payload.data.data[0].relationships.department.data.id,
+        sector: action.payload.data.data[0].relationships.sector.data.id,
         author: action.payload.data.data[0].attributes.author,
-        company: action.payload.data.included[0].id,
-        department: action.payload.data.included[1].id || '',
-        sector: action.payload.data.included[2].id || '',
         included: action.payload.data.included,
         ticketId: action.payload.data.data[0].id
       }
@@ -60,7 +60,7 @@ export default (state = INITIAL_STATE, action) => {
       }
 
     case LOAD_COMPANIES:
-      return { ...state, companies: action.payload.data.data }
+      return { ...state, companies: action.payload.data.data, sectors: [] }
 
     case LOAD_EMPLOYEES:
       return {
