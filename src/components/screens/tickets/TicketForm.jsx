@@ -23,6 +23,10 @@ class TicketForm extends Component {
     this.props.loadStatus()
     this.props.loadTypes()
     this.props.loadPriorities()
+
+    if(!this.props.ticketId){
+      this.props.newTicket()
+    }
   }
 
   companiesOptions() {
@@ -33,8 +37,8 @@ class TicketForm extends Component {
   }
 
   statusOptions() {
-    let status = this.props.statuses || []
-    return status.map(status => (
+    let statuses = this.props.statuses || []
+    return statuses.map(status => (
       <option value={status.id} key={status.id}>{status.attributes.status}</option>
     ))
   }
@@ -138,8 +142,11 @@ class TicketForm extends Component {
     let {
       company,
       department,
-      sector
+      sector,
+      conclude_at
     } = this.props.initialValues
+
+    console.log(conclude_at)
     
     return (
       <div className="ticket-form">
@@ -275,7 +282,11 @@ TicketForm = connect(
       body: state.ticketsState.ticket.body,
       company: state.ticketsState.company,
       department: state.ticketsState.department,
-      sector: state.ticketsState.sector
+      sector: state.ticketsState.sector,
+      ticket_type: state.ticketsState.type,
+      conclude_at: state.ticketsState.conclude,
+      ticket_priority_id: state.ticketsState.priority,
+      ticket_status: state.ticketsState.status
     },
     ticket: state.ticketsState.ticket,
     companies: state.ticketsState.companies,

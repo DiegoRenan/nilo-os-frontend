@@ -33,19 +33,37 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, tickets: action.payload.data }
 
     case GET_TICKET:
+    console.log(action.payload.data.data[0])
+
       return { 
         ...state, 
         ticket: action.payload.data.data[0].attributes ,
-        company: action.payload.data.data[0].relationships.company.data.id,
-        department: action.payload.data.data[0].relationships.department.data.id,
-        sector: action.payload.data.data[0].relationships.sector.data.id,
+        company: action.payload.data.data[0].attributes['company-id'],
+        department: action.payload.data.data[0].attributes['department-id'],
+        sector: action.payload.data.data[0].attributes['sector-id'],
+        type: action.payload.data.data[0].attributes['ticket-type-id'],
+        conclude: action.payload.data.data[0].attributes['conclude'],
+        conclude_at: action.payload.data.data[0].attributes['concludef'],
+        priority: action.payload.data.data[0].attributes['priority-id'],
         author: action.payload.data.data[0].attributes.author,
+        status: action.payload.data.data[0].attributes['ticket-status-id'],
         included: action.payload.data.included,
         ticketId: action.payload.data.data[0].id
       }
 
     case NEW_TICKET:
-      return { ...state, body: '', title: '' }
+      return { ...state, 
+                  body: '', 
+                  title: '', 
+                  ticket: {},
+                  company: '',
+                  conclude: '',
+                  department: '',
+                  sector: '',
+                  author: '',
+                  included: [],
+                  ticketId: '',
+                  }
 
     case GET_COMMENTS:
       return { ...state, comments: action.payload.data.data, comment: '' }

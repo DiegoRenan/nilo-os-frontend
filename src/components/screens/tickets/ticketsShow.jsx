@@ -73,6 +73,7 @@ class TicketsShow extends Component {
     const included = this.props.included || []
     const employees = this.props.employees || []
     const author = this.props.author || []
+    const conclude = this.props.conclude_at || ""
 
     return (
       <Main title="Type" >
@@ -142,6 +143,7 @@ class TicketsShow extends Component {
             author={author.name}
             ticket={obj}
             ticketId={this.props.ticketId}
+            conclude={conclude}
           />
 
         </div>
@@ -168,7 +170,8 @@ const mapStateToProps = state => ({
   responsibles: state.ticketsState.responsibles,
   employees: state.ticketsState.employees,
   author: state.ticketsState.author,
-  status: state.ticketsState.status
+  status: state.ticketsState.status,
+  conclude_at: state.ticketsState.conclude_at
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
