@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { required, reset, confirmation } from 'redux-form-validators'
+import { required, reset } from 'redux-form-validators'
 
 import { add, update, loadPriorities, getTicket, newTicket } from './ticketsActions'
 import { loadCompanies, getCompanyDepartments } from '../company/companiesActions'

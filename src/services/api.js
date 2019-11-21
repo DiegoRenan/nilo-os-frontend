@@ -50,7 +50,7 @@ export default {
     }
   ),
 
-  loadTicketsUser: (user_id) => url.get(`/v1/employees/${user_id}/tickets`, {
+  loadTicketsUser: (user_id, q) => url.get(`/v1/employees/${user_id}/tickets${q}`, {
     headers: {
       'Accept': 'application/json',
       'access-token': localStorage.getItem('access-token'),

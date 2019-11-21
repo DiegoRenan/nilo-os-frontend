@@ -151,14 +151,13 @@ class TicketsList extends Component {
         modal_title="Responsaveis"
       >
         <ul className="list-group">{this.renderResponsibles(ticket)}</ul>
-
       </Modal>
     )
   }
 
   render() {
     return (
-      <div>
+      <div> 
         <table className='table'>
           <thead>
             <tr>
