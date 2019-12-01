@@ -24,6 +24,8 @@ class EmployeeShow extends Component {
         <div className="display-4">Colaborador</div>
         <div className="employee">
 
+          <img src={obj.avatar} className="rounded float-left" height="200" />
+          
           <ShowGridList label="Nome"
             value={obj.name} />
 
@@ -76,5 +78,7 @@ const mapStateToProps = state => ({
   sector: state.employeeState.sector
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getEmployee, getEmployeeCompany }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ 
+  getEmployee,
+  getEmployeeCompany }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeeShow)

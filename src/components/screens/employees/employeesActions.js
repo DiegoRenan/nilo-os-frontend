@@ -4,7 +4,8 @@ import {
   EMPLOYEE_ADDED,
   EMPLOYEE_UPDATED,
   GET_EMPLOYEE,
-  GET_EMPLOYEE_COMPANY
+  GET_EMPLOYEE_COMPANY,
+  GET_AVATAR
 } from '../../../actions/actionTypes'
 
 import api from '../../../services/api'
@@ -16,7 +17,6 @@ export function loadEmployees() {
   return dispatch => {
     api.loadEmployees()
       .then(resp => {
-
         const token = resp.headers["access-token"]
         const client = resp.headers["client"]
         const uid = resp.headers["uid"]
@@ -38,7 +38,7 @@ export const changeEmployee = event => {
 
 // create a Employee
 export const add = (employee, historyProps) => {
-
+  console.log(employee)
   return dispatch => {
     api.addEmployee(employee)
       .then(resp => {
@@ -64,26 +64,6 @@ export const add = (employee, historyProps) => {
       })
   }
 
-}
-
-//upload Avatar
-export const avatarUpload = (data, id) => {
-  return dipatch => {
-    api.uploadAvatar(data, id)
-      .then(resp => {
-        const token = resp.headers["access-token"]
-        const client = resp.headers["client"]
-        const uid = resp.headers["uid"]
-
-        setAuthHeader(token, client, uid)
-
-      })
-      .catch(e => {
-        e.response.data.errors.forEach(
-          error => notifyError(error.id + ': ' + error.title)
-        );
-      })
-  }
 }
 
 // // update a Employee
@@ -157,7 +137,6 @@ export const getEmployee = (employee_id) => {
       })
   }
 }
-
 
 // delete a Employee
 export const remove = (employee_id) => {

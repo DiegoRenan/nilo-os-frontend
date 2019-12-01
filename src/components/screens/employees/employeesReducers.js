@@ -15,7 +15,8 @@ const INITIAL_STATE = {
   company: {},
   companies: [],
   department: [],
-  departments: []
+  departments: [],
+  avatar: ''
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -33,7 +34,6 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, employee: '' }
 
     case GET_EMPLOYEE:
-
       let company = []
       let department = []
       let sector = []

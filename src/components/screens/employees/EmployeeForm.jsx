@@ -10,7 +10,11 @@ import { getDepartmentSectors } from '../departments/departmentsActions'
 import Input from '../../templates/form/Input'
 import Select from '../../templates/form/Select'
 import Grid from '../../templates/Grid'
+import InputFile from '../../templates/form/InputFile'
 
+
+const preview = ""
+let avatar = null
 class EmployeeForm extends Component {
 
   componentWillMount() {
@@ -48,23 +52,45 @@ class EmployeeForm extends Component {
     this.props.getDepartmentSectors(e.target.value)
   }
 
-  formData(values) {
-    let formData = new FormData();
-    if (typeof values.avatar !== 'string' && values.avatar !== null) {
-      formData.append('avatar', values.avatar[0])
-      return formData;
-    }else {
-      return null
+  onDrop(e) {
+    var preview = document.querySelector('img');
+    let file = e.target.files[0]
+    const reader = new FileReader()
+
+    reader.onabort = () => console.log('file reading was aborted')
+    reader.onerror = () => console.log('file reading has failed')
+    reader.onload = () => console.log('file loading')
+    
+    // //reader.readAsArrayBuffer(file)
+
+    reader.onloadend = function () {
+      preview.src = reader.result
+      avatar = e.target.files[0]
+    }
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      preview.src = "";
     }
   }
 
-  employeeObj(values) {
+  formData(values) {
+    const data = new FormData()
+    Object.keys(values).forEach((key, value) => {
+      data.append(key, values[key])
+    })
+    data.append('avatar', avatar)
+    return data
+  }
 
+  employeeObj(values) {
     const obj = {
       data: {
         type: "employees",
         id: this.props.employeeId || '',
         attributes: {
+          avatar: avatar || null,
           name: values.name || '',
           email: values.email || '',
           born: values.born || '',
@@ -88,7 +114,7 @@ class EmployeeForm extends Component {
   }
 
   onSubmit(values) {
-    const obj = this.employeeObj(values)
+    const obj = this.formData(values)
     if (this.props.employeeId) {
       this.props.update(obj, this.props.history)
     } else {
@@ -104,14 +130,15 @@ class EmployeeForm extends Component {
       reset,
       submitting,
       companies } = this.props
-
+      
     return (
       <div className="employee-form">
         <form onSubmit={handleSubmit(values => this.onSubmit(values))} >
           <div className="container" >
             <div className="row mb-3">
+              <img src={preview} className="rounded float-left" height="200" />
 
-              <Grid cols="12 8 8 8">
+              <Grid cols="12 4 4 4">
                 Nome*: <Field component={Input} type="text" name="name" validate={[required()]} />
               </Grid>
 
@@ -119,6 +146,15 @@ class EmployeeForm extends Component {
                 CPF*: <Field component={Input} type="number" name="cpf" validate={[required()]} />
               </Grid>
 
+              <Grid cols="12 4 4 4">
+                <Field
+                  name="avatar" 
+                  component={InputFile}
+                  type="file"
+                  onChange={e => this.onDrop(e)}/>
+                <img src="" height="200" alt="Prévia da imagem..." />
+              </Grid>
+              
             </div>
 
             <div className="row mb-3">
