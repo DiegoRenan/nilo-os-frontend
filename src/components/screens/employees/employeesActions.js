@@ -5,7 +5,8 @@ import {
   EMPLOYEE_UPDATED,
   GET_EMPLOYEE,
   GET_EMPLOYEE_COMPANY,
-  GET_AVATAR
+  GET_AVATAR,
+  NEW_EMPLOYEE
 } from '../../../actions/actionTypes'
 
 import api from '../../../services/api'
@@ -28,6 +29,13 @@ export function loadEmployees() {
   }
 }
 
+
+export const newEmployee = () => {
+  return dispatch => {
+    dispatch({ type: NEW_EMPLOYEE })
+  }
+}
+
 // //Get input valeu 
 export const changeEmployee = event => {
   return {
@@ -38,7 +46,6 @@ export const changeEmployee = event => {
 
 // create a Employee
 export const add = (employee, historyProps) => {
-  console.log(employee)
   return dispatch => {
     api.addEmployee(employee)
       .then(resp => {
@@ -67,9 +74,9 @@ export const add = (employee, historyProps) => {
 }
 
 // // update a Employee
-export const update = (employee, historyProps) => {
+export const update = (id, data, historyProps) => {
   return dispatch => {
-    api.updateEmployee(employee)
+    api.updateEmployee(id, data)
       .then(resp => {
         const token = resp.headers["access-token"]
         const client = resp.headers["client"]

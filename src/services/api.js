@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 export let url = axios.create({
-  baseURL: "http://177.23.191.191:3000/"
-  // baseURL: "http://localhost:3000/"
+  // baseURL: "http://177.23.191.191:3000/"
+  baseURL: "http://localhost:3000/"
 })
 
 export let urlHeaders = axios.create({
-  baseURL: "http://177.23.191.191:3000/",
-  // baseURL: "http://localhost:3000/",
+  // baseURL: "http://177.23.191.191:3000/",
+  baseURL: "http://localhost:3000/",
   headers: {
     'Accept': 'application/json',
     'access-token': localStorage.getItem('access-token'),
@@ -177,7 +177,7 @@ export default {
     }
   }),
 
-  updateEmployee: (data) => url.put(`/v1/employees/${data.data.id}`, data,
+  updateEmployee: (id, data) => url.put(`/v1/employees/${id}`, data,
     {
       headers: {
         'Accept': 'application/json',

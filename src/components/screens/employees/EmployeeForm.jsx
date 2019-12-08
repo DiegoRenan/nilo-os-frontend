@@ -3,28 +3,33 @@ import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { required, email, confirmation } from 'redux-form-validators'
-
-import { add, getEmployee, update } from './employeesActions'
-import { loadCompanies, getCompanyDepartments } from '../company/companiesActions'
+import { 
+  add, 
+  getEmployee, 
+  update,
+  newEmployee  } from './employeesActions'
+import { loadCompanies, getCompanyDepartments} from '../company/companiesActions'
 import { getDepartmentSectors } from '../departments/departmentsActions'
 import Input from '../../templates/form/Input'
 import Select from '../../templates/form/Select'
 import Grid from '../../templates/Grid'
 import InputFile from '../../templates/form/InputFile'
+import profile from './profile.png'
+import If from '../../templates/If'
 
-
-const preview = ""
-let avatar = null
+var preview = ""
+let avatar = ''
 class EmployeeForm extends Component {
-
   componentWillMount() {
-    if (this.props.employeeId) {
-      this.props.getEmployee(this.props.employeeId)
-    }
     this.props.loadCompanies()
+
+    if(!this.props.employeeId){
+      this.props.newEmployee()
+    }
   }
 
-  companiesOptions(companies) {
+  companiesOptions() {
+    let companies = this.props.companies || []
     return companies.map(company => (
       <option value={company.id} key={company.id}>{company.attributes.name}</option>
     ))
@@ -53,7 +58,7 @@ class EmployeeForm extends Component {
   }
 
   onDrop(e) {
-    var preview = document.querySelector('img');
+    preview = document.querySelector('img');
     let file = e.target.files[0]
     const reader = new FileReader()
 
@@ -71,52 +76,27 @@ class EmployeeForm extends Component {
     if (file) {
       reader.readAsDataURL(file);
     } else {
-      preview.src = "";
+      preview.src = this.props.avatar;
     }
   }
 
   formData(values) {
     const data = new FormData()
     Object.keys(values).forEach((key, value) => {
-      data.append(key, values[key])
-    })
-    data.append('avatar', avatar)
-    return data
-  }
-
-  employeeObj(values) {
-    const obj = {
-      data: {
-        type: "employees",
-        id: this.props.employeeId || '',
-        attributes: {
-          avatar: avatar || null,
-          name: values.name || '',
-          email: values.email || '',
-          born: values.born || '',
-          cpf: values.cpf || '',
-          cep: values.cep || '',
-          street: values.street || '',
-          number: values.number || '',
-          district: values.district || '',
-          city: values.city || '',
-          uf: values.uf || '',
-          master: values.master || false,
-          password: values.password || null,
-          password_confirmation: values.password_confirmation || null,
-          company_id: values.companies || '',
-          department_id: values.departments || null,
-          sector_id: values.sectors || null
-        }
+      if(key != 'avatar'){
+        console.log('key: ', key)
+        console.log('value', values[key])
+        data.append('employee', `{${key}: ${values[key]}}`)
       }
-    }
-    return obj
+    })
+    
+    return data
   }
 
   onSubmit(values) {
     const obj = this.formData(values)
-    if (this.props.employeeId) {
-      this.props.update(obj, this.props.history)
+    if (this.props.employee) {
+      this.props.update(this.props.employeeId, obj, this.props.history)
     } else {
       this.props.add(obj, this.props.history)
     }
@@ -128,16 +108,12 @@ class EmployeeForm extends Component {
     const { handleSubmit,
       pristine,
       reset,
-      submitting,
-      companies } = this.props
-      
+      submitting } = this.props
     return (
       <div className="employee-form">
         <form onSubmit={handleSubmit(values => this.onSubmit(values))} >
           <div className="container" >
             <div className="row mb-3">
-              <img src={preview} className="rounded float-left" height="200" />
-
               <Grid cols="12 4 4 4">
                 Nome*: <Field component={Input} type="text" name="name" validate={[required()]} />
               </Grid>
@@ -152,7 +128,7 @@ class EmployeeForm extends Component {
                   component={InputFile}
                   type="file"
                   onChange={e => this.onDrop(e)}/>
-                <img src="" height="200" alt="Prévia da imagem..." />
+                <img src={this.props.avatar} height="200" alt="Prévia da imagem..." />
               </Grid>
               
             </div>
@@ -174,17 +150,17 @@ class EmployeeForm extends Component {
 
               <Grid cols="12 12 4 4">
                 Empresa*: <Field component={Select}
-                  name="companies"
+                  name="company"
                   onChange={e => this.companyOnChange(e)}
                   validate={[required()]}>
                   <option value="" disabled>Selecione uma Empresa</option>
-                  {this.companiesOptions(companies)}
+                  {this.companiesOptions()}
                 </Field>
               </Grid>
 
               <Grid cols="12 12 4 4">
                 Departamento: <Field component={Select}
-                  name="departments"
+                  name="department"
                   onChange={e => this.departmentOnChange(e)}
                 >
                   <option value="" disabled>Selecione o Departamento</option>
@@ -193,7 +169,7 @@ class EmployeeForm extends Component {
               </Grid>
 
               <Grid cols="12 12 4 4">
-                Setor: <Field component={Select} name="sectors">
+                Setor: <Field component={Select} name="sector">
                   <option value="" disabled>Selecione o Setor</option>
                   {this.sectorsOptions()}
                 </Field>
@@ -269,32 +245,32 @@ class EmployeeForm extends Component {
 
             </div>
 
-            <h6>Senha: </h6>
-            <div className="row mb-3">
-
-              <Grid cols="12 8 8 8">
-                Senha: <Field component={Input} type="password" name="password" validate={[required()]} />
-              </Grid>
-
-              <Grid cols="12 8 8 8">
-                Confirmar Senha: <Field component={Input}
-                  type="password"
-                  name="password_confirmation"
-                  validate={[confirmation({ field: 'password' }), required()]} />
-              </Grid>
-
-            </div>
-
-            <div className="row mb-3">
-
-              <Grid cols="12 12 12 12">
-                Master: {' '}
-                <label>
-                  <Field name="master" component="input" type="checkbox" />
-                </label>
-              </Grid>
-
-            </div>
+            <If test={!this.props.employeeId}>
+              <h6>Senha: </h6>
+              <div className="row mb-3">
+                <Grid cols="12 8 8 8">
+                  Senha: <Field 
+                    component={Input} 
+                    type="password" 
+                    name="password" 
+                    validate={[required()]} />
+                </Grid>
+                <Grid cols="12 8 8 8">
+                  Confirmar Senha: <Field component={Input}
+                    type="password"
+                    name="password_confirmation"
+                    validate={[confirmation({ field: 'password' }), required()]} />
+                </Grid>
+              </div>
+              <div className="row mb-3">
+                <Grid cols="12 12 12 12">
+                  Master: {' '}
+                  <label>
+                    <Field name="master" component="input" type="checkbox" />
+                  </label>
+                </Grid>
+              </div>
+            </If>
 
             <button type="submit"
               className="btn btn-primary btn-flat ml-auto m-2"
@@ -309,13 +285,13 @@ class EmployeeForm extends Component {
         </form>
 
       </div>
-
     )
-
   }
 }
 
-EmployeeForm = reduxForm({ form: 'employeeForm', required, enableReinitialize: true })(EmployeeForm)
+EmployeeForm = reduxForm({ form: 'employeeForm', 
+                            required, 
+                            enableReinitialize: true })(EmployeeForm)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   add,
@@ -323,15 +299,34 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   update,
   loadCompanies,
   getCompanyDepartments,
-  getDepartmentSectors
+  getDepartmentSectors,
+  newEmployee
 }, dispatch)
 
 EmployeeForm = connect(
   state => ({
-    initialValues: state.employeeState.employee,
-    companies: state.employeeState.companies,
-    departments: state.employeeState.departments,
-    sectors: state.employeeState.sectors
+    initialValues: {
+      employee: state.employeeState.employee,
+      name: state.employeeState.name,
+      company: state.employeeState.company,
+      department: state.employeeState.department,
+      sector: state.employeeState.sector,
+      cpf: state.employeeState.cpf,
+      email: state.employeeState.email,
+      born: state.employeeState.born,
+      cep: state.employeeState.cep,
+      street: state.employeeState.street,
+      number: state.employeeState.number,
+      district: state.employeeState.district,
+      city: state.employeeState.city,
+      uf: state.employeeState.uf,
+      master: false
+   },
+   employee: state.employeeState.employee,
+   companies: state.employeeState.companies,
+   departments: state.employeeState.departments,
+   sectors: state.employeeState.sectors,
+   avatar: state.employeeState.avatar
   }),
   mapDispatchToProps
 )(EmployeeForm)

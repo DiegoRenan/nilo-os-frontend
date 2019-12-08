@@ -12,13 +12,13 @@ export default props => {
 
       <div className="row">
         
-        <Grid cols="9 9 9 9">
+        <Grid cols="12 12 9 9">
           <div className="display-4">Colaboradores</div>
         </Grid>
         
-        <Grid cols="3 3 3 3">
-          <Link to="/new_employee">
-            <i className="fa fa-plus btn btn-primary"></i> {props.title}
+        <Grid cols="12 12 3 3">
+          <Link to="/new_employee" className="btn btn-success">
+            Add Colaborador
           </Link>
         </Grid>
 

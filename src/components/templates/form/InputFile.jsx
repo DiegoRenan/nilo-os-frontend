@@ -4,5 +4,5 @@ export default props =>
   <input {...props.input} 
     type={props.type}
     className="form-control-file"
-    value={null}
+    value={props.value}
   ></input>

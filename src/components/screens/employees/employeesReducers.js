@@ -1,3 +1,4 @@
+import profile from './profile.png'
 import {
   LOAD_EMPLOYEES,
   EMPLOYEE_CHANGED,
@@ -6,17 +7,17 @@ import {
   EMPLOYEE_UPDATED,
   LOAD_COMPANIES,
   GET_COMPANY_DEPARTMENTS,
-  GET_DEPARTMENT_SECTORS
+  GET_DEPARTMENT_SECTORS,
+  NEW_EMPLOYEE
 } from '../../../actions/actionTypes'
 
 const INITIAL_STATE = {
   employees: [],
   employee: [],
-  company: {},
+  company: '',
   companies: [],
-  department: [],
-  departments: [],
-  avatar: ''
+  department: '',
+  departments: []
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -34,27 +35,44 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, employee: '' }
 
     case GET_EMPLOYEE:
-      let company = []
-      let department = []
-      let sector = []
-
-      let included = action.payload.data.included
-
-      included.map(hash => {
-        if (hash.type === "companies")
-          company = hash.attributes
-        if (hash.type === "departments")
-          department = hash.attributes
-        if (hash.type === "sectors")
-          sector = hash.attributes
-      })
-
       return {
-        ...state, employee: action.payload.data.data[0].attributes,
-        company: company,
-        department: department,
-        sector: sector
+        ...state, 
+        employee: action.payload.data.data[0].attributes,
+        company: action.payload.data.data[0].attributes["company-id"],
+        department: action.payload.data.data[0].attributes["department-id"],
+        sector: action.payload.data.data[0].attributes["sector-id"],
+        name: action.payload.data.data[0].attributes.name,
+        cpf: action.payload.data.data[0].attributes.cpf,
+        email: action.payload.data.data[0].attributes.email,
+        born: action.payload.data.data[0].attributes.born,
+        cep: action.payload.data.data[0].attributes.cep,
+        avatar: action.payload.data.data[0].attributes.avatar || profile,
+        street: action.payload.data.data[0].attributes.street,
+        number: action.payload.data.data[0].attributes.number,
+        master: action.payload.data.data[0].attributes.master,
+        district: action.payload.data.data[0].attributes.district,
+        city: action.payload.data.data[0].attributes.city,
+        uf: action.payload.data.data[0].attributes.uf
       }
+
+    case NEW_EMPLOYEE:
+      return { 
+        ...state, 
+          employee: '',
+          company: '',
+          department: '',
+          sector: '',
+          name: '',
+          cpf: '',
+          email: '',
+          born: '',
+          cep: '',
+          avatar: '',
+          street: '',
+          number: '',
+          district: '',
+          city: '',
+          uf: ''}
 
     case LOAD_COMPANIES:
       return { ...state, companies: action.payload.data.data }
