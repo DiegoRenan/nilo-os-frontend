@@ -18,9 +18,12 @@ const INITIAL_STATE = {
   ticket: [],
   tickets: [],
   comments: [],
+  company: '',
   companies: [],
+  department: '',
   departments: [],
   sectors: [],
+  sector: '',
   statuses: [],
   relationships: [],
   comment: ''
@@ -33,8 +36,6 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, tickets: action.payload.data }
 
     case GET_TICKET:
-    console.log(action.payload.data.data[0])
-
       return { 
         ...state, 
         ticket: action.payload.data.data[0].attributes ,
