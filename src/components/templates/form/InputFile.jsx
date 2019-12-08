@@ -3,7 +3,6 @@ import React from 'react'
 export default props =>
   <input {...props.input} 
     type={props.type}
-    id={props.id}
-    className={`btn btn-secondary ` + props.className}
-    value={props.value}
+    className="form-control-file"
+    value={null}
   ></input>

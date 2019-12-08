@@ -145,6 +145,8 @@ class TicketForm extends Component {
       sector,
       conclude_at
     } = this.props.initialValues
+
+    console.log(conclude_at)
     
     return (
       <div className="ticket-form">
