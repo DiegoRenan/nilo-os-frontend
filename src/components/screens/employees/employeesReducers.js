@@ -14,9 +14,9 @@ const INITIAL_STATE = {
   employee: [],
   company: {},
   companies: [],
-  department: [],
+  department: '',
   departments: [],
-  avatar: ''
+  avatar: profile
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -50,10 +50,26 @@ export default (state = INITIAL_STATE, action) => {
       })
 
       return {
-        ...state, employee: action.payload.data.data[0].attributes,
-        company: company,
-        department: department,
-        sector: sector
+        ...state, 
+        employee: action.payload.data.data[0].attributes,
+        company: action.payload.data.data[0].attributes["company-id"],
+        c_name: action.payload.data.data[0].attributes["company-name"],
+        department: action.payload.data.data[0].attributes["department-id"],
+        d_name: action.payload.data.data[0].attributes["department-name"],
+        sector: action.payload.data.data[0].attributes["sector-id"],
+        s_name: action.payload.data.data[0].attributes["sector-name"],
+        name: action.payload.data.data[0].attributes.name,
+        cpf: action.payload.data.data[0].attributes.cpf,
+        email: action.payload.data.data[0].attributes.email,
+        born: action.payload.data.data[0].attributes.born,
+        cep: action.payload.data.data[0].attributes.cep,
+        avatar: action.payload.data.data[0].attributes.avatar || profile,
+        street: action.payload.data.data[0].attributes.street,
+        number: action.payload.data.data[0].attributes.number,
+        master: action.payload.data.data[0].attributes.master,
+        district: action.payload.data.data[0].attributes.district,
+        city: action.payload.data.data[0].attributes.city,
+        uf: action.payload.data.data[0].attributes.uf
       }
 
     case LOAD_COMPANIES:
