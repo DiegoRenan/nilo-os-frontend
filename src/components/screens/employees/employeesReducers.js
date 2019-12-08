@@ -67,7 +67,7 @@ export default (state = INITIAL_STATE, action) => {
           email: '',
           born: '',
           cep: '',
-          avatar: '',
+          avatar: profile,
           street: '',
           number: '',
           district: '',
