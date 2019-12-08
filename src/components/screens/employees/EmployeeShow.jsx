@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux'
 import Main from '../../templates/Main'
 import { getEmployee, getEmployeeCompany } from './employeesActions'
 import ShowGridList from '../../templates/ShowGridList'
-import Grid from '../../templates/Grid'
 
 class EmployeeShow extends Component {
 
@@ -23,51 +22,50 @@ class EmployeeShow extends Component {
     return (
       <Main title="Colaborador" >
         <div className="display-4">Colaborador</div>
-        <div className="row employee">
-          <Grid cols="12 12 12 3">
-            <img src={obj.avatar} className="rounded float-left" height="200" />
-          </Grid>
+        <div className="employee">
 
-          <Grid cols="12 12 12 9">
-            <ShowGridList label="Nome"
-              value={obj.name} />
+          <img src={obj.avatar} className="rounded float-left" height="200" />
+          
+          <ShowGridList label="Nome"
+            value={obj.name} />
 
-            <ShowGridList label="Email"
-              value={obj.email} />
+          <ShowGridList label="Email"
+            value={obj.email} />
 
-            <ShowGridList label="Nascimento"
-              value={obj.born} />
+          <ShowGridList label="Nascimento"
+            value={obj.born} />
 
-            <ShowGridList label="Empresa"
-              value={company.name} />
+          <ShowGridList label="Empresa"
+            value={company.name} />
 
-            <ShowGridList label="Departmento"
-              value={department.name} />
+          <ShowGridList label="Departmento"
+            value={department.name} />
 
-            <ShowGridList label="Setor"
-              value={sector.name} />
-          </Grid>
-        </div>
-        <ShowGridList label="CPF"
+          <ShowGridList label="Setor"
+            value={sector.name} />
+
+          <ShowGridList label="CPF"
             value={obj.cpf} />
 
-        <ShowGridList label="CEP"
-          value={obj.cep} />
+          <ShowGridList label="CEP"
+            value={obj.cep} />
 
-        <ShowGridList label="Rua"
-          value={obj.street} />
+          <ShowGridList label="Rua"
+            value={obj.street} />
 
-        <ShowGridList label="Número"
-          value={obj.number} />
+          <ShowGridList label="Número"
+            value={obj.number} />
 
-        <ShowGridList label="Bairro"
-          value={obj.district} />
+          <ShowGridList label="Bairro"
+            value={obj.district} />
 
-        <ShowGridList label="Cidade"
-          value={obj.city} />
+          <ShowGridList label="Cidade"
+            value={obj.city} />
 
-        <ShowGridList label="UF"
-          value={obj.uf} />
+          <ShowGridList label="UF"
+            value={obj.uf} />
+
+        </div>
       </Main>
     )
   }
