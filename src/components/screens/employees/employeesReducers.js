@@ -17,7 +17,8 @@ const INITIAL_STATE = {
   company: '',
   companies: [],
   department: '',
-  departments: []
+  departments: [],
+  avatar: profile
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -39,8 +40,11 @@ export default (state = INITIAL_STATE, action) => {
         ...state, 
         employee: action.payload.data.data[0].attributes,
         company: action.payload.data.data[0].attributes["company-id"],
+        c_name: action.payload.data.data[0].attributes["company-name"],
         department: action.payload.data.data[0].attributes["department-id"],
+        d_name: action.payload.data.data[0].attributes["department-name"],
         sector: action.payload.data.data[0].attributes["sector-id"],
+        s_name: action.payload.data.data[0].attributes["sector-name"],
         name: action.payload.data.data[0].attributes.name,
         cpf: action.payload.data.data[0].attributes.cpf,
         email: action.payload.data.data[0].attributes.email,

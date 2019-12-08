@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 
 
 import Main from '../../templates/Main'
-import { getEmployee, getEmployeeCompany } from './employeesActions'
+import { getEmployee } from './employeesActions'
 import ShowGridList from '../../templates/ShowGridList'
 import Grid from '../../templates/Grid'
 
@@ -16,16 +16,12 @@ class EmployeeShow extends Component {
 
   render() {
     const obj = this.props.employee || []
-    const company = this.props.company || []
-    const department = this.props.department || []
-    const sector = this.props.sector || []
-
     return (
       <Main title="Colaborador" >
         <div className="display-4">Colaborador</div>
         <div className="row employee">
           <Grid cols="12 12 12 3">
-            <img src={obj.avatar} className="rounded float-left" height="200" />
+            <img src={this.props.avatar} className="rounded float-left" height="200" />
           </Grid>
 
           <Grid cols="12 12 12 9">
@@ -39,13 +35,13 @@ class EmployeeShow extends Component {
               value={obj.born} />
 
             <ShowGridList label="Empresa"
-              value={company.name} />
+              value={this.props.c_name} />
 
             <ShowGridList label="Departmento"
-              value={department.name} />
+              value={this.props.d_name} />
 
             <ShowGridList label="Setor"
-              value={sector.name} />
+              value={this.props.s_name} />
           </Grid>
         </div>
         <ShowGridList label="CPF"
@@ -75,12 +71,12 @@ class EmployeeShow extends Component {
 
 const mapStateToProps = state => ({
   employee: state.employeeState.employee,
-  company: state.employeeState.company,
-  department: state.employeeState.department,
-  sector: state.employeeState.sector
+  avatar: state.employeeState.avatar,
+  c_name: state.employeeState.c_name,
+  d_name: state.employeeState.d_name,
+  s_name: state.employeeState.s_name
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ 
-  getEmployee,
-  getEmployeeCompany }, dispatch)
+  getEmployee }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeeShow)
