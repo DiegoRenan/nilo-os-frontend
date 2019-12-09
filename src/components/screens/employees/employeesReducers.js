@@ -1,6 +1,4 @@
-
 import profile from './profile.png'
-
 import {
   LOAD_EMPLOYEES,
   EMPLOYEE_CHANGED,
@@ -9,13 +7,14 @@ import {
   EMPLOYEE_UPDATED,
   LOAD_COMPANIES,
   GET_COMPANY_DEPARTMENTS,
-  GET_DEPARTMENT_SECTORS
+  GET_DEPARTMENT_SECTORS,
+  NEW_EMPLOYEE
 } from '../../../actions/actionTypes'
 
 const INITIAL_STATE = {
   employees: [],
   employee: [],
-  company: {},
+  company: '',
   companies: [],
   department: '',
   departments: [],
@@ -37,21 +36,6 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, employee: '' }
 
     case GET_EMPLOYEE:
-      let company = []
-      let department = []
-      let sector = []
-
-      let included = action.payload.data.included
-
-      included.map(hash => {
-        if (hash.type === "companies")
-          company = hash.attributes
-        if (hash.type === "departments")
-          department = hash.attributes
-        if (hash.type === "sectors")
-          sector = hash.attributes
-      })
-
       return {
         ...state, 
         employee: action.payload.data.data[0].attributes,
@@ -74,6 +58,25 @@ export default (state = INITIAL_STATE, action) => {
         city: action.payload.data.data[0].attributes.city,
         uf: action.payload.data.data[0].attributes.uf
       }
+
+    case NEW_EMPLOYEE:
+      return { 
+        ...state, 
+          employee: '',
+          company: '',
+          department: '',
+          sector: '',
+          name: '',
+          cpf: '',
+          email: '',
+          born: '',
+          cep: '',
+          avatar: profile,
+          street: '',
+          number: '',
+          district: '',
+          city: '',
+          uf: ''}
 
     case LOAD_COMPANIES:
       return { ...state, companies: action.payload.data.data }
