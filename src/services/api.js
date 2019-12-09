@@ -177,7 +177,7 @@ export default {
     }
   }),
 
-  updateEmployee: (id, data) => url.put(`/v1/employees/${id}`, data,
+  updateEmployee: (data) => url.put(`/v1/employees/${data.data.id}`, data,
     {
       headers: {
         'Accept': 'application/json',
