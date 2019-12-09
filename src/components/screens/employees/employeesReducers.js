@@ -1,4 +1,5 @@
 import profile from './profile.png'
+
 import {
   LOAD_EMPLOYEES,
   EMPLOYEE_CHANGED,
