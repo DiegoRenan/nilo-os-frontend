@@ -4,8 +4,9 @@ import { bindActionCreators } from 'redux'
 
 
 import Main from '../../templates/Main'
-import { getEmployee, getEmployeeCompany } from './employeesActions'
+import { getEmployee } from './employeesActions'
 import ShowGridList from '../../templates/ShowGridList'
+import Grid from '../../templates/Grid'
 
 class EmployeeShow extends Component {
 
@@ -15,55 +16,54 @@ class EmployeeShow extends Component {
 
   render() {
     const obj = this.props.employee || []
-    const company = this.props.company || []
-    const department = this.props.department || []
-    const sector = this.props.sector || []
-
     return (
       <Main title="Colaborador" >
         <div className="display-4">Colaborador</div>
-        <div className="employee">
+        <div className="row employee">
+          <Grid cols="12 12 12 3">
+            <img src={this.props.avatar} className="rounded float-left" height="200" />
+          </Grid>
 
-          <ShowGridList label="Nome"
-            value={obj.name} />
+          <Grid cols="12 12 12 9">
+            <ShowGridList label="Nome"
+              value={obj.name} />
 
-          <ShowGridList label="Email"
-            value={obj.email} />
+            <ShowGridList label="Email"
+              value={obj.email} />
 
-          <ShowGridList label="Nascimento"
-            value={obj.born} />
+            <ShowGridList label="Nascimento"
+              value={obj.born} />
 
-          <ShowGridList label="Empresa"
-            value={company.name} />
+            <ShowGridList label="Empresa"
+              value={this.props.c_name} />
 
-          <ShowGridList label="Departmento"
-            value={department.name} />
+            <ShowGridList label="Departmento"
+              value={this.props.d_name} />
 
-          <ShowGridList label="Setor"
-            value={sector.name} />
-
-          <ShowGridList label="CPF"
+            <ShowGridList label="Setor"
+              value={this.props.s_name} />
+          </Grid>
+        </div>
+        <ShowGridList label="CPF"
             value={obj.cpf} />
 
-          <ShowGridList label="CEP"
-            value={obj.cep} />
+        <ShowGridList label="CEP"
+          value={obj.cep} />
 
-          <ShowGridList label="Rua"
-            value={obj.street} />
+        <ShowGridList label="Rua"
+          value={obj.street} />
 
-          <ShowGridList label="Número"
-            value={obj.number} />
+        <ShowGridList label="Número"
+          value={obj.number} />
 
-          <ShowGridList label="Bairro"
-            value={obj.district} />
+        <ShowGridList label="Bairro"
+          value={obj.district} />
 
-          <ShowGridList label="Cidade"
-            value={obj.city} />
+        <ShowGridList label="Cidade"
+          value={obj.city} />
 
-          <ShowGridList label="UF"
-            value={obj.uf} />
-
-        </div>
+        <ShowGridList label="UF"
+          value={obj.uf} />
       </Main>
     )
   }
@@ -71,10 +71,12 @@ class EmployeeShow extends Component {
 
 const mapStateToProps = state => ({
   employee: state.employeeState.employee,
-  company: state.employeeState.company,
-  department: state.employeeState.department,
-  sector: state.employeeState.sector
+  avatar: state.employeeState.avatar,
+  c_name: state.employeeState.c_name,
+  d_name: state.employeeState.d_name,
+  s_name: state.employeeState.s_name
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getEmployee, getEmployeeCompany }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ 
+  getEmployee }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeeShow)

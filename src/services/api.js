@@ -161,7 +161,6 @@ export default {
   addEmployee: (data) => url.post("/v1/employees", data,
     {
       headers: {
-        'Accept': 'application/json',
         'access-token': localStorage.getItem('access-token'),
         'client': localStorage.getItem('client'),
         'uid': localStorage.getItem('uid')
@@ -178,7 +177,7 @@ export default {
     }
   }),
 
-  updateEmployee: (data) => url.put(`/v1/employees/${data.data.id}`, data,
+  updateEmployee: (id, data) => url.put(`/v1/employees/${id}`, data,
     {
       headers: {
         'Accept': 'application/json',

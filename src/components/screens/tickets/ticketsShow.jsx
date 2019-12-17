@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Link } from 'react-router-dom'
 
 import './Ticket.css'
 import Main from '../../templates/Main'
@@ -72,6 +73,7 @@ class TicketsShow extends Component {
     const included = this.props.included || []
     const employees = this.props.employees || []
     const author = this.props.author || []
+    const conclude = this.props.conclude_at || ""
 
     return (
       <Main title="Type" >
@@ -93,13 +95,18 @@ class TicketsShow extends Component {
           <If test={localStorage.getItem("admin") === "true" || 
                     localStorage.getItem("master") === "true" ||
                     localStorage.getItem("uid") === author.email
-                    } >
+                    } >      
             <Button
               class="secondary btn-sm mg-l-5"
               title="Concluir"
               onClick={() => this.closeTicket()}
               disabled={ !(this.props.status === "ABERTO") }
             />
+
+            <Link class="btn btn-sm mg-l-5" to={`/edit_ticket/` + this.props.ticketId}>
+              <Icon icon='edit'/>
+            </Link>
+
           </If>
          
           <If test={localStorage.getItem("admin") === "true"} >
@@ -136,6 +143,7 @@ class TicketsShow extends Component {
             author={author.name}
             ticket={obj}
             ticketId={this.props.ticketId}
+            conclude={conclude}
           />
 
         </div>
@@ -162,7 +170,8 @@ const mapStateToProps = state => ({
   responsibles: state.ticketsState.responsibles,
   employees: state.ticketsState.employees,
   author: state.ticketsState.author,
-  status: state.ticketsState.status
+  status: state.ticketsState.status,
+  conclude_at: state.ticketsState.conclude_at
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
