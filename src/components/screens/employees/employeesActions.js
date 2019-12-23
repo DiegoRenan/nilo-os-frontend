@@ -167,3 +167,24 @@ export const remove = (employee_id) => {
       })
   }
 }
+
+// delete a Employee
+export const changeMaster = (employee_id) => {
+  return dispatch => {
+    api.changeMaster(employee_id)
+      .then(resp => {
+        const token = resp.headers["access-token"]
+        const client = resp.headers["client"]
+        const uid = resp.headers["uid"]
+
+        setAuthHeader(token, client, uid)
+
+        dispatch(loadEmployees())
+      })
+      .catch(e => {
+        e.response.data.errors.forEach(
+          error => notifyError(error.id + ': ' + error.title)
+        );
+      })
+  }
+}

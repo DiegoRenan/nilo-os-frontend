@@ -24,6 +24,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOAD_EMPLOYEES:
+      console.log(action.payload.data)
       return { ...state, employees: action.payload.data, employee: '' }
 
     case EMPLOYEE_CHANGED:

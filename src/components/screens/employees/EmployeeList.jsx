@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { loadEmployees, remove } from './employeesActions'
+import { loadEmployees, remove, changeMaster } from './employeesActions'
 
-import Icon from '../../templates/Icon'
 import If from '../../templates/If'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -40,21 +39,33 @@ class EmployeeList extends Component {
     let employees = this.props.employees || []
     return employees.map(employee => (
       <tr key={employee.id}>
-        <td><Link to={`show_employee/` + employee.id}> {employee.attributes.name} </Link></td>
-
+        <td scope="row"><Link to={`show_employee/` + employee.id}> {employee.attributes.name} </Link></td>
         <td>
-          <If test={!(localStorage.getItem("admin") === true)} >
-            <Link to={`edit_employee/` + employee.id}> <Icon icon='edit' /> </Link>
-          </If> 
-        </td>
-          <td>
-            <If test={!(localStorage.getItem("admin") === true)} >
-              <Link to="#" onClick={() => this.removeEmployee(employee.id)} ><Icon icon='trash' /> </Link> 
+          <If test={employee.attributes.email != "admin@nilo.com"} >
+            <If test={employee.attributes.master === true} >
+              <Link to="#" 
+                  onClick={() => this.props.changeMaster(employee.id)} 
+                  className="btn btn-outline-success text-success btn-sm mg-l-5" >
+                    Remove Master
+              </Link> 
             </If>
+            <If test={employee.attributes.master === false} >
+              <Link to="#" 
+                  onClick={() => this.props.changeMaster(employee.id)} 
+                  className="btn btn-outline-secondary btn-sm mg-l-5">
+                    Tornar Master
+              </Link>
+            </If> 
+            <Link to={`edit_employee/` + employee.id} 
+                  className="btn btn-outline-secondary btn-sm fa fa-edit mg-l-5"/>
+            <Link to="#"
+                  className="btn btn-outline-danger text-danger btn-sm fa fa-trash mg-l-5" 
+                  onClick={() => this.removeEmployee(employee.id)}/>
+          </If>
         </td>
       </tr>
-          ))
-        }
+    ))
+  }
       
   render () {
     return (
@@ -62,7 +73,6 @@ class EmployeeList extends Component {
             <thead>
               <tr>
                 <th>Nome</th>
-                <th> - </th>
                 <th> - </th>
               </tr>
             </thead>
@@ -75,5 +85,5 @@ class EmployeeList extends Component {
       }
       
 const mapStateToProps = state => ({employees: state.employeeState.employees.data })
-const mapDispatchToProps = dispatch => bindActionCreators({loadEmployees, remove}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({loadEmployees, remove, changeMaster}, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeeList)

@@ -36,6 +36,26 @@ a, a:link, a:visited {
   color: var(--font-color);
 }
 
+.mg-5{
+  margin: 5px
+}
+
+.mg-l-5 {
+  margin-left: 5px
+}
+
+.mg-r-5 {
+  margin-right: 5px
+}
+
+.mg-top-15 {
+  margin-top: 20px;
+}
+
+.pd-5 {
+  padding: 5px
+}
+
 
 /* layout e grid */
 

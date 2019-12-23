@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 export let url = axios.create({
-  baseURL: "http://177.23.191.191:3000/"
-  // baseURL: "http://localhost:3000/"
+  // baseURL: "http://177.23.191.191:3000/"
+  baseURL: "http://localhost:3000/"
 })
 
 export let urlHeaders = axios.create({
-  baseURL: "http://177.23.191.191:3000/",
-  // baseURL: "http://localhost:3000/",
+  // baseURL: "http://177.23.191.191:3000/",
+  baseURL: "http://localhost:3000/",
   headers: {
     'Accept': 'application/json',
     'access-token': localStorage.getItem('access-token'),
@@ -189,6 +189,15 @@ export default {
   ),
 
   getEmployeeCompany: (employeeId) => url.get(`/v1/employees/${employeeId}/company`, {
+    headers: {
+      'Accept': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+  }),
+
+  changeMaster: (employeeId) => url.get(`/v1/employees/${employeeId}/change_master_value`, {
     headers: {
       'Accept': 'application/json',
       'access-token': localStorage.getItem('access-token'),
@@ -518,5 +527,4 @@ export default {
       }
     }
   )
-
 }
